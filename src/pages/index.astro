@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Opening from '../components/Opening.astro';
+import Timeline from '../components/Timeline.astro';
+import SelectedWork from '../components/SelectedWork.astro';
+import Testimonials from '../components/Testimonials.astro';
+import HomeFooter from '../components/HomeFooter.astro';
+import interactions from '../scripts/prototype.js?raw';
+import mosaic from '../scripts/product-mosaic.js?raw';
+---
+<Base home title="Chris Mackintosh — Product designer and builder" description="Product design, selected work, and independent exploration of how AI changes the way products get designed and built.">
+  <div id="cm-opening-study">
+    <Opening />
+    <main><Timeline /><SelectedWork /><Testimonials /></main>
+    <HomeFooter />
+  </div>
+  <script is:inline set:html={interactions + '\n' + mosaic} />
+</Base>

@@ -1,0 +1,31 @@
+/* One compact control shared by every masthead, with full-size hit targets. */
+.masthead-tools{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
+.theme-controls{display:flex;align-items:center;flex-shrink:0;height:44px;gap:0;pointer-events:auto;color:var(--cm-secondary)}
+.theme-controls button{appearance:none;display:grid;place-items:center;position:relative;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer}
+.theme-controls button::before{content:"";position:absolute;inset:5px;border-radius:50%;background:currentColor;opacity:0}
+.theme-controls button:hover::before{opacity:.08}
+.theme-controls button[aria-pressed="true"]{color:var(--cm-ink)}
+.theme-controls button[aria-pressed="true"]::before{opacity:.1}
+.theme-controls button:focus-visible{outline:2px solid var(--cm-accent);outline-offset:1px}
+.theme-controls svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+.cm-masthead .masthead-tools{height:21px}
+.cm-masthead[aria-hidden="true"] .theme-controls{visibility:hidden;pointer-events:none}
+.site-head .masthead-tools .breadcrumbs{min-width:0}
+@media(max-width:1000px){.site-head .masthead-tools{align-items:flex-start;gap:12px}}
+@media(max-width:600px){
+ .cm-masthead .masthead-tools{height:auto;flex-direction:column-reverse;gap:0;align-items:flex-end}
+ .cm-masthead .theme-controls{height:33px}
+ .site-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 12px}
+ .site-head .masthead-tools{display:contents}
+ .site-head .theme-controls{grid-column:2;grid-row:1}
+ .site-head .breadcrumbs{grid-column:1 / -1;grid-row:2}
+}
+@media(forced-colors:active){.theme-controls button[aria-pressed="true"]{outline:1px solid ButtonText;outline-offset:-5px}}
+
+/* Text and surfaces switch together: interpolating opposite palettes loses contrast.
+   Only decorative borders and shadows ease during a manual switch. */
+@media(prefers-reduced-motion:no-preference){
+ html.cm-theme-switching,html.cm-theme-switching *,html.cm-theme-switching *::before,html.cm-theme-switching *::after{
+  transition:border-color 360ms cubic-bezier(.4,0,.2,1),box-shadow 360ms cubic-bezier(.4,0,.2,1);
+ }
+}

@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import ThemeControls from '../components/ThemeControls.astro';
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { reference: 'style-guide' } }] : [];
+}
+const colors = ['paper', 'ink', 'secondary', 'line', 'accent'];
+---
+<Base title="Implementation style guide — Chris Mackintosh" description="Local reference for the implemented portfolio styles.">
+  <header class="site-head"><a class="identity" href="/">Chris Mackintosh</a><ThemeControls /></header>
+  <main id="main" class="page">
+    <header class="hero"><p class="eyebrow">Local implementation reference</p><h1>Style guide</h1><p class="deck">Rendered with the same palette, font, link, and theme rules as the application.</p></header>
+    <section class="chapter"><h2>Palette</h2><div class="swatches">{colors.map(name => <div><span style={`background:var(--cm-${name})`} /><code>--cm-{name}</code></div>)}</div></section>
+    <section class="chapter"><h2>Typography</h2><div class="chapter-copy"><p class="sample-name">Name · Manrope 700</p><p class="sample-lead">Opening emphasis · Manrope 600</p><p class="sample-body">Intro copy · Manrope 500</p><p>Product body uses the route’s existing type scale; these weights are not applied globally.</p></div></section>
+    <section class="chapter"><h2>Prose links</h2><div class="chapter-copy"><p>Explore <a class="cm-inline-link" href="https://renderedintent.com/" target="_blank" rel="noopener noreferrer"><span class="cm-intro-link-text">Rendered </span><span class="cm-intro-link-end"><span class="cm-intro-link-text">Intent</span><svg class="cm-intro-link-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 12 12 4M4 4h8v8" /></svg></span><span class="sr-only"> (opens in a new tab)</span></a>.</p><p>Hover or tab to the link. Only the words receive the 2px underline; the arrow remains attached to the final word.</p></div></section>
+    <section class="chapter"><h2>Motion</h2><div class="chapter-copy"><p>Theme transitions: 400ms. Forward arrival: 420ms. Breadcrumbs: 420ms after 80ms. Return: 240ms. Outgoing page: 160ms.</p><p>The odometer finishes at 2M+; secondary copy starts at 3100ms. The plane repeats on a 14-second cycle with a long resting phase and pauses offscreen. Reduced motion shows the completed static state.</p></div></section>
+    <section class="chapter"><h2>Shared elements</h2><div class="chapter-copy"><p>Theme controls above use the shared component. Masthead, breadcrumbs, footer, work entries, and initiative cards can be inspected on their actual pages; the guide does not maintain imitation copies.</p><a href="/">Homepage</a></div></section>
+  </main>
+</Base>
+<style>
+.swatches{display:flex;flex-wrap:wrap;gap:24px}.swatches>div{display:grid;gap:10px}.swatches span{width:100px;height:80px;border:1px solid var(--cm-line);border-radius:10px}.sample-name{font-weight:700}.sample-lead{font-weight:600}.sample-body{font-weight:500}
+</style>

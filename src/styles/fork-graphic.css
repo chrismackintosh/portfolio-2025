@@ -1,0 +1,47 @@
+/* A quiet transition from independent studio to an in-house product team. */
+.cm-studio-transition {
+  display:grid;grid-template-columns:auto minmax(36px,1fr) auto;
+  align-items:start;column-gap:24px;
+  width:100%;max-width:640px;margin:32px 0 8px;
+  color:var(--cm-ink);font-size:17px;line-height:1.4;
+}
+.cm-studio-transition strong {
+  display:block;font:inherit;font-weight:600;letter-spacing:-.01em;
+  white-space:nowrap;
+}
+.cm-studio-transition small {
+  display:block;margin-top:7px;
+  color:var(--cm-secondary);font-size:13px;font-weight:400;line-height:1.4;
+}
+.cm-studio-origin strong,
+.cm-studio-destination strong > span {color:var(--cm-secondary);font-weight:400}
+.cm-studio-destination .cm-studio-arrow {padding:0 3px;color:var(--cm-accent)}
+.cm-studio-connector {
+  position:relative;height:1px;margin-top:12px;
+  background:var(--cm-accent);
+}
+.cm-studio-connector::after {
+  content:"";position:absolute;right:0;top:50%;
+  width:5px;height:5px;border-top:1px solid var(--cm-accent);
+  border-right:1px solid var(--cm-accent);transform:translateY(-50%) rotate(45deg);
+}
+html:is([data-typeface="google"],[data-typeface="manrope"]) .cm-studio-destination strong {
+  font-weight:var(--cm-google-detail-weight,600);
+}
+@media(max-width:600px) {
+  .cm-studio-transition {
+    column-gap:14px;grid-template-columns:auto minmax(24px,1fr) auto;
+    margin-top:28px;font-size:14px;
+  }
+  .cm-studio-transition small {font-size:11px;margin-top:6px}
+  .cm-studio-connector {margin-top:10px}
+  .cm-studio-destination .cm-studio-arrow {padding:0}
+}
+@media(forced-colors:active) {
+  .cm-studio-connector {background:CanvasText}
+  .cm-studio-connector::after {border-color:CanvasText}
+}
+
+/* Promotion is a small companion to the earlier studio transition. */
+.cm-role-progression{max-width:360px;margin-top:28px;margin-bottom:0}
+.cm-role-progression .cm-studio-destination strong{font-weight:550}

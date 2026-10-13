@@ -1,0 +1,62 @@
+name: Publish GitHub Pages
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type chrismackintosh.work to publish the reviewed main branch'
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    permissions:
+      contents: read
+      pages: read
+    # The current private working repository must never claim the live domain.
+    if: github.repository == 'chrismackintosh/portfolio-2025' && github.ref == 'refs/heads/main' && inputs.confirmation == 'chrismackintosh.work'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SITE_INDEXING: disabled
+      DEPLOY_TARGET: preview
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --include=dev
+      - run: npm run test:weather
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm test -- --project=chromium
+      - name: Build the reviewed production artifact
+        run: npm run build
+        env:
+          SITE_INDEXING: enabled
+          DEPLOY_TARGET: github-pages-production
+      - run: npm run check:pages
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy reviewed artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
