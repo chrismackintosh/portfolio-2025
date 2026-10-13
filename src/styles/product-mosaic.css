@@ -1,0 +1,156 @@
+@font-face{font-family:CMRobotoSlab;src:url('/assets/mycolorado-grid/roboto-slab-500.ttf') format('truetype');font-style:normal;font-weight:500;font-display:swap}
+/* A shared tile surface; each product owns its artwork and responsive arrangement. */
+.cm-project-preview{container-type:inline-size;position:relative}
+.cm-project-entry::after{content:"";position:absolute;inset:0;z-index:1}
+.cm-project-entry:focus-visible::after{outline:2px solid var(--cm-accent);outline-offset:5px}
+.cm-product-mosaic{container-type:inline-size;display:grid;gap:.833333cqw;isolation:isolate}
+.cm-myco-mosaic{grid-template-columns:287.434fr 349.027fr 492.743fr 328.496fr 398.301fr;grid-template-rows:repeat(4,1fr);aspect-ratio:16/9;gap:.833333cqw;color:#26313b;font-family:CMRobotoSlab,Georgia,serif;font-weight:500;line-height:1.28}
+.cm-mosaic-tile{position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-radius:2px;background:#f5f5f7;text-align:center;gap:.7cqw}
+.cm-work .cm-product-mosaic :where(img){display:block;min-width:0;max-width:none;width:auto;height:auto;margin:0;border:0;background:transparent;object-fit:contain}
+.myco-app{grid-area:1/1/2/2;background:radial-gradient(ellipse at center,#fff,#ededf0)}
+.cm-work .myco-app img{width:49%;mix-blend-mode:multiply}
+.myco-metrics{grid-area:1/2/2/3;background:#007d30;color:#fff}
+.cm-work .myco-metrics>img{position:absolute;width:100%;height:100%;object-fit:cover}
+.myco-metrics>div{position:relative;display:flex;flex-direction:column;gap:.25cqw}
+.myco-metrics strong{font:500 5.208cqw/1 CMRobotoSlab,Georgia,serif;letter-spacing:-.1cqw}
+.myco-metrics .myco-mau{font-size:1.25cqw}
+.myco-brand{grid-area:1/3/2/4}
+.cm-work .myco-brand img{width:79%;mix-blend-mode:multiply}
+.myco-account{grid-area:1/4/2/5;font-size:1.146cqw}
+.cm-work .myco-account img{width:24.35%;mix-blend-mode:multiply}
+.myco-wallet{grid-area:1/5/3/6;background:radial-gradient(ellipse at center,#fff,#ededf0)}
+.cm-work .myco-wallet img{position:absolute;width:117.5%;max-width:none;left:13.8%;top:3.78%}
+.myco-collage{grid-area:2/1/3/2}
+.cm-work .myco-collage img{width:100%;height:100%;object-fit:cover}
+.myco-id{grid-area:2/2/4/3;gap:1.8cqw}
+.cm-work .myco-license{width:57.69%}
+.cm-work .myco-signature{width:63.05%}
+.myco-phones{grid-area:2/3/4/4}
+.cm-work .myco-phones img{position:absolute;width:139.02%;max-width:none;left:-19.17%;top:3.38%}
+.myco-selfie{grid-area:2/4/4/5;font-size:.976cqw;gap:1.05cqw}
+.cm-work .myco-person{width:15.5%;mix-blend-mode:multiply}
+.myco-portrait{width:62.23%;position:relative;margin-top:.85cqw;border-radius:50%;overflow:hidden}
+.cm-work .myco-portrait img{width:100%;mix-blend-mode:multiply}
+.cm-work .myco-portrait .myco-ring{position:absolute;inset:0}
+.myco-scanner{grid-area:3/1/4/2}
+.myco-viewfinder{position:relative;width:65.76%;aspect-ratio:1;display:grid;place-items:center}
+.myco-viewfinder i{position:absolute;width:11%;height:11%;border:solid #007d30;border-width:0;border-radius:0}
+.myco-viewfinder i:nth-child(1){top:0;left:0;border-top-width:.2cqw;border-left-width:.2cqw;border-top-left-radius:.44cqw}
+.myco-viewfinder i:nth-child(2){top:0;right:0;border-top-width:.2cqw;border-right-width:.2cqw;border-top-right-radius:.44cqw}
+.myco-viewfinder i:nth-child(3){bottom:0;left:0;border-bottom-width:.2cqw;border-left-width:.2cqw;border-bottom-left-radius:.44cqw}
+.myco-viewfinder i:nth-child(4){bottom:0;right:0;border-bottom-width:.2cqw;border-right-width:.2cqw;border-bottom-right-radius:.44cqw}
+.myco-scan-label{position:relative;z-index:1;background:#3d3d3d;color:white;border-radius:99px;padding:.62cqw .94cqw;white-space:nowrap;font:500 .74cqw/1.2 -apple-system,BlinkMacSystemFont,sans-serif}
+.myco-scanline{position:absolute;left:4%;right:4%;top:8%;height:1px;background:#007d30;box-shadow:0 -3px 12px #007d3040;opacity:0}
+.myco-departure{grid-area:3/5/4/6;background:#007396}
+.cm-work .myco-departure img{position:absolute;max-height:none}
+.cm-work .myco-departure .myco-plane{width:38%;left:31%;top:35%;transform-origin:50% 50%}
+.cm-work .myco-departure .myco-plane-shadow{width:34.37%;left:32.815%;top:68%;clip-path:inset(0 0 0 0)}
+.myco-confirmed{grid-area:4/1/5/2;font-size:1.458cqw}
+.cm-work .myco-confirmed img{width:28.5%;mix-blend-mode:multiply}
+.myco-verifier{grid-area:4/2/5/3;font-size:.952cqw;gap:.8cqw}
+.cm-work .myco-verifier img{width:14.61%;mix-blend-mode:multiply}
+.myco-check{grid-area:4/3/5/4;background:linear-gradient(145deg,#00872f,#005c25);color:white}
+.myco-check-row{display:flex;align-items:center;justify-content:space-between;width:84%}
+.myco-state-logo{display:flex;align-items:center;gap:.35cqw;width:39%}
+.cm-work .myco-state-logo img:first-child{width:22%}
+.cm-work .myco-state-logo img:last-child{width:73%}
+.myco-check-pill{display:flex;align-items:center;justify-content:center;gap:.3cqw;white-space:nowrap;padding:.5cqw .9cqw;border-radius:99px;background:#00521fcc;font:500 1.017cqw/1.4 -apple-system,BlinkMacSystemFont,sans-serif}
+.cm-work .myco-check-pill img{width:1.4cqw;filter:grayscale(1) invert(1);mix-blend-mode:screen}
+.myco-home-indicator{position:absolute;bottom:8.3%;width:32.5%;height:.3cqw;min-height:2px;border-radius:99px;background:white}
+.myco-reader{grid-area:4/4/5/5;flex-direction:row;gap:.65cqw;color:#007396;font:600 1.61cqw/1.3 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-.04cqw}
+.cm-work .myco-reader img{width:16.74%;mix-blend-mode:multiply}
+.myco-verify{grid-area:4/5/5/6;font-size:1.08cqw}
+.cm-work .myco-verify img{width:15.3%;mix-blend-mode:multiply}
+/* Let the product palette remain faithful in either portfolio theme. */
+@media(max-width:900px){
+ .cm-myco-mosaic{aspect-ratio:auto;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:22cqw;gap:1.4cqw}
+ .cm-myco-mosaic>.cm-mosaic-tile{grid-area:auto}
+ .cm-myco-mosaic .myco-brand{grid-column:2/4;grid-row:1}
+ .cm-myco-mosaic .myco-phones{grid-column:2/4;grid-row:2/4}
+ .cm-myco-mosaic .myco-id,.cm-myco-mosaic .myco-selfie,.cm-myco-mosaic .myco-wallet{grid-row:span 2}
+ .cm-myco-mosaic .myco-check{grid-area:8/1/9/3}
+ .cm-myco-mosaic .myco-reader{grid-area:8/3/9/4}
+ .cm-myco-mosaic .myco-verify{grid-area:7/3/8/4}
+ .myco-metrics strong{font-size:8cqw}.myco-metrics .myco-mau{font-size:2cqw}
+ .myco-account,.myco-verify{font-size:1.8cqw}.myco-confirmed{font-size:2.3cqw}.myco-verifier,.myco-selfie{font-size:1.6cqw}
+ .myco-scan-label{font-size:1.3cqw;padding:1cqw 1.5cqw}.myco-reader{font-size:2.5cqw}
+ .myco-check-pill{font-size:1.8cqw;padding:.8cqw 1.4cqw}.cm-work .myco-check-pill img{width:2.6cqw}
+ .myco-viewfinder{width:60%}.cm-work .myco-brand img{width:65%}.cm-work .myco-app img{width:45%}
+ .cm-work .myco-phones img{width:105%;left:9%;top:-10%}
+ .myco-portrait{margin-top:3cqw}.myco-selfie{gap:2cqw}
+}
+@media(max-width:600px){
+ .cm-myco-mosaic{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:40cqw;gap:2cqw}
+ .cm-myco-mosaic>.cm-mosaic-tile{grid-area:auto}
+ .cm-myco-mosaic .myco-brand{grid-column:1/-1;grid-row:1}
+ .cm-myco-mosaic .myco-app{grid-column:1;grid-row:2}.cm-myco-mosaic .myco-metrics{grid-column:2;grid-row:2}
+ .cm-myco-mosaic .myco-phones{grid-column:1/-1;grid-row:3/5}
+ .cm-myco-mosaic .myco-id,.cm-myco-mosaic .myco-wallet,.cm-myco-mosaic .myco-selfie{grid-row:span 2}
+ .cm-myco-mosaic .myco-check{grid-column:1/-1}
+ .cm-mosaic-tile{gap:2.2cqw;border-radius:3px}
+ .cm-work .myco-brand img{width:70%}.cm-work .myco-app img{width:52%}
+ .myco-metrics strong{font-size:14cqw}.myco-metrics .myco-mau{font-size:3.5cqw}
+ .myco-account,.myco-verify{font-size:clamp(11px,3.1cqw,18px)}.myco-confirmed{font-size:4.2cqw}.myco-verifier,.myco-selfie{font-size:clamp(11px,2.9cqw,17px)}
+ .myco-verifier span,.myco-verify span,.myco-selfie>span{max-width:90%}
+ .myco-verifier br,.myco-verify br{display:none}
+ .myco-scan-label{font-size:2.4cqw;padding:2cqw 2.8cqw}
+ .myco-viewfinder i{border-width:0}.myco-viewfinder i:nth-child(1){border-width:2px 0 0 2px}.myco-viewfinder i:nth-child(2){border-width:2px 2px 0 0}.myco-viewfinder i:nth-child(3){border-width:0 0 2px 2px}.myco-viewfinder i:nth-child(4){border-width:0 2px 2px 0}
+ .myco-reader{font-size:4cqw;gap:1.8cqw}.myco-check-pill{font-size:3.3cqw;padding:1.8cqw 3cqw}
+ .cm-work .myco-check-pill img{width:4.5cqw}.myco-state-logo{gap:1cqw}
+ .myco-id{gap:5cqw}.cm-work .myco-license{width:65%}.cm-work .myco-signature{width:70%}
+ .myco-selfie{gap:4cqw}.myco-portrait{width:76%;margin-top:4cqw}
+ .cm-work .myco-phones img{width:125%;left:-12%;top:0}
+ .cm-work .myco-wallet img{width:145%;left:5%;top:4%}
+}
+@media(prefers-reduced-motion:no-preference){
+ .myco-scanner.cm-mosaic-play .myco-scanline{animation:cm-mosaic-scan 1800ms cubic-bezier(.4,0,.2,1) 200ms 1}
+ .cm-work .myco-confirmed.cm-mosaic-play img{animation:cm-mosaic-confirm 850ms cubic-bezier(.22,1,.36,1) 300ms 1}
+ .cm-work .myco-departure.cm-mosaic-play .myco-plane{animation:cm-mosaic-takeoff 14000ms linear 900ms infinite both}
+ .cm-work .myco-departure.cm-mosaic-play .myco-plane-shadow{animation:cm-mosaic-shadow 14000ms linear 900ms infinite both}
+}
+@keyframes cm-mosaic-scan{0%,100%{opacity:0;transform:translateY(0)}15%{opacity:.5}80%{opacity:.5}95%{opacity:0;transform:translateY(7cqw)}}
+@keyframes cm-mosaic-confirm{0%{transform:scale(.86);opacity:.55}55%{transform:scale(1.055);opacity:1}100%{transform:scale(1)}}
+/* The line is wiped from its left edge; its right edge stays anchored below takeoff. */
+/* Two seconds of flight, then twelve seconds of rest, including a quiet reset. */
+.cm-work .myco-departure.myco-flight-paused img{animation-play-state:paused}
+@keyframes cm-mosaic-takeoff{
+  0%{transform:translate(0,0) rotate(0);opacity:1;animation-timing-function:cubic-bezier(.45,0,.8,.6)}
+  14.285714%{transform:translate(210%,-420%) rotate(-8deg);opacity:1}
+  21.428571%{transform:translate(210%,-420%) rotate(-8deg);opacity:0}
+  21.43%{transform:translate(0,0) rotate(0);opacity:0;animation-timing-function:ease-out}
+  25%,100%{transform:translate(0,0) rotate(0);opacity:1}
+}
+@keyframes cm-mosaic-shadow{
+  0%{clip-path:inset(0 0 0 0);opacity:1;animation-timing-function:cubic-bezier(.45,0,.8,.6)}
+  11.428571%,21.428571%{clip-path:inset(0 0 0 100%);opacity:0}
+  21.43%{clip-path:inset(0 0 0 0);opacity:0;animation-timing-function:ease-out}
+  25%,100%{clip-path:inset(0 0 0 0);opacity:1}
+}
+@media print{.cm-product-mosaic *{animation:none!important}}
+
+/* The metric stays final without JavaScript; only an in-view, motion-enabled tile rolls. */
+.myco-odometer{display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.myco-digit{display:block;overflow:hidden;height:1.12em;width:.64em;line-height:1.12}
+.myco-digit-strip{display:block;will-change:transform}
+.myco-digit-strip>span{display:block;height:1.12em;line-height:1.12}
+.myco-whole .myco-digit-strip{transform:translateY(-50%)}
+.myco-fraction{display:flex;width:0;opacity:0;overflow:hidden;align-items:center}
+.myco-decimal{display:block;flex:none;width:.28em}
+.myco-tenths{flex:none}
+.myco-plus{display:block;width:.64em;overflow:hidden}
+@media(prefers-reduced-motion:no-preference){
+ .myco-stats-armed .myco-whole .myco-digit-strip{transform:translateY(0)}
+ .myco-stats-armed .myco-fraction{width:.92em;opacity:1}
+ .myco-stats-armed .myco-plus{width:0;opacity:0}
+ .myco-stats-armed .myco-mau{opacity:0}
+ .myco-stats-running .myco-tenths .myco-digit-strip{animation:myco-tenths-roll 2200ms linear 150ms both}
+ .myco-stats-running .myco-whole .myco-digit-strip{animation:myco-whole-roll 420ms cubic-bezier(.22,1,.36,1) 1930ms both}
+ .myco-stats-running .myco-fraction{animation:myco-fraction-close 480ms cubic-bezier(.4,0,.2,1) 2530ms both}
+ .myco-stats-running .myco-plus{animation:myco-plus-reveal 480ms cubic-bezier(.4,0,.2,1) 2530ms both}
+ .myco-stats-running .myco-mau{animation:myco-mau-reveal 600ms ease-out 3100ms both}
+}
+@keyframes myco-tenths-roll{0%{transform:translateY(0);animation-timing-function:cubic-bezier(.3,0,.18,1)}80.909091%{transform:translateY(-77.777778%);animation-timing-function:cubic-bezier(.22,1,.36,1)}100%{transform:translateY(-88.888889%)}}
+@keyframes myco-whole-roll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes myco-fraction-close{0%{width:.92em;opacity:1}40%{opacity:0}100%{width:0;opacity:0}}
+@keyframes myco-plus-reveal{0%{width:0;opacity:0}40%{opacity:0}100%{width:.64em;opacity:1}}
+@keyframes myco-mau-reveal{from{opacity:0}to{opacity:1}}

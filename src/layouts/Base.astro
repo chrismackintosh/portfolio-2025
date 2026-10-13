@@ -1,0 +1,55 @@
+---
+import fonts from '../styles/fonts.css?raw';
+import homeCss from '../styles/home.css?url';
+import productCss from '../styles/product.css?url';
+import weather from '../scripts/nws-weather.js?raw';
+import { siteUrl, indexable } from '../config/site';
+import theme from '../scripts/theme-controls.js?raw';
+import navigation from '../scripts/work-navigation.js?raw';
+interface Props { title: string; description: string; home?: boolean; canonicalPath?: string }
+const { title, description, home = false, canonicalPath = Astro.url.pathname } = Astro.props;
+const canonical = new URL(canonicalPath, siteUrl).href;
+const socialImage = new URL('/social-preview.png', siteUrl).href;
+const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Chris Mackintosh', url: siteUrl + '/', jobTitle: 'Product designer and builder', sameAs: ['https://www.linkedin.com/in/chris-mackintosh/', 'https://github.com/chrismackintosh', 'https://bsky.app/profile/chrismackintosh.work'] };
+const earlyScripts = weather + '\n' + theme + '\n' + navigation;
+---
+<!doctype html>
+<html lang="en" data-typeface={home ? 'manrope' : undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={indexable ? 'index, follow' : 'noindex, nofollow'} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content="Chris Mackintosh" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Chris Mackintosh" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Chris Mackintosh — Product designer and builder. Working with AI." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content="Chris Mackintosh — Product designer and builder. Working with AI." />
+    {home && <script type="application/ld+json" is:inline set:html={JSON.stringify(person)} />}
+    <link rel="describedby" href="/llms.txt" type="text/plain" title="Site directory for agents" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <title>{title}</title>
+    <style is:inline set:html={fonts} />
+    <link rel="preload" href="/fonts/Manrope-variable.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href={home ? homeCss : productCss} />
+    <script is:inline set:html={earlyScripts} />
+  </head>
+  <body><slot /></body>
+</html>

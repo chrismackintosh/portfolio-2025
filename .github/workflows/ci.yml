@@ -1,0 +1,40 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SITE_INDEXING: disabled
+      DEPLOY_TARGET: preview
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --include=dev
+      - run: npm run test:weather
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm test -- --project=chromium
+      - name: Build production candidate without publishing
+        run: npm run build
+        env:
+          SITE_INDEXING: enabled
+          DEPLOY_TARGET: github-pages-production
+      - run: npm run check:pages
+      - name: Save candidate for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-candidate-${{ github.sha }}
+          path: dist
+          include-hidden-files: true
+          retention-days: 14

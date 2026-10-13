@@ -1,0 +1,3 @@
+/* Only in-app navigations animate; direct links render immediately. */
+@media(prefers-reduced-motion:no-preference){html[data-work-arrival] main,html[data-work-breadcrumb-arrival] .site-head .breadcrumbs{opacity:0}}
+@media(prefers-reduced-motion:reduce){html[data-work-arrival] main,html[data-work-breadcrumb-arrival] .site-head .breadcrumbs{opacity:1}}

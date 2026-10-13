@@ -1,0 +1,119 @@
+/* A compact identity, an open invitation, and a quiet end to the page. */
+.cm-masthead-identity{display:flex;align-items:baseline;gap:16px}
+.cm-masthead .cm-masthead-name{color:var(--cm-ink);white-space:nowrap}
+.cm-masthead .cm-masthead-role:last-child{color:var(--cm-secondary)}
+.cm-masthead-location{white-space:nowrap}
+html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-weight:700;line-height:1.5;letter-spacing:-.018em;max-width:none}
+.cm-intro-role{font-size:var(--cm-intro-identity-size);font-weight:500;line-height:1.5;letter-spacing:-.018em;color:var(--cm-copy-soft)}
+.cm-intro-ai{white-space:nowrap}
+.cm-intro-separator{display:inline-block;margin-inline:5px 9px;font-weight:500}
+.cm-intro{--cm-intro-identity-size:18px;--cm-intro-body-size:16px;--cm-intro-small-size:14px}
+.cm-intro-contact{margin-top:36px;font-size:var(--cm-intro-small-size);line-height:1.7;letter-spacing:-.018em;color:var(--cm-secondary)}
+.cm-intro-contact p{font-weight:500}
+.cm-intro-contact p span{color:inherit}
+.cm-intro-contact>a{display:inline-block;margin-top:6px;min-height:44px;color:var(--cm-ink)}
+.cm-project h3{display:flex;flex-wrap:wrap;column-gap:.45em;row-gap:.12em}
+.cm-project-name{color:var(--cm-secondary)}
+.cm-site-footer{padding:28px var(--cm-page-gutter) 100px;display:flex;align-items:baseline;justify-content:space-between;gap:24px;color:var(--cm-secondary);font-size:13px;line-height:1.6;background:var(--cm-paper)}
+.cm-copyright-symbol{font-family:var(--cm-system-sans);font-size:1em;line-height:inherit;vertical-align:baseline}
+.cm-footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.cm-footer-links a{display:inline-flex;align-items:center;min-height:44px;color:var(--cm-ink);font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.18em;text-decoration-color:transparent;transition:text-decoration-color 180ms ease-in-out}
+.cm-footer-links a:is(:hover,:focus-visible){text-decoration-color:currentColor}
+html:is([data-typeface="google"],[data-typeface="manrope"]) .cm-footer-links a{font-weight:var(--cm-google-detail-weight,600)}
+@media(max-width:900px){.cm-masthead-identity{flex-direction:column;gap:0}}
+@media(max-width:600px){
+  .cm-masthead{align-items:flex-start}
+  .cm-intro{--cm-intro-identity-size:16px}
+  .cm-intro-ai{display:block;margin-top:2px}
+  .cm-intro-separator{display:none}
+  .cm-intro{--cm-intro-body-size:15px}
+  .cm-intro-contact{margin-top:28px}
+  .cm-site-footer{flex-direction:column;gap:12px;padding-top:0;padding-bottom:88px}
+}
+@media(prefers-reduced-motion:reduce){
+  .cm-footer-links a{transition:none}
+  .cm-masthead{opacity:var(--cm-masthead-opacity,0)}
+}
+@media(forced-colors:active){
+  .cm-footer-links a{color:LinkText;text-decoration-color:LinkText}
+  .cm-masthead .cm-masthead-name,.cm-masthead .cm-masthead-role:last-child,.cm-intro-role,.cm-intro-contact,.cm-intro-contact p span,.cm-project-name,.cm-site-footer{color:CanvasText}
+}
+
+html[data-typeface="manrope"] body{font-family:"CM Manrope",var(--cm-system-sans);font-variation-settings:normal;font-optical-sizing:auto}
+
+/* Scroll-linked exit: no movement, reversible when scrolling back. */
+.cm-intro-title,.cm-intro-prose>p,.cm-intro-stack,.cm-intro-contact{opacity:var(--cm-intro-opacity,1)}
+.cm-intro-title:focus-within,.cm-intro-prose>p:focus-within,.cm-intro-stack:focus-within,.cm-intro-contact:focus-within{opacity:1}
+@media(prefers-reduced-motion:reduce){.cm-intro-title,.cm-intro-prose>p,.cm-intro-stack,.cm-intro-contact{opacity:1}}
+@media print{.cm-intro-title,.cm-intro-prose>p,.cm-intro-stack,.cm-intro-contact{opacity:1}}
+
+/* Medium-weight copy links with a quiet directional cue. */
+html[data-typeface] .cm-intro .cm-intro-prose a{font-weight:500}
+/* A brief light sweep, followed by a long rest; preserve solid text without motion. */
+@supports (background-clip:text){
+  @media(prefers-reduced-motion:no-preference) and (forced-colors:none){
+    .cm-intro .cm-intro-prose a{
+      background-image:linear-gradient(110deg,currentColor 42%,color-mix(in srgb,currentColor 55%,white) 50%,currentColor 58%);
+      background-size:300% 100%;
+      background-position:100% 0;
+      background-clip:text;
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:cm-intro-link-shimmer 12s ease-in-out 1.8s infinite;
+    }
+    .cm-intro .cm-intro-prose a .cm-intro-link-text{text-decoration-line:none}
+    .cm-intro .cm-intro-prose a:is(:hover,:focus-visible) .cm-intro-link-text{text-decoration-line:underline}
+  }
+}
+@keyframes cm-intro-link-shimmer{
+  0%{background-position:100% 0}
+  18%,100%{background-position:0% 0}
+}
+@media print{.cm-intro .cm-intro-prose a{animation:none;background:none;-webkit-text-fill-color:currentColor}}
+
+/* Quiet directional cues follow the current theme. */
+.cm-intro-link-icon{color:var(--cm-secondary)}
+@media(forced-colors:active){.cm-intro-link-icon{color:LinkText}}
+
+/* Timeline copy and work links share the intro's regular text and quiet arrows. */
+html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;text-decoration:none}
+.cm-timeline .cm-stop-copy a:is(:hover,:focus-visible) .cm-intro-link-text{text-decoration-color:currentColor}
+.cm-timeline .cm-stop-copy .cm-stop-link{display:inline-block}
+@media(forced-colors:active){html[data-typeface] .cm-timeline .cm-stop-copy a{color:LinkText}}
+
+.cm-footer-meta{min-width:0;display:flex;align-items:baseline;justify-content:flex-end;flex-wrap:wrap;gap:8px 24px}
+.cm-footer-meta p{margin:0}
+.cm-weather-credit{font-size:inherit;color:var(--cm-secondary)}
+.cm-copyright{white-space:nowrap}
+@media(max-width:600px){.cm-footer-meta{justify-content:flex-start}}
+.cm-weather-credit a{color:inherit;text-decoration:underline;text-underline-offset:.2em}
+
+/* Main introduction stays larger; studio details and contact use 14px. */
+.cm-intro-lead{font-weight:600}
+.cm-intro-prose>p{font-size:var(--cm-intro-body-size)}
+.cm-intro-prose .cm-intro-studio{font-size:var(--cm-intro-small-size);font-weight:500;line-height:1.7}
+.cm-intro-stack{margin-top:16px;font-size:var(--cm-intro-small-size);line-height:1.7;color:var(--cm-copy-soft)}
+.cm-intro-stack .cm-stack-label{font-weight:500;margin:0 0 4px;color:var(--cm-copy-ink)}
+.cm-intro-stack .cm-stack-row{margin:0;color:inherit;font-weight:500}
+.cm-stack-item{white-space:nowrap}
+.cm-stack-slash{margin-inline:.22em}
+
+/* Keep the identity lines close, with breathing room before the introduction. */
+.cm-intro{--cm-intro-heading-gap:4px}
+.cm-intro-title{gap:var(--cm-intro-heading-gap)}
+.cm-intro-prose{margin-top:16px}
+
+/* Intro external-link cues sit above the punctuation baseline. */
+.cm-intro-prose a[target="_blank"] .cm-intro-link-icon{width:.65em;height:.65em;vertical-align:.3em;stroke-width:1.6}
+
+/* More sky around the opening and a narrower desktop reading measure. */
+.cm-intro h1{font-size:34px}
+@media(min-width:900px){
+  .cm-intro{padding-inline:calc(var(--cm-card-padding) + 20px)}
+}
+@media(min-width:600px) and (max-width:899px){:root{--cm-inset:40px}}
+@media(max-width:599px){:root{--cm-inset:20px}}
+
+/* Separate intro reading rhythm from the supporting copy and link weights. */
+.cm-intro-prose .cm-intro-main{font-weight:500;line-height:1.65}
+html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:500}

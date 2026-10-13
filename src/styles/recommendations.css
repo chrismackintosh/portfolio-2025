@@ -1,0 +1,28 @@
+.cm-recommendations{padding:40px var(--cm-page-gutter) 96px;background:var(--cm-paper);scroll-margin-top:calc(var(--cm-header-height) + 24px)}
+.cm-recommendations h2{margin:0 0 56px;font-size:27px;line-height:1.25;letter-spacing:-.025em;font-weight:var(--cm-google-company-weight,550);color:var(--cm-ink)}
+.cm-recommendations-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2vw,32px)}
+.cm-recommendation{margin:0;text-align:center;min-width:0;container-type:inline-size}
+.cm-recommendation-wreath{position:relative;display:flex;align-items:center;justify-content:center;width:max-content;max-width:100%;min-height:144px;margin-inline:auto;padding:24px 60px}
+.cm-laurel{position:absolute;top:50%;width:52px;height:120px;transform:translateY(-50%);fill:currentColor;color:var(--cm-accent);opacity:.72;pointer-events:none}
+.cm-laurel-left{left:0}
+.cm-laurel-right{right:0;transform:translateY(-50%) scaleX(-1)}
+.cm-recommendation blockquote{position:relative;margin:0;width:max-content}
+.cm-recommendation blockquote p{margin:0;font-size:clamp(15px,4.9cqi,20px);font-weight:400;line-height:1.5;letter-spacing:-.025em;color:var(--cm-secondary)}
+.cm-quote-line{display:block;white-space:nowrap}
+.cm-recommendation strong{font-weight:550;color:var(--cm-ink)}
+.cm-recommendation figcaption{display:flex;flex-direction:column;gap:5px;margin:4px auto 0;max-width:270px;padding:0 8px;color:var(--cm-secondary);font-size:13px;line-height:1.5;text-wrap:balance}
+.cm-recommendation-name{font-weight:600;color:var(--cm-ink)}
+.cm-recommendations-more{display:table;align-content:center;min-height:44px;margin:32px auto 0;color:var(--cm-ink);font-size:14px;font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.2em;text-decoration-color:transparent;transition:text-decoration-color 180ms ease-in-out}
+.cm-recommendations-more:is(:hover,:focus-visible){text-decoration-color:currentColor}
+.cm-recommendations-more:focus-visible{outline:2px solid var(--cm-accent);outline-offset:4px}
+@media(max-width:900px){
+ .cm-recommendations{padding-top:16px;padding-bottom:64px}
+ .cm-recommendations h2{font-size:25px;margin-bottom:28px}
+ .cm-recommendations-list{grid-template-columns:1fr;gap:32px;max-width:380px;margin-inline:auto}
+ .cm-recommendation-wreath{position:relative;display:flex;align-items:center;justify-content:center;width:max-content;max-width:100%;min-height:144px;margin-inline:auto;padding:24px 60px}
+
+ .cm-recommendation figcaption{margin-top:4px}
+ .cm-recommendations-more{margin-top:36px}
+}
+@media(prefers-reduced-motion:reduce){.cm-recommendations-more{transition:none}}
+@media(forced-colors:active){.cm-laurel{display:none}.cm-recommendations-more{color:LinkText;text-decoration-color:LinkText}}

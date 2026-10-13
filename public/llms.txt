@@ -1,0 +1,21 @@
+# Chris Mackintosh
+
+> Portfolio of Chris Mackintosh, product designer and builder working with AI.
+
+This is a directory of public portfolio content. Some project stories are still taking shape; preserve the status stated on each page. Relative links resolve against this website.
+
+## Overview
+
+- [Site summary in Markdown](/site.md): Public introduction, selected work, and contact links.
+- [Portfolio homepage](/): Full visual homepage, experience, selected work, and testimonials.
+
+## Project pages
+
+- [myColorado](/mycolorado/): Product design and digital identity overview.
+- [Mobile driver's license](/mycolorado/mobile-drivers-license/): Initial look at the initiative.
+
+## Archive and privacy
+
+- [Visible core experience](/case-studies/visible-core-experience.html): Condensed archive from the previous portfolio.
+- [Visible eSIM](/case-studies/visible-esim.html): Retained activation account and dated independent coverage.
+- [Privacy](/privacy-policy.html): Browser storage, hosting, and contact practices.
