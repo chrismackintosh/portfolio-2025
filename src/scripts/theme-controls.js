@@ -22,13 +22,14 @@
   function effective() {
     if (!preference) return solar;
     const dark = preference === 'dark';
-    return {...solar, dark, sky: dark ? 'Night' : solar.dark ? 'Sunny midday' : solar.sky};
+    return {...solar, dark, sky: dark ? 'Night' : ['Night', 'Dusk'].includes(solar.sky) ? 'Sunny midday' : solar.sky};
   }
   function apply() {
     const state = effective();
     root.classList.toggle('cm-night', state.dark);
-    document.querySelectorAll('[data-theme]').forEach(button => {
-      button.setAttribute('aria-pressed', String((button.dataset.theme === 'dark') === state.dark));
+    document.querySelectorAll('[data-theme-toggle]').forEach(button => {
+      button.setAttribute('aria-pressed', String(state.dark));
+      button.title = state.dark ? 'Switch to light mode' : 'Switch to dark mode';
     });
     listeners.forEach(listener => listener(state));
   }
@@ -37,10 +38,10 @@
   globalThis.CMWeather?.start(state => { solar = state; apply(); });
   document.addEventListener('DOMContentLoaded', apply);
   document.addEventListener('click', event => {
-    const button = event.target.closest('button[data-theme]');
-    if (!button || !['light', 'dark'].includes(button.dataset.theme)) return;
-    if (effective().dark !== (button.dataset.theme === 'dark')) easeSwitch();
-    preference = button.dataset.theme;
+    const button = event.target.closest('button[data-theme-toggle]');
+    if (!button) return;
+    easeSwitch();
+    preference = effective().dark ? 'light' : 'dark';
     try { localStorage.setItem(key, preference); } catch { /* Still usable without storage. */ }
     apply();
   });

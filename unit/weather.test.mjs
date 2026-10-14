@@ -8,8 +8,8 @@ const key = 'cm-nws-kden-v1';
 function fixture(description='Clear',options={}) {
  return {properties:{station:'https://api.weather.gov/stations/KDEN',timestamp:new Date(baseTime-20*60000).toISOString(),textDescription:description,cloudLayers:[],presentWeather:[],...options}};
 }
-async function run({data=fixture(),cache,fail=false,hidden=false,brokenStorage=false}={}) {
- let now=baseTime;let calls=0;let request;let tick;
+async function run({data=fixture(),cache,fail=false,hidden=false,brokenStorage=false,time=baseTime}={}) {
+ let now=time;let calls=0;let request;let tick;
  const storage=new Map(cache===undefined?[]:[[key,cache]]);const states=[];
  class Clock extends Date {constructor(...args){super(...(args.length?args:[now]));}static now(){return now;}}
  const document={hidden,addEventListener(){}};
@@ -53,4 +53,42 @@ test('storage corruption and blocked storage do not break weather',async()=>{
 });
 test('hidden tabs do not request observations',async()=>{
  const r=await run({hidden:true});assert.equal(r.calls,0);r.document.hidden=false;await r.advance(60000);assert.equal(r.calls,1);
+});
+
+for (const [period, time] of [
+ ['sunrise', Date.parse('2026-10-14T13:15:00Z')],
+ ['sunset', Date.parse('2026-10-15T00:20:00Z')]
+]) for (const [description, sky] of [['Fog/Mist','Cloudy'],['Light Rain','Gray / rain']]) {
+ test(`${description} takes priority over the ${period} palette`, async()=>{
+  const r=await run({time,data:fixture(description,{timestamp:new Date(time-20*60000).toISOString(),cloudLayers:[{amount:'OVC'}]})});
+  assert.equal(r.states.at(-1).sky,sky);
+  assert.equal(r.states.at(-1).source,'NWS observation');
+ });
+}
+test('clear sunrise retains its solar palette',async()=>{
+ const time=Date.parse('2026-10-14T13:15:00Z');
+ const r=await run({time,data:fixture('Clear',{timestamp:new Date(time-60000).toISOString()})});
+ assert.equal(r.states.at(-1).sky,'Sunrise');
+});
+
+for(const weather of ['rain','drizzle','snow','sleet','hail','thunderstorms','ice_pellets','freezing_rain','rain_showers']) {
+ test(`structured NWS precipitation: ${weather}`,async()=>{
+  const r=await run({data:fixture('',{presentWeather:[{weather}]})});
+  assert.equal(r.states.at(-1).sky,'Gray / rain');
+ });
+}
+for(const amount of ['BKN','OVC','VV']) test(`cloud layer ${amount} maps to cloudy`,async()=>{
+ const r=await run({data:fixture('',{cloudLayers:[{amount}]})});assert.equal(r.states.at(-1).sky,'Cloudy');
+});
+for(const amount of ['CLR','SKC','FEW','SCT']) test(`cloud layer ${amount} maps to fair`,async()=>{
+ const r=await run({data:fixture('',{cloudLayers:[{amount}]})});assert.equal(r.states.at(-1).sky,'Sunny midday');
+});
+for(const [time,sky,dark] of [
+ ['2026-10-14T13:15:00Z','Sunrise',false],
+ ['2026-10-14T18:00:00Z','Sunny midday',false],
+ ['2026-10-15T00:20:00Z','Sunset',false],
+ ['2026-10-15T01:15:00Z','Dusk',true],
+ ['2026-10-15T04:00:00Z','Night',true]
+])test(`solar fallback at ${time}: ${sky}`,async()=>{
+ const r=await run({time:Date.parse(time),fail:true});assert.equal(r.states.at(-1).sky,sky);assert.equal(r.states.at(-1).dark,dark);
 });

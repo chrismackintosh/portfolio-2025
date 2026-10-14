@@ -12,9 +12,9 @@ for (const path of legacyRoutes) {
   await expect(page.locator('iframe')).toHaveCount(0);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://chrismackintosh.work'+path);
-  await page.locator('[data-theme="dark"]').click();
+  await page.locator('[data-theme-toggle]').click();
   expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations).toEqual([]);
-  await page.locator('[data-theme="light"]').click();
+  await page.locator('[data-theme-toggle]').click();
   expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations).toEqual([]);
  });
 }
@@ -26,7 +26,7 @@ test('all public pages have consistent metadata and reachable launch assets',asy
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content',await page.title());
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://chrismackintosh.work/social-preview.png');
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content','summary_large_image');
-  await expect(page.locator('footer a[href="/privacy-policy.html"]')).toHaveCount(1);
+  await expect(page.locator('footer a[href="/privacy-policy.html"]')).toHaveCount(0);
  }
  for(const path of ['/favicon.svg','/favicon-32.png','/apple-touch-icon.png','/social-preview.png','/site.md','/llms.txt','/sitemap.xml'])expect((await request.get(path)).status()).toBe(200);
  expect(await (await request.get('/robots.txt')).text()).toContain('Disallow: /');
@@ -40,6 +40,6 @@ test('launch pages contact only the fixed NWS endpoint and set no cookies',async
 });
 test('legacy pages remain readable without JavaScript',async({browser})=>{
  const context=await browser.newContext({javaScriptEnabled:false});const page=await context.newPage();
- for(const path of legacyRoutes){await page.goto('http://127.0.0.1:4175'+path);await expect(page.locator('h1')).toHaveCount(1);await expect(page.getByRole('link',{name:'Site summary in Markdown'})).toHaveCount(1);}
+ for(const path of legacyRoutes){await page.goto('http://127.0.0.1:4175'+path);await expect(page.locator('h1')).toHaveCount(1);await expect(page.locator('head link[href="/site.md"]')).toHaveAttribute('type','text/markdown');}
  await context.close();
 });

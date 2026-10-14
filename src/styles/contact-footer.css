@@ -1,8 +1,9 @@
 /* A compact identity, an open invitation, and a quiet end to the page. */
-.cm-masthead-identity{display:flex;align-items:baseline;gap:16px}
+.cm-masthead-identity{display:flex;flex-direction:column;align-items:flex-start;gap:0}
 .cm-masthead .cm-masthead-name{color:var(--cm-ink);white-space:nowrap}
-.cm-masthead .cm-masthead-role:last-child{color:var(--cm-secondary)}
-.cm-masthead-location{white-space:nowrap}
+.cm-masthead .cm-masthead-role{color:var(--cm-masthead-muted,#52616d)}
+.cm-masthead .cm-masthead-location:last-child{white-space:nowrap;color:#5b6872;font-weight:400}
+.cm-night .cm-masthead .cm-masthead-location:last-child{color:#b8c1cc}
 html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-weight:700;line-height:1.5;letter-spacing:-.018em;max-width:none}
 .cm-intro-role{font-size:var(--cm-intro-identity-size);font-weight:500;line-height:1.5;letter-spacing:-.018em;color:var(--cm-copy-soft)}
 .cm-intro-ai{white-space:nowrap}
@@ -20,7 +21,6 @@ html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-we
 .cm-footer-links a{display:inline-flex;align-items:center;min-height:44px;color:var(--cm-ink);font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.18em;text-decoration-color:transparent;transition:text-decoration-color 180ms ease-in-out}
 .cm-footer-links a:is(:hover,:focus-visible){text-decoration-color:currentColor}
 html:is([data-typeface="google"],[data-typeface="manrope"]) .cm-footer-links a{font-weight:var(--cm-google-detail-weight,600)}
-@media(max-width:900px){.cm-masthead-identity{flex-direction:column;gap:0}}
 @media(max-width:600px){
   .cm-masthead{align-items:flex-start}
   .cm-intro{--cm-intro-identity-size:16px}
@@ -36,7 +36,7 @@ html:is([data-typeface="google"],[data-typeface="manrope"]) .cm-footer-links a{f
 }
 @media(forced-colors:active){
   .cm-footer-links a{color:LinkText;text-decoration-color:LinkText}
-  .cm-masthead .cm-masthead-name,.cm-masthead .cm-masthead-role:last-child,.cm-intro-role,.cm-intro-contact,.cm-intro-contact p span,.cm-project-name,.cm-site-footer{color:CanvasText}
+  .cm-masthead .cm-masthead-name,.cm-masthead .cm-masthead-role,.cm-masthead .cm-masthead-location:last-child,.cm-night .cm-masthead .cm-masthead-location:last-child,.cm-intro-role,.cm-intro-contact,.cm-intro-contact p span,.cm-project-name,.cm-site-footer{color:CanvasText}
 }
 
 html[data-typeface="manrope"] body{font-family:"CM Manrope",var(--cm-system-sans);font-variation-settings:normal;font-optical-sizing:auto}

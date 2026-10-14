@@ -7,6 +7,7 @@ import Testimonials from '../components/Testimonials.astro';
 import HomeFooter from '../components/HomeFooter.astro';
 import interactions from '../scripts/prototype.js?raw';
 import mosaic from '../scripts/product-mosaic.js?raw';
+import horizontalTimeline from '../scripts/horizontal-timeline.js?raw';
 ---
 <Base home title="Chris Mackintosh — Product designer and builder" description="Product design, selected work, and independent exploration of how AI changes the way products get designed and built.">
   <div id="cm-opening-study">
@@ -14,5 +15,5 @@ import mosaic from '../scripts/product-mosaic.js?raw';
     <main><Timeline /><SelectedWork /><Testimonials /></main>
     <HomeFooter />
   </div>
-  <script is:inline set:html={interactions + '\n' + mosaic} />
+  <script is:inline set:html={interactions + '\n' + mosaic + '\n' + horizontalTimeline} />
 </Base>

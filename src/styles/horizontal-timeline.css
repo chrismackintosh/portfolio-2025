@@ -1,0 +1,55 @@
+/* Local timeline experiment. Without enhancement, the original vertical story remains. */
+.cm-journey-head,.cm-journey-window{display:contents}
+.cm-journey-counter{display:none}
+.cm-timeline.cm-journey-enabled{--cm-journey-card:min(560px,calc(100vw - 88px));--cm-journey-gap:clamp(24px,5vw,72px);padding:0;border-radius:0}
+.cm-journey-enabled .cm-journey-stage{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;padding:24px 0 32px;background:var(--cm-timeline)}
+.cm-journey-enabled .cm-journey-head{display:block;min-width:0;padding-inline:var(--cm-page-gutter)}
+.cm-journey-enabled .cm-timeline-heading{border:0;padding:0;margin:0 0 8px;font-size:13px}
+.cm-journey-enabled .cm-journey-counter{display:block}
+.cm-journey-enabled .cm-journey-year{display:flex;font-size:clamp(96px,10vw,144px);font-weight:500;line-height:1;letter-spacing:-.065em;font-variant-numeric:tabular-nums;color:var(--cm-ink)}
+.cm-journey-digit{display:block;position:relative;width:.6em;height:1em;overflow:hidden}
+.cm-journey-digit-strip{display:block;will-change:transform}
+.cm-journey-digit-strip>span{display:block;height:1em;line-height:1}
+.cm-journey-enabled .cm-journey-window{display:block;min-width:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}
+.cm-journey-enabled .cm-rail{display:none}
+.cm-journey-enabled .cm-journey-window:focus-visible{outline:2px solid var(--cm-accent);outline-offset:-2px}
+.cm-journey-window::-webkit-scrollbar{display:none}
+.cm-journey-enabled .cm-stops{display:flex;align-items:flex-start;gap:var(--cm-journey-gap);width:max-content;padding-left:var(--cm-page-gutter);padding-right:max(var(--cm-page-gutter),calc(100vw - var(--cm-journey-card) - var(--cm-page-gutter)))}
+.cm-journey-enabled .cm-parallel{display:contents}
+.cm-journey-enabled .cm-parallel::before,.cm-journey-enabled .cm-stop::before,.cm-journey-enabled .cm-stop-meta::before{display:none!important}
+.cm-timeline.cm-journey-enabled .cm-stop{flex:0 0 var(--cm-journey-card);width:var(--cm-journey-card);max-width:none;min-height:0;margin:0;padding:4px 0 8px;border:0;justify-content:flex-start;scroll-margin:0;box-sizing:border-box}
+.cm-journey-enabled .cm-stop-copy{transform:none!important;opacity:1!important;max-width:none}
+.cm-timeline.cm-journey-enabled .cm-stop-meta{font-size:13px;line-height:1.5;margin:0 0 24px}
+.cm-timeline.cm-journey-enabled .cm-stop-meta>span:first-child{font:inherit;letter-spacing:0}
+.cm-timeline.cm-journey-enabled .cm-stop h3{font-size:clamp(28px,3vw,42px);line-height:1.15;font-weight:500;max-width:none}
+.cm-timeline.cm-journey-enabled .cm-stop p{font-size:17px;line-height:1.7;max-width:850px;margin-top:24px}
+.cm-timeline.cm-journey-enabled .cm-stop-link{font-size:14px;margin-top:20px}
+.cm-journey-enabled .cm-studio-transition{margin-block:28px 0}
+.cm-journey-enabled .cm-shipped{margin-top:24px}
+.cm-journey-enabled .cm-shipped dl{display:grid;grid-template-columns:1fr;gap:0;margin-top:12px}
+.cm-journey-enabled .cm-shipped-entry{display:block;padding:12px 0}
+.cm-journey-enabled .cm-shipped dt{font-size:14px}
+.cm-journey-enabled .cm-shipped dd{margin:8px 0 0;font-size:14px;line-height:1.5}
+@media(max-width:999px){
+ .cm-journey-enabled .cm-journey-stage{grid-template-columns:1fr;gap:32px;padding-block:32px 40px}
+ .cm-journey-enabled .cm-journey-year{font-size:clamp(88px,22vw,150px)}
+ .cm-journey-enabled .cm-timeline-heading{margin-bottom:20px}
+ .cm-timeline.cm-journey-enabled .cm-stop h3{font-size:28px}
+ .cm-timeline.cm-journey-enabled .cm-stop p{font-size:16px}
+ .cm-journey-enabled .cm-shipped dl{grid-template-columns:1fr;gap:0}
+ .cm-journey-enabled .cm-shipped-entry{display:block}
+ .cm-journey-enabled .cm-shipped dd{margin-top:6px}
+}
+
+.cm-timeline{scroll-margin-top:calc(var(--cm-header-height) + 16px)}
+.cm-timeline:not(.cm-journey-enabled) .cm-journey-stage>.cm-journey-head>.cm-timeline-heading{grid-column:1 / -1}
+@media print{
+ .cm-timeline.cm-journey-enabled{height:auto!important}
+ .cm-journey-enabled .cm-journey-stage{display:block;position:static!important}
+ .cm-journey-enabled .cm-journey-head{display:none}
+ .cm-journey-enabled .cm-journey-window{overflow:visible;-webkit-mask-image:none;mask-image:none}
+ .cm-journey-enabled .cm-stops{display:block;width:auto;padding-inline:var(--cm-page-gutter)}
+ .cm-timeline.cm-journey-enabled .cm-stop{width:100%;break-inside:avoid;margin-bottom:32px}
+}
+
+@media(forced-colors:active){.cm-journey-year{color:CanvasText}}

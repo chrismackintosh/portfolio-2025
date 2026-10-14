@@ -1,3 +1,7 @@
 /* Approved shared palette. Weather-specific intro colors stay in its controller. */
 :root{--cm-paper:#fff;--cm-ink:#26313b;--cm-secondary:#64717a;--cm-line:#dce2e6;--cm-accent:#627c90}
 html.cm-night{--cm-paper:#1d232b;--cm-ink:#e6e9ed;--cm-secondary:#aab4c0;--cm-line:#3e4b59;--cm-accent:#afc3d7}
+
+/* Shared filled controls: icon and text buttons use the same surfaces. */
+:root{--cm-control-bg:rgb(98 124 144 / .08);--cm-control-hover:rgb(98 124 144 / .16);--cm-control-active:rgb(98 124 144 / .24)}
+html.cm-night{--cm-control-bg:rgb(175 195 215 / .08);--cm-control-hover:rgb(175 195 215 / .16);--cm-control-active:rgb(175 195 215 / .24)}

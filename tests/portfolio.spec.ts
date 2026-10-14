@@ -19,13 +19,14 @@ for (const width of [375, 960, 1440]) for (const route of routes) {
   });
 }
 test('theme persists across routes and reload',async ({page})=>{
+  await page.addInitScript(() => {if(!localStorage.getItem('cm-color-appearance'))localStorage.setItem('cm-color-appearance','light');});
   await page.goto('/mycolorado/');
-  await page.locator('[data-theme="dark"]').click();
+  await page.locator('[data-theme-toggle]').click();
   await expect(page.locator('html')).toHaveClass(/cm-night/);
   await page.goto('/mycolorado/mobile-drivers-license/');
-  await expect(page.locator('[data-theme="dark"]')).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('[data-theme-toggle]')).toHaveAttribute('aria-pressed','true');
   await page.reload();await expect(page.locator('html')).toHaveClass(/cm-night/);
-  await page.locator('[data-theme="light"]').click();
+  await page.locator('[data-theme-toggle]').click();
   await expect(page.locator('html')).not.toHaveClass(/cm-night/);
 });
 test('work navigation returns to previous homepage scroll',async ({page})=>{
@@ -81,15 +82,16 @@ for(const route of routes) for(const theme of ['light','dark']) test(`axe ${them
 });
 
 test('keyboard skip link and appearance control are usable', async ({page, browserName}) => {
+  await page.addInitScript(() => localStorage.setItem('cm-color-appearance','light'));
   await page.goto('/mycolorado/');
   // macOS WebKit uses Option-Tab to include links in keyboard navigation.
   await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab');
   await expect(page.locator('.skip')).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.locator('#main')).toBeFocused();
-  await page.locator('[data-theme="dark"]').focus();
+  await page.locator('[data-theme-toggle]').focus();
   await page.keyboard.press('Space');
-  await expect(page.locator('[data-theme="dark"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('[data-theme-toggle]')).toHaveAttribute('aria-pressed', 'true');
 });
 
 

@@ -9,6 +9,7 @@
   const stops = [...document.querySelectorAll('.cm-stop')];
   const railLinks = [...document.querySelectorAll('.cm-rail a')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  const compact = matchMedia('(max-width: 600px)');
   const palettes = {
     'Sunrise': ['#e4deda','linear-gradient(165deg,#d8e0e8 0%,#e5dedf 55%,#ebdccb 100%)'],
     'Sunny midday': ['#dce5eb','linear-gradient(165deg,#d0deea 0%,#dce6eb 58%,#e8e9e3 100%)'],
@@ -37,7 +38,7 @@
   function update() {
     queued = false;
     const y = -opening.getBoundingClientRect().top;
-    const progress = motion.matches ? 1 : clamp((y - Math.max(0,height-innerHeight))/travel);
+    const progress = motion.matches || compact.matches ? 1 : clamp((y - Math.max(0,height-innerHeight))/travel);
     html.style.setProperty('--cm-progress', progress);
     // Hand off the identity only once the card name has left the viewport.
     const nameBottom = introName.getBoundingClientRect().bottom;
@@ -53,6 +54,7 @@
     });
     const timelineRect = timeline.getBoundingClientRect();
     timeline.classList.toggle('cm-rail-engaged', timelineRect.top < viewport * .8 && timelineRect.bottom > readingInset);
+    if (!timeline.classList.contains('cm-journey-enabled')) {
     const readingLine=Math.min(viewport*.5,readingInset+24);
     let nearest = 0;
     stops.forEach((stop,i) => {
@@ -68,10 +70,20 @@
     const start = stops[0].getBoundingClientRect().top + scrollY;
     const end = stops[5].getBoundingClientRect().top + scrollY;
     timeline.style.setProperty('--cm-timeline-progress',clamp((scrollY+readingLine-start)/Math.max(1,end-start)));
+    }
   }
   function layout() {
-    html.style.setProperty('--cm-header-height',Math.ceil(masthead.getBoundingClientRect().height)+'px');
+    // Overlap fractional header pixels so the sticky mobile rail cannot leave a slit.
+    html.style.setProperty('--cm-header-height',Math.floor(masthead.getBoundingClientRect().height)+'px');
     readingInset=parseFloat(getComputedStyle(stops[0]).scrollMarginTop)||90;
+    if (compact.matches) {
+      // The phone intro stays in normal flow, independent of browser-toolbar resizing.
+      html.style.setProperty('--cm-inset','0px');
+      html.style.setProperty('--cm-progress','1');
+      html.classList.remove('cm-motion-ready');
+      update();
+      return;
+    }
     const inset = innerWidth<600 ? 20 : innerWidth<900 ? 40 : 80;
     html.style.setProperty('--cm-inset',inset+'px');
     html.style.setProperty('--cm-progress',motion.matches ? 1 : 0);
@@ -143,7 +155,7 @@
     });
   });
   applyTextTreatment();
-  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(!target)return;e.preventDefault();target.focus({preventScroll:true});target.scrollIntoView({behavior:motion.matches?'instant':'smooth',block:'start'});history.replaceState(null,'',a.getAttribute('href'));}));
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(!target)return;e.preventDefault();if(globalThis.CMHorizontalTimeline?.goTo(target)){history.replaceState(null,'',a.getAttribute('href'));return;}target.focus({preventScroll:true});target.scrollIntoView({behavior:motion.matches?'instant':'smooth',block:'start'});history.replaceState(null,'',a.getAttribute('href'));}));
   addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(update);}},{passive:true});
   addEventListener('resize',layout,{passive:true});
   motion.addEventListener('change',layout);
@@ -151,5 +163,5 @@
   const initialTypeface=applyTypeface();
   applyAppearance(appearance);
   if(globalThis.CMTheme)globalThis.CMTheme.subscribe(applyAppearance);
-  addEventListener('load',async()=>{await initialTypeface;layout();if(!globalThis.CMWorkNavigation?.restoreHomePosition() && location.hash){const target=document.getElementById(location.hash.slice(1));if(target)target.scrollIntoView({behavior:'instant'});}globalThis.CMWorkNavigation?.completeArrival();});
+  addEventListener('load',async()=>{await initialTypeface;layout();if(!globalThis.CMWorkNavigation?.restoreHomePosition() && location.hash){const target=document.getElementById(location.hash.slice(1));if(target&&!globalThis.CMHorizontalTimeline?.goTo(target,'instant'))target.scrollIntoView({behavior:'instant'});}globalThis.CMWorkNavigation?.completeArrival();});
 })();
