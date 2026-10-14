@@ -75,3 +75,21 @@ test('direct chapter link lands on the requested panel',async({page})=>{
  await expect.poll(()=>visibleYear(page)).toBe('2021');
  await expect.poll(()=>page.evaluate(()=>Math.abs(document.querySelector('#stop-4')!.getBoundingClientRect().left-document.querySelector('.cm-journey-year')!.getBoundingClientRect().left))).toBeLessThan(2);
 });
+
+test('odometer moves through the beginning of each year without a dead zone',async({page})=>{
+ await page.setViewportSize({width:1440,height:1000});await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+ await page.locator('.cm-journey-window').dispatchEvent('pointerdown');
+ const positions:number[]=[];
+ for(const fraction of [0,.1,.2,.3,.2,.1,0]){
+  await scrollToPosition(page,fraction/14);
+  const digit=page.locator('.cm-journey-digit').last();
+  await page.waitForTimeout(40);
+  positions.push(await digit.evaluate(e=>{
+   const four=e.querySelectorAll('.cm-journey-digit-strip>span')[14];
+   return (e.getBoundingClientRect().top-four.getBoundingClientRect().top)/e.getBoundingClientRect().height;
+  }));
+ }
+ for(let i=1;i<=3;i++)expect(positions[i]-positions[i-1]).toBeGreaterThan(.07);
+ for(let i=4;i<positions.length;i++)expect(positions[i-1]-positions[i]).toBeGreaterThan(.07);
+ expect(Math.abs(positions[0]-positions[6])).toBeLessThan(.01);
+});

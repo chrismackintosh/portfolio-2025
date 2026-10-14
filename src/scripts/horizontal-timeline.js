@@ -8,8 +8,8 @@
  const rail=timeline.querySelector('.cm-rail');
  const stops=timeline.querySelector('.cm-stops');
  const articles=[...stops.querySelectorAll('.cm-stop')];
- const dates=articles.map(article=>article.querySelector('.cm-stop-meta').textContent.trim());
- const years=dates.map(date=>Number(date.match(/^\d{4}/)[0]));
+ // Keep chronology independent of the visible chapter labels.
+ const years=articles.map(article=>Number(article.dataset.startYear));
  const stage=document.createElement('div');stage.className='cm-journey-stage cm-timeline-grid';
  const head=document.createElement('div');head.className='cm-journey-head';
  const viewport=document.createElement('div');viewport.className='cm-journey-window';
@@ -25,16 +25,15 @@
  head.append(heading,counter,rail);viewport.append(stops);stage.append(head,viewport);grid.replaceWith(stage);
  let enabled=false,step=0,active=0,frame=0,layoutFrame=0;
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
- // Each wheel follows the scroll position directly. Higher digits roll only at a carry.
- // Repeated digits make the 9 → 0 wrap visually continuous in either direction.
+ // Roll continuously through each year; the journey already supplies the easing.
+ // Higher wheels turn only at a carry. Repeated digits keep 9 → 0 continuous.
  function setYear(value){
   const whole=Math.floor(value+1e-6),fraction=clamp(value-whole,0,1);
-  const phase=clamp((fraction-.25)/.75,0,1);
-  const roll=phase*phase*(3-2*phase);
+  const roll=fraction;
   strips.forEach((strip,i)=>{
    const place=10**(3-i),digit=Math.floor(whole/place)%10;
    const carry=whole%place===place-1?roll:0;
-   strip.style.transform=`translateY(-${10+digit+carry}em)`;
+   strip.style.transform=`translate3d(0,-${10+digit+carry}em,0)`;
   });
  }
  function update(){
@@ -73,9 +72,13 @@
  }
  // Briefly hold vertical gestures for one cue, then always release native scrolling.
  let nudgeReady=false,nudgePlayed=false,nudgeTimer=0,nudgeAnimation=null,releaseTimer=0;
- let touchX=0,touchY=0;
+ let touchX=0,touchY=0,heldScrollY=null;
+ function holdPosition(){
+  if(heldScrollY!==null&&Math.abs(scrollY-heldScrollY)>1)scrollTo({top:heldScrollY,behavior:'instant'});
+ }
  function releaseScroll(){
   clearTimeout(releaseTimer);releaseTimer=0;
+  heldScrollY=null;document.documentElement.classList.remove('cm-timeline-hold');
   removeEventListener('wheel',holdWheel,true);
   removeEventListener('touchmove',holdTouch,true);
   removeEventListener('keydown',cancelNudge,true);
@@ -104,17 +107,22 @@
   return rect.top>=header-1&&rect.top<innerHeight*.5&&visible>=Math.min(rect.height,available*.6);
  }
  function scheduleNudge(){
-  if(nudgeAnimation){if(!nudgeInView())cancelNudge();return;}
+  if(nudgeAnimation){holdPosition();return;}
   if(!nudgeReady||nudgeTimer||nudgePlayed||document.hidden||motion.matches||!enabled||viewport.scrollLeft>1||!nudgeInView())return;
   nudgeTimer=setTimeout(()=>{
    nudgeTimer=0;
    if(nudgePlayed||document.hidden||motion.matches||viewport.scrollLeft>1||!nudgeInView())return;
    nudgePlayed=true;
+   // Pin the section heading below the masthead while the real track advances.
+   const header=document.querySelector('.cm-masthead')?.getBoundingClientRect().bottom||0;
+   heldScrollY=Math.max(0,Math.round(scrollY+heading.getBoundingClientRect().top-header-16));
+   document.documentElement.classList.add('cm-timeline-hold');
+   holdPosition();
    addEventListener('wheel',holdWheel,{passive:false,capture:true});
    addEventListener('touchmove',holdTouch,{passive:false,capture:true});
    addEventListener('keydown',cancelNudge,true);
-   // Scroll the real track so both the cards and odometer arrive at 2014 together.
-   const endYear=2014;
+   // Scroll the real track so both the cards and odometer arrive at 2023 together.
+   const endYear=2023;
    const index=years.findIndex((year,i)=>year<=endYear&&years[i+1]>endYear);
    if(index<0){cancelNudge();return;}
    const target=step*(index+(endYear-years[index])/(years[index+1]-years[index]));
@@ -122,11 +130,13 @@
    const animation={frame:0,cancel(){cancelAnimationFrame(this.frame);}};
    nudgeAnimation=animation;
    // Independent failsafe releases input even if animation frames are interrupted.
-   releaseTimer=setTimeout(cancelNudge,1100);
+   releaseTimer=setTimeout(cancelNudge,1900);
    function advance(now){
     if(nudgeAnimation!==animation)return;
-    const progress=clamp((now-started)/900,0,1);
-    const eased=progress*progress*(3-2*progress);
+    holdPosition();
+    const progress=clamp((now-started)/1600,0,1);
+    // Build speed through most of the journey, then land without a hard stop.
+    const eased=progress<.8?1.25*progress*progress:1-5*(1-progress)**2;
     viewport.scrollLeft=from+(target-from)*eased;
     update();
     if(progress<1)animation.frame=requestAnimationFrame(advance);

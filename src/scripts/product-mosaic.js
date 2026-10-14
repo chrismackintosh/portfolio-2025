@@ -1,3 +1,43 @@
+// Give each visible tile its own fade-up in reading order, once per page visit.
+(() => {
+  const grids = [...document.querySelectorAll('.cm-product-mosaic')];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduced.matches || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
+  grids.forEach(grid => {
+    const tiles = [...grid.querySelectorAll('.cm-mosaic-tile')];
+    const running = new Set();
+    const revealAll = () => {
+      observer.disconnect();
+      tiles.forEach(tile => tile.classList.remove('cm-mosaic-enter-pending'));
+      running.forEach(animation => animation.cancel());
+      running.clear();
+    };
+    const observer = new IntersectionObserver(entries => {
+      if (reduced.matches) return revealAll();
+      const entering = entries.filter(entry => entry.isIntersecting).map(entry => entry.target);
+      if (!entering.length) return;
+      // Follow the responsive visual order, giving every tile a separate start.
+      entering.sort((a,b) => a.offsetTop-b.offsetTop || a.offsetLeft-b.offsetLeft);
+      const phone = matchMedia('(max-width: 600px)').matches;
+      entering.forEach((tile,index) => {
+        observer.unobserve(tile);
+        tile.classList.remove('cm-mosaic-enter-pending');
+        const animation = tile.animate([
+          {opacity: 0, transform: `translateY(${phone ? 18 : 28}px)`},
+          {opacity: 1, transform: 'translateY(0)'}
+        ], {duration: phone ? 600 : 750, delay: index*(phone ? 100 : 125), easing: 'cubic-bezier(.22,.61,.36,1)', fill: 'both'});
+        running.add(animation);
+        animation.finished.then(() => { running.delete(animation); animation.cancel(); }, () => running.delete(animation));
+      });
+    }, {threshold: .08, rootMargin: '0px 0px -24px 0px'});
+    tiles.forEach(tile => { tile.classList.add('cm-mosaic-enter-pending'); observer.observe(tile); });
+    reduced.addEventListener('change', () => { if (reduced.matches) revealAll(); });
+    // Cached history and printed pages should always contain the fully visible artwork.
+    addEventListener('pagehide', revealAll, {once: true});
+    addEventListener('beforeprint', revealAll);
+  });
+})();
+
 (() => {
   const tiles = document.querySelectorAll('[data-mosaic-motion]:not(.myco-departure)');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');

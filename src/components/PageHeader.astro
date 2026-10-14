@@ -1,0 +1,10 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import ThemeControls from './ThemeControls.astro';
+interface Props {breadcrumbs: {label: string; href?: string}[]}
+const {breadcrumbs} = Astro.props;
+---
+<header class="site-head">
+  <div class="masthead-identity"><a class="identity" href="/">Chris Mackintosh</a><span class="masthead-role">Product designer and builder</span></div>
+  <div class="masthead-tools"><Breadcrumbs items={breadcrumbs} /><ThemeControls /></div>
+</header>
