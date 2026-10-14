@@ -1,4 +1,5 @@
 /* Local timeline experiment. Without enhancement, the original vertical story remains. */
+html.cm-timeline-hold{overflow-y:hidden;scrollbar-gutter:stable}
 .cm-journey-head,.cm-journey-window{display:contents}
 .cm-journey-counter{display:none}
 .cm-timeline.cm-journey-enabled{--cm-journey-card:min(560px,calc(100vw - 88px));--cm-journey-gap:clamp(24px,5vw,72px);padding:0;border-radius:0}
@@ -19,8 +20,10 @@
 .cm-journey-enabled .cm-parallel::before,.cm-journey-enabled .cm-stop::before,.cm-journey-enabled .cm-stop-meta::before{display:none!important}
 .cm-timeline.cm-journey-enabled .cm-stop{flex:0 0 var(--cm-journey-card);width:var(--cm-journey-card);max-width:none;min-height:0;margin:0;padding:4px 0 8px;border:0;justify-content:flex-start;scroll-margin:0;box-sizing:border-box}
 .cm-journey-enabled .cm-stop-copy{transform:none!important;opacity:1!important;max-width:none}
-.cm-timeline.cm-journey-enabled .cm-stop-meta{font-size:13px;line-height:1.5;margin:0 0 24px}
+.cm-timeline.cm-journey-enabled .cm-stop-meta{min-height:30px;align-items:center;font-size:13px;line-height:1.5;margin:0 0 24px}
 .cm-timeline.cm-journey-enabled .cm-stop-meta>span:first-child{font:inherit;letter-spacing:0}
+.cm-timeline .cm-stop-meta>.cm-current-period{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid var(--cm-ink);border-radius:999px;background:var(--cm-ink);color:var(--cm-timeline);white-space:nowrap}
+.cm-timeline .cm-stop-5 .cm-stop-meta{--cm-date-line:30px}
 .cm-timeline.cm-journey-enabled .cm-stop h3{font-size:clamp(28px,3vw,42px);line-height:1.15;font-weight:500;max-width:none}
 .cm-timeline.cm-journey-enabled .cm-stop p{font-size:17px;line-height:1.7;max-width:850px;margin-top:24px}
 .cm-timeline.cm-journey-enabled .cm-stop-link{font-size:14px;margin-top:20px}

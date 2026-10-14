@@ -1,9 +1,8 @@
 /* A compact identity, an open invitation, and a quiet end to the page. */
 .cm-masthead-identity{display:flex;flex-direction:column;align-items:flex-start;gap:0}
 .cm-masthead .cm-masthead-name{color:var(--cm-ink);white-space:nowrap}
-.cm-masthead .cm-masthead-role{color:var(--cm-masthead-muted,#52616d)}
-.cm-masthead .cm-masthead-location:last-child{white-space:nowrap;color:#5b6872;font-weight:400}
-.cm-night .cm-masthead .cm-masthead-location:last-child{color:#b8c1cc}
+.cm-masthead .cm-masthead-role{color:var(--cm-masthead-muted)}
+.cm-masthead .cm-masthead-location{white-space:nowrap;color:var(--cm-masthead-muted);font-weight:inherit}
 html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-weight:700;line-height:1.5;letter-spacing:-.018em;max-width:none}
 .cm-intro-role{font-size:var(--cm-intro-identity-size);font-weight:500;line-height:1.5;letter-spacing:-.018em;color:var(--cm-copy-soft)}
 .cm-intro-ai{white-space:nowrap}
@@ -36,7 +35,7 @@ html:is([data-typeface="google"],[data-typeface="manrope"]) .cm-footer-links a{f
 }
 @media(forced-colors:active){
   .cm-footer-links a{color:LinkText;text-decoration-color:LinkText}
-  .cm-masthead .cm-masthead-name,.cm-masthead .cm-masthead-role,.cm-masthead .cm-masthead-location:last-child,.cm-night .cm-masthead .cm-masthead-location:last-child,.cm-intro-role,.cm-intro-contact,.cm-intro-contact p span,.cm-project-name,.cm-site-footer{color:CanvasText}
+  .cm-masthead .cm-masthead-name,.cm-masthead .cm-masthead-role,.cm-masthead .cm-masthead-location,.cm-night .cm-masthead .cm-masthead-location,.cm-intro-role,.cm-intro-contact,.cm-intro-contact p span,.cm-project-name,.cm-site-footer{color:CanvasText}
 }
 
 html[data-typeface="manrope"] body{font-family:"CM Manrope",var(--cm-system-sans);font-variation-settings:normal;font-optical-sizing:auto}
@@ -117,3 +116,9 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 /* Separate intro reading rhythm from the supporting copy and link weights. */
 .cm-intro-prose .cm-intro-main{font-weight:500;line-height:1.65}
 html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:500}
+
+@media(max-width:760px) and (min-width:601px){.cm-masthead-location{font-size:12px}}
+@media(max-width:600px){
+ .cm-masthead .cm-masthead-location{grid-column:1;grid-row:2}
+}
+@media(forced-colors:active){.cm-masthead .cm-masthead-location,.cm-night .cm-masthead .cm-masthead-location{color:CanvasText}}

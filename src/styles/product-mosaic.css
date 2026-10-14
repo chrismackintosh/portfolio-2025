@@ -154,3 +154,8 @@
 @keyframes myco-fraction-close{0%{width:.92em;opacity:1}40%{opacity:0}100%{width:0;opacity:0}}
 @keyframes myco-plus-reveal{0%{width:0;opacity:0}40%{opacity:0}100%{width:.64em;opacity:1}}
 @keyframes myco-mau-reveal{from{opacity:0}to{opacity:1}}
+
+/* Entrance enhancement only: artwork stays visible without JavaScript. */
+.cm-mosaic-enter-pending{opacity:0}
+@media(prefers-reduced-motion:reduce){.cm-mosaic-tile{opacity:1!important;transform:none!important}}
+@media print{.cm-mosaic-tile{opacity:1!important;transform:none!important}}

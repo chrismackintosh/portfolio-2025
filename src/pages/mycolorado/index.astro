@@ -1,10 +1,10 @@
 ---
 import ProductFooter from "../../components/ProductFooter.astro";
 import Base from '../../layouts/Base.astro';
-import ThemeControls from '../../components/ThemeControls.astro';
+import PageHeader from '../../components/PageHeader.astro';
 ---
 <Base title="myColorado \u2014 Chris Mackintosh" description="Product design and digital identity across myColorado, by Chris Mackintosh.">
-<a class="skip" href="#main">Skip to content</a><header class="site-head"><div class="masthead-identity"><a class="identity" href="../">Chris Mackintosh</a><span class="masthead-role">Product designer and builder</span></div><div class="masthead-tools"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../#mycolorado-work">Selected work</a><span aria-hidden="true">/</span><span aria-current="page">myColorado</span></nav><ThemeControls /></div></header><main id="main" class="page" tabindex="-1">
+<a class="skip" href="#main">Skip to content</a><PageHeader breadcrumbs={[{label:'Selected work',href:'/#mycolorado-work'},{label:'myColorado'}]} /><main id="main" class="page" tabindex="-1">
 <h1 class="sr-only">myColorado</h1>
 <figure class="overview-art"><img class="cm-project-image" src="/assets/mycolorado-grid/phones-1200.webp" srcset="/assets/mycolorado-grid/phones-640.webp 640w, /assets/mycolorado-grid/phones-1200.webp 1200w, /assets/mycolorado-grid/phones-2000.webp 2000w" sizes="(max-width: 760px) calc(100vw - 48px), min(88vw, 1200px)" width="3000" height="2250" fetchpriority="high" decoding="async" alt="Three phones showing the myColorado mobile driver’s license, Colorado Digital ID, and sign-in experience."><figcaption>myColorado’s mobile driver’s license, Digital ID, and sign-in experience.</figcaption></figure>
 <section class="chapter" aria-labelledby="role-title"><h2 id="role-title">Across the product</h2><div class="chapter-copy">
