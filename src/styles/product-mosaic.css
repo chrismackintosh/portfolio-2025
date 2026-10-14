@@ -76,7 +76,7 @@
  .myco-scan-label{font-size:1.3cqw;padding:1cqw 1.5cqw}.myco-reader{font-size:2.5cqw}
  .myco-check-pill{font-size:1.8cqw;padding:.8cqw 1.4cqw}.cm-work .myco-check-pill img{width:2.6cqw}
  .myco-viewfinder{width:60%}.cm-work .myco-brand img{width:65%}.cm-work .myco-app img{width:45%}
- .cm-work .myco-phones img{width:105%;left:9%;top:-10%}
+ .cm-work .myco-phones img{inset:0;width:100%;height:100%;object-fit:contain}
  .myco-portrait{margin-top:3cqw}.myco-selfie{gap:2cqw}
 }
 @media(max-width:600px){
@@ -99,7 +99,6 @@
  .cm-work .myco-check-pill img{width:4.5cqw}.myco-state-logo{gap:1cqw}
  .myco-id{gap:5cqw}.cm-work .myco-license{width:65%}.cm-work .myco-signature{width:70%}
  .myco-selfie{gap:4cqw}.myco-portrait{width:76%;margin-top:4cqw}
- .cm-work .myco-phones img{width:125%;left:-12%;top:0}
  .cm-work .myco-wallet img{width:145%;left:5%;top:4%}
 }
 @media(prefers-reduced-motion:no-preference){
