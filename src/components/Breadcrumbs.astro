@@ -5,18 +5,10 @@ const {items, label='Breadcrumb'} = Astro.props;
 <nav class="breadcrumbs" aria-label={label}>
   {items.map((item,index) => <span class="breadcrumb-part">
     {index > 0 && <span aria-hidden="true">/</span>}
-    {item.href ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}
+    {item.href ? <a class="cm-inline-link" href={item.href}><span class="cm-intro-link-text">{item.label}</span></a> : <span aria-current="page">{item.label}</span>}
   </span>)}
 </nav>
-<style>
-.breadcrumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:0;font-size:14px;line-height:1.5;color:var(--cm-secondary)}
-.breadcrumb-part{display:inline-flex;align-items:center;gap:10px;min-width:0}
-.breadcrumbs a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
-.breadcrumbs a:hover{text-decoration:underline}
-.breadcrumbs [aria-current]{color:var(--cm-ink)}
-@media(max-width:760px){.breadcrumbs{font-size:12px}}
-@media(max-width:600px){.breadcrumbs,.breadcrumb-part{gap:8px}.breadcrumbs a{min-height:36px}.breadcrumbs.is-wrapped{row-gap:0;line-height:14px}.breadcrumbs.is-wrapped a{position:relative;min-height:14px}.breadcrumbs.is-wrapped a::after{content:"";position:absolute;inset:-5px 0}}
-</style>
+
 
 <script>
   // Tighten actual wrapped rows. CSS extends link hit areas without adding row height.

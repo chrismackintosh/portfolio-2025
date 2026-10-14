@@ -46,7 +46,7 @@ Theme selection persists under `cm-color-appearance`. Automatic mode combines a 
 - Plane: 14000ms cycle after a 900ms initial delay, with the original shrinking line and long pause. Offscreen flight pauses.
 - Reduced motion: static completed count and artwork, immediate navigation, no shimmer or theme-transition animation.
 
-The shared masthead controls live in `ThemeControls.astro`. Homepage sections are separate components; product breadcrumb and footer markup remain route-specific. Inspect real pages for those components instead of copying them into a competing demonstration library.
+Every page uses `Masthead.astro` and `masthead.css`. The shared shell is 88px tall above 600px and 96px on phones, with matching identity typography, gutters and theme-control alignment. The context slot contains homepage locations or `Breadcrumbs.astro`; phones reserve a second row for either. Wrapped breadcrumbs and enlarged text can grow without clipping. The homepage keeps its existing scroll reveal; interior mastheads remain sticky. `ThemeControls.astro` supplies the shared button and `ProductFooter.astro` supplies interior footers. Inspect real pages instead of maintaining a competing demonstration library.
 
 ## Verification boundary
 

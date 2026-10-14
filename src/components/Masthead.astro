@@ -1,0 +1,18 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import ThemeControls from './ThemeControls.astro';
+interface Props {home?: boolean; breadcrumbs?: {label: string; href?: string}[]}
+const {home = false, breadcrumbs = []} = Astro.props;
+// The homepage already has an opening banner; its revealed identity is supplementary.
+const Tag = home ? 'div' : 'header';
+---
+<Tag class:list={['masthead', home ? 'cm-masthead' : 'site-head']} aria-hidden={home ? 'true' : undefined} inert={home ? true : undefined}>
+  <div class="masthead-identity">
+    {home ? <span class="masthead-name">Chris Mackintosh</span> : <a class="masthead-name identity cm-inline-link" href="/"><span class="cm-intro-link-text">Chris Mackintosh</span></a>}
+    <span class="masthead-role">Product designer and builder</span>
+  </div>
+  <div class="masthead-context">
+    {home ? <span class="masthead-location">Denver / Boulder / SF</span> : <Breadcrumbs items={breadcrumbs} />}
+  </div>
+  <ThemeControls />
+</Tag>

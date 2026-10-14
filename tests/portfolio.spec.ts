@@ -46,7 +46,7 @@ test('initiative and breadcrumb navigation work',async ({page})=>{
  await page.locator('.breadcrumbs a').last().click();await expect(page).toHaveURL(/\/mycolorado\/$/);
 });
 test('prose link underline and focus exclude arrow',async ({page})=>{
- await page.goto('/mycolorado/');const link=page.locator('.cm-inline-link').first();const words=link.locator('.cm-intro-link-text').first();
+ await page.goto('/mycolorado/');const link=page.locator('.chapter-copy .cm-inline-link').first();const words=link.locator('.cm-intro-link-text').first();
  await expect(words).toHaveCSS('text-decoration-color','rgba(0, 0, 0, 0)');
  await link.focus();await expect(words).toHaveCSS('text-decoration-thickness','2px');
  await expect.poll(()=>words.evaluate(e=>getComputedStyle(e).textDecorationColor)).not.toBe('rgba(0, 0, 0, 0)');

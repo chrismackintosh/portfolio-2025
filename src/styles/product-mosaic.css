@@ -3,9 +3,9 @@
 .cm-project-preview{container-type:inline-size;position:relative}
 .cm-project-entry::after{content:"";position:absolute;inset:0;z-index:1}
 .cm-project-entry:focus-visible::after{outline:2px solid var(--cm-accent);outline-offset:5px}
-.cm-product-mosaic{container-type:inline-size;display:grid;gap:.833333cqw;isolation:isolate}
+.cm-product-mosaic{container-type:inline-size;display:grid;gap:.833333cqw;isolation:isolate;border-radius:24px;overflow:hidden}
 .cm-myco-mosaic{grid-template-columns:287.434fr 349.027fr 492.743fr 328.496fr 398.301fr;grid-template-rows:repeat(4,1fr);aspect-ratio:16/9;gap:.833333cqw;color:#26313b;font-family:CMRobotoSlab,Georgia,serif;font-weight:500;line-height:1.28}
-.cm-mosaic-tile{position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-radius:2px;background:#f5f5f7;text-align:center;gap:.7cqw}
+.cm-mosaic-tile{position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-radius:0;background:#f5f5f7;text-align:center;gap:.7cqw}
 .cm-work .cm-product-mosaic :where(img){display:block;min-width:0;max-width:none;width:auto;height:auto;margin:0;border:0;background:transparent;object-fit:contain}
 .myco-app{grid-area:1/1/2/2;background:radial-gradient(ellipse at center,#fff,#ededf0)}
 .cm-work .myco-app img{width:49%;mix-blend-mode:multiply}
@@ -87,7 +87,7 @@
  .cm-myco-mosaic .myco-phones{grid-column:1/-1;grid-row:3/5}
  .cm-myco-mosaic .myco-id,.cm-myco-mosaic .myco-wallet,.cm-myco-mosaic .myco-selfie{grid-row:span 2}
  .cm-myco-mosaic .myco-check{grid-column:1/-1}
- .cm-mosaic-tile{gap:2.2cqw;border-radius:3px}
+ .cm-mosaic-tile{gap:2.2cqw}
  .cm-work .myco-brand img{width:70%}.cm-work .myco-app img{width:52%}
  .myco-metrics strong{font-size:14cqw}.myco-metrics .myco-mau{font-size:3.5cqw}
  .myco-account,.myco-verify{font-size:clamp(11px,3.1cqw,18px)}.myco-confirmed{font-size:4.2cqw}.myco-verifier,.myco-selfie{font-size:clamp(11px,2.9cqw,17px)}

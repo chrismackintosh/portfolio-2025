@@ -1,13 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHeader from '../components/PageHeader.astro';
+import Masthead from '../components/Masthead.astro';
 export function getStaticPaths() {
   return import.meta.env.DEV ? [{ params: { reference: 'style-guide' } }] : [];
 }
 const colors = ['paper', 'ink', 'secondary', 'line', 'accent'];
 ---
 <Base title="Implementation style guide — Chris Mackintosh" description="Local reference for the implemented portfolio styles.">
-  <PageHeader breadcrumbs={[{label:'Home',href:'/'},{label:'Style guide'}]} />
+  <Masthead breadcrumbs={[{label:'Home',href:'/'},{label:'Style guide'}]} />
   <main id="main" class="page">
     <header class="hero"><p class="eyebrow">Local implementation reference</p><h1>Style guide</h1><p class="deck">Rendered with the same palette, font, link, and theme rules as the application.</p></header>
     <section class="chapter"><h2>Palette</h2><div class="swatches">{colors.map(name => <div><span style={`background:var(--cm-${name})`} /><code>--cm-{name}</code></div>)}</div></section>
