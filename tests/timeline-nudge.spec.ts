@@ -23,7 +23,7 @@ for(const viewport of [{width:1440,height:900},{width:375,height:800}]){
   expect(Math.abs(await gap()-16)).toBeLessThanOrEqual(1);
   await expect.poll(()=>visibleYear(page)).toBe('2023');await released(page);
   await expect(page.locator('.cm-journey-current-label')).toHaveCount(0);
-  await expect(page.locator('#stop-5 .cm-current-period')).toHaveText('2023–now');
+  await expect(page.locator('#stop-5 .cm-current-period')).toHaveText('2023–Present');
   await expect(page.locator('#stop-6 .cm-stop-meta')).toHaveText('Evenings and weekends');
   expect(await track(page).evaluate(e=>e.scrollLeft)).toBeCloseTo(end,0);
   expect(await page.evaluate(()=>scrollY)).toBe(y);

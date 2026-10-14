@@ -1,0 +1,20 @@
+/* Shared noninteractive status for forthcoming product stories. */
+.cm-case-status{
+  position:relative;z-index:1;display:inline-flex;align-items:center;gap:10px;
+  max-width:calc(100% - 32px);padding:13px 19px;border-radius:999px;
+  border:1px solid #ffffffc9;background:rgb(255 255 255 / .86);
+  box-shadow:0 2px 5px #26313b04,0 8px 28px #26313b08;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  color:#52616d;font-size:13px;font-weight:600;line-height:1.4;letter-spacing:-.01em;
+}
+.cm-status-light{position:relative;flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:#568574}
+.cm-status-light::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:#568574;opacity:.12;animation:cm-status-breathe 2800ms ease-in-out infinite}
+.cm-project:nth-child(2n) .cm-status-light::after{animation-delay:-900ms}
+.cm-project:nth-child(3n) .cm-status-light::after{animation-delay:-1800ms}
+@keyframes cm-status-breathe{0%,100%{transform:scale(.6);opacity:.08}50%{transform:scale(1);opacity:.24}}
+.cm-night .cm-case-status{color:#d3dce5;background:rgb(29 35 43 / .86);border-color:#ffffff16;box-shadow:0 8px 28px #0002}
+.cm-night .cm-status-light,.cm-night .cm-status-light::after{background:#8fc2ad}
+@media(prefers-reduced-motion:reduce){.cm-status-light::after{animation:none;opacity:.12}}
+@media print{.cm-status-light::after{animation:none}}
+@media(max-width:600px){.cm-case-status{padding:11px 15px;font-size:11px;gap:9px}}
+@media(forced-colors:active){.cm-status-light{display:none}.cm-case-status{color:CanvasText;background:Canvas;border:1px solid CanvasText;box-shadow:none}}

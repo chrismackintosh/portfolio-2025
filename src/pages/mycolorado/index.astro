@@ -1,4 +1,5 @@
 ---
+import ProductStoryStatus from "../../components/ProductStoryStatus.astro";
 import ProductFooter from "../../components/ProductFooter.astro";
 import Base from '../../layouts/Base.astro';
 import Masthead from '../../components/Masthead.astro';
@@ -15,10 +16,10 @@ import Masthead from '../../components/Masthead.astro';
 </div></section>
 <section class="initiatives" id="initiatives" aria-labelledby="initiatives-title"><div class="section-head"><h2 id="initiatives-title">Selected initiatives</h2></div>
 <div class="initiative-grid">
-<article class="initiative featured"><h3>Mobile driver’s license</h3><p>Helping move a long-running initiative to launch, bringing myColorado to airport identity verification.</p><a class="cm-inline-link" href="mobile-drivers-license/"><span class="cm-intro-link-text">Explore the initiative</span><span aria-hidden="true">→</span></a></article>
-<article class="initiative"><h3>Digital ID Verifier</h3><p>Helping businesses verify Colorado Digital IDs and spot counterfeits.</p><span class="pending">Case study taking shape</span></article>
-<article class="initiative"><h3>mDL Reader</h3><p>Age verification using digital IDs from Apple, Google, and Samsung wallets.</p><span class="pending">Case study taking shape</span></article>
-<article class="initiative"><h3>Design system</h3><p>A shared foundation for iOS and Android, built from scratch with accessibility at its core.</p><span class="pending">Case study taking shape</span></article>
+<article class="initiative featured"><h3>Mobile driver’s license</h3><p>Helping move a long-running initiative to launch, bringing myColorado to airport identity verification.</p><a class="cm-inline-link" href="mobile-drivers-license/"><span class="cm-intro-link-text">Explore mDL</span><span aria-hidden="true">→</span></a></article>
+<article class="initiative"><h3>Digital ID Verifier</h3><p>Helping businesses verify Colorado Digital IDs and spot counterfeits.</p><ProductStoryStatus /></article>
+<article class="initiative"><h3>mDL Reader</h3><p>Age verification using digital IDs from Apple, Google, and Samsung wallets.</p><ProductStoryStatus /></article>
+<article class="initiative"><h3>Design system</h3><p>A shared foundation for iOS and Android, built from scratch with accessibility at its core.</p><ProductStoryStatus /></article>
 </div></section>
 <a class="return-link cm-inline-link" href="../#mycolorado-work"><span aria-hidden="true">←</span><span class="cm-intro-link-text">Back to Selected work</span></a>
 </main><ProductFooter />
