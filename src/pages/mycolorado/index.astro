@@ -1,10 +1,10 @@
 ---
 import ProductFooter from "../../components/ProductFooter.astro";
 import Base from '../../layouts/Base.astro';
-import PageHeader from '../../components/PageHeader.astro';
+import Masthead from '../../components/Masthead.astro';
 ---
 <Base title="myColorado \u2014 Chris Mackintosh" description="Product design and digital identity across myColorado, by Chris Mackintosh.">
-<a class="skip" href="#main">Skip to content</a><PageHeader breadcrumbs={[{label:'Selected work',href:'/#mycolorado-work'},{label:'myColorado'}]} /><main id="main" class="page" tabindex="-1">
+<a class="skip" href="#main">Skip to content</a><Masthead breadcrumbs={[{label:'Selected work',href:'/#mycolorado-work'},{label:'myColorado'}]} /><main id="main" class="page" tabindex="-1">
 <h1 class="sr-only">myColorado</h1>
 <figure class="overview-art"><img class="cm-project-image" src="/assets/mycolorado-grid/phones-1200.webp" srcset="/assets/mycolorado-grid/phones-640.webp 640w, /assets/mycolorado-grid/phones-1200.webp 1200w, /assets/mycolorado-grid/phones-2000.webp 2000w" sizes="(max-width: 760px) calc(100vw - 48px), min(88vw, 1200px)" width="3000" height="2250" fetchpriority="high" decoding="async" alt="Three phones showing the myColorado mobile driver’s license, Colorado Digital ID, and sign-in experience."><figcaption>myColorado’s mobile driver’s license, Digital ID, and sign-in experience.</figcaption></figure>
 <section class="chapter" aria-labelledby="role-title"><h2 id="role-title">Across the product</h2><div class="chapter-copy">
@@ -15,11 +15,11 @@ import PageHeader from '../../components/PageHeader.astro';
 </div></section>
 <section class="initiatives" id="initiatives" aria-labelledby="initiatives-title"><div class="section-head"><h2 id="initiatives-title">Selected initiatives</h2></div>
 <div class="initiative-grid">
-<article class="initiative featured"><span class="number" aria-hidden="true">01</span><h3>Mobile driver’s license</h3><p>Helping move a long-running initiative to launch, bringing myColorado to airport identity verification.</p><a href="mobile-drivers-license/">Explore the initiative <span aria-hidden="true">→</span></a></article>
-<article class="initiative"><span class="number" aria-hidden="true">02</span><h3>Digital ID Verifier</h3><p>Helping businesses verify Colorado Digital IDs and spot counterfeits.</p><span class="pending">Case study taking shape</span></article>
-<article class="initiative"><span class="number" aria-hidden="true">03</span><h3>mDL Reader</h3><p>Age verification using digital IDs from Apple, Google, and Samsung wallets.</p><span class="pending">Case study taking shape</span></article>
-<article class="initiative"><span class="number" aria-hidden="true">04</span><h3>Design system</h3><p>A shared foundation for iOS and Android, built from scratch with accessibility at its core.</p><span class="pending">Case study taking shape</span></article>
+<article class="initiative featured"><h3>Mobile driver’s license</h3><p>Helping move a long-running initiative to launch, bringing myColorado to airport identity verification.</p><a class="cm-inline-link" href="mobile-drivers-license/"><span class="cm-intro-link-text">Explore the initiative</span><span aria-hidden="true">→</span></a></article>
+<article class="initiative"><h3>Digital ID Verifier</h3><p>Helping businesses verify Colorado Digital IDs and spot counterfeits.</p><span class="pending">Case study taking shape</span></article>
+<article class="initiative"><h3>mDL Reader</h3><p>Age verification using digital IDs from Apple, Google, and Samsung wallets.</p><span class="pending">Case study taking shape</span></article>
+<article class="initiative"><h3>Design system</h3><p>A shared foundation for iOS and Android, built from scratch with accessibility at its core.</p><span class="pending">Case study taking shape</span></article>
 </div></section>
-<a class="return-link" href="../#mycolorado-work"><span aria-hidden="true">←</span> Back to Selected work</a>
+<a class="return-link cm-inline-link" href="../#mycolorado-work"><span aria-hidden="true">←</span><span class="cm-intro-link-text">Back to Selected work</span></a>
 </main><ProductFooter />
 </Base>

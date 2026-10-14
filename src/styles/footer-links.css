@@ -1,0 +1,5 @@
+/* Shared footer-link treatment across homepage and interior pages. */
+.cm-footer-link{display:inline-flex;align-items:center;min-height:44px;font-size:13px;font-weight:600;line-height:1.6;color:var(--cm-ink);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.18em;text-decoration-color:transparent;transition:text-decoration-color 180ms ease-in-out}
+.cm-footer-link:is(:hover,:focus-visible){text-decoration-color:currentColor}
+@media(prefers-reduced-motion:reduce){.cm-footer-link{transition:none}}
+@media(forced-colors:active){.cm-footer-link{color:LinkText;text-decoration-color:LinkText}}

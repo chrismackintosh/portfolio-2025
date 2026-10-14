@@ -1,0 +1,44 @@
+/* One shell for the homepage and interior pages. Context is the only layout variant. */
+:root{--cm-masthead-height:88px;--cm-masthead-gutter:max(6vw,calc((100vw - 1240px)/2));--cm-masthead-wash:rgb(255 255 255 / .9)}
+html.cm-night{--cm-masthead-wash:rgb(29 35 43 / .9)}
+.masthead{box-sizing:border-box;position:sticky;top:0;z-index:4;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) auto 44px;align-items:center;gap:0 18px;width:100%;min-height:var(--cm-masthead-height);margin:0;padding:22px var(--cm-masthead-gutter);font-family:"CM Manrope",var(--cm-system-sans,sans-serif);font-size:14px;font-weight:600;line-height:21px;letter-spacing:-.1px;color:var(--cm-ink);background:transparent}
+.masthead::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--cm-paper)}
+@supports(backdrop-filter:blur(1px)){.masthead::before{background:var(--cm-masthead-wash);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}}
+@media(prefers-reduced-transparency:reduce){.masthead::before{background:var(--cm-paper);backdrop-filter:none;-webkit-backdrop-filter:none}}
+.masthead.cm-masthead{position:fixed;inset:0 0 auto;z-index:12;opacity:var(--cm-masthead-opacity,0);pointer-events:none}
+.masthead-identity{display:flex;flex-direction:column;align-items:flex-start;gap:0;min-width:0}
+.masthead .masthead-name{display:block;min-height:0;color:var(--cm-ink);font:inherit;white-space:nowrap;text-decoration:none}
+.masthead a.masthead-name{position:relative;pointer-events:auto}
+.masthead a.masthead-name::after{content:"";position:absolute;inset:-2px 0}
+.masthead-role,.masthead-location{font:inherit;color:var(--cm-masthead-muted)}
+.masthead-location{white-space:nowrap}
+.masthead-context{min-width:0;pointer-events:auto}
+.masthead .theme-controls{grid-column:3;grid-row:1;align-self:center}
+.masthead[aria-hidden="true"] .theme-controls{visibility:hidden;pointer-events:none}
+.masthead .breadcrumbs{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:0 10px;margin:0;font-size:14px;line-height:21px;color:var(--cm-secondary)}
+.masthead .breadcrumb-part{display:inline-flex;align-items:center;gap:10px;min-width:0}
+.masthead .breadcrumbs a{position:relative;display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
+.masthead .breadcrumbs [aria-current]{color:var(--cm-ink)}
+@media(max-width:1000px) and (min-width:601px){
+ .masthead{grid-template-columns:max-content minmax(0,1fr) 44px}
+ .masthead .breadcrumbs,.masthead-location{font-size:12px}
+ .masthead .breadcrumbs a{min-height:22px}
+ .masthead .breadcrumbs a::after{content:"";position:absolute;inset:-1px 0}
+ .masthead-context:has(.masthead-location){justify-self:end}
+}
+@media(max-width:760px){:root{--cm-masthead-gutter:24px}}
+@media(max-width:600px){
+ :root{--cm-masthead-height:96px}
+ .masthead{grid-template-columns:minmax(0,1fr) 44px;grid-template-rows:minmax(44px,auto) minmax(28px,auto);gap:4px 12px;padding-block:10px;font-size:12px;line-height:18px}
+ .masthead-identity{grid-column:1;grid-row:1}
+ .masthead .theme-controls{grid-column:2;grid-row:1}
+ .masthead-context{grid-column:1 / -1;grid-row:2;align-self:center}
+ .masthead .breadcrumbs{justify-content:flex-start;font-size:12px;line-height:18px;gap:0 8px}
+ .masthead .breadcrumb-part{gap:8px}
+ .masthead .breadcrumbs a{min-height:24px}
+ .masthead .breadcrumbs.is-wrapped{line-height:14px}
+ .masthead .breadcrumbs.is-wrapped a{min-height:14px}
+ .masthead .breadcrumbs.is-wrapped a::after{content:"";position:absolute;inset:-5px 0}
+}
+@media(forced-colors:active){.masthead .masthead-name,.masthead-role,.masthead-location{color:CanvasText}}
+@media print{.masthead{display:none}}

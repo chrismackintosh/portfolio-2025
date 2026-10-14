@@ -1,8 +1,5 @@
 /* A compact identity, an open invitation, and a quiet end to the page. */
-.cm-masthead-identity{display:flex;flex-direction:column;align-items:flex-start;gap:0}
-.cm-masthead .cm-masthead-name{color:var(--cm-ink);white-space:nowrap}
-.cm-masthead .cm-masthead-role{color:var(--cm-masthead-muted)}
-.cm-masthead .cm-masthead-location{white-space:nowrap;color:var(--cm-masthead-muted);font-weight:inherit}
+
 html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-weight:700;line-height:1.5;letter-spacing:-.018em;max-width:none}
 .cm-intro-role{font-size:var(--cm-intro-identity-size);font-weight:500;line-height:1.5;letter-spacing:-.018em;color:var(--cm-copy-soft)}
 .cm-intro-ai{white-space:nowrap}
@@ -17,11 +14,7 @@ html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-we
 .cm-site-footer{padding:28px var(--cm-page-gutter) 100px;display:flex;align-items:baseline;justify-content:space-between;gap:24px;color:var(--cm-secondary);font-size:13px;line-height:1.6;background:var(--cm-paper)}
 .cm-copyright-symbol{font-family:var(--cm-system-sans);font-size:1em;line-height:inherit;vertical-align:baseline}
 .cm-footer-links{display:flex;gap:24px;flex-wrap:wrap}
-.cm-footer-links a{display:inline-flex;align-items:center;min-height:44px;color:var(--cm-ink);font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.18em;text-decoration-color:transparent;transition:text-decoration-color 180ms ease-in-out}
-.cm-footer-links a:is(:hover,:focus-visible){text-decoration-color:currentColor}
-html:is([data-typeface="google"],[data-typeface="manrope"]) .cm-footer-links a{font-weight:var(--cm-google-detail-weight,600)}
 @media(max-width:600px){
-  .cm-masthead{align-items:flex-start}
   .cm-intro{--cm-intro-identity-size:16px}
   .cm-intro-ai{display:block;margin-top:2px}
   .cm-intro-separator{display:none}
@@ -29,13 +22,9 @@ html:is([data-typeface="google"],[data-typeface="manrope"]) .cm-footer-links a{f
   .cm-intro-contact{margin-top:28px}
   .cm-site-footer{flex-direction:column;gap:12px;padding-top:0;padding-bottom:88px}
 }
-@media(prefers-reduced-motion:reduce){
-  .cm-footer-links a{transition:none}
-  .cm-masthead{opacity:var(--cm-masthead-opacity,0)}
-}
+
 @media(forced-colors:active){
-  .cm-footer-links a{color:LinkText;text-decoration-color:LinkText}
-  .cm-masthead .cm-masthead-name,.cm-masthead .cm-masthead-role,.cm-masthead .cm-masthead-location,.cm-night .cm-masthead .cm-masthead-location,.cm-intro-role,.cm-intro-contact,.cm-intro-contact p span,.cm-project-name,.cm-site-footer{color:CanvasText}
+  .cm-intro-role,.cm-intro-contact,.cm-intro-contact p span,.cm-project-name,.cm-site-footer{color:CanvasText}
 }
 
 html[data-typeface="manrope"] body{font-family:"CM Manrope",var(--cm-system-sans);font-variation-settings:normal;font-optical-sizing:auto}
@@ -116,9 +105,3 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 /* Separate intro reading rhythm from the supporting copy and link weights. */
 .cm-intro-prose .cm-intro-main{font-weight:500;line-height:1.65}
 html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:500}
-
-@media(max-width:760px) and (min-width:601px){.cm-masthead-location{font-size:12px}}
-@media(max-width:600px){
- .cm-masthead .cm-masthead-location{grid-column:1;grid-row:2}
-}
-@media(forced-colors:active){.cm-masthead .cm-masthead-location,.cm-night .cm-masthead .cm-masthead-location{color:CanvasText}}

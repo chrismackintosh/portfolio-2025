@@ -1,15 +1,56 @@
 ---
 import ProductFooter from "../../../components/ProductFooter.astro";
 import Base from '../../../layouts/Base.astro';
-import PageHeader from '../../../components/PageHeader.astro';
+import Masthead from '../../../components/Masthead.astro';
 ---
 <Base title="myColorado \u2014 Mobile driver\u2019s license \u2014 Chris Mackintosh" description="An initial look at Chris Mackintosh\u2019s work on the myColorado mobile driver\u2019s license.">
-<a class="skip" href="#main">Skip to content</a><PageHeader breadcrumbs={[{label:'Selected work',href:'/#mycolorado-work'},{label:'myColorado',href:'/mycolorado/'},{label:'Mobile driver’s license'}]} /><main id="main" class="page" tabindex="-1">
+<a class="skip" href="#main">Skip to content</a><Masthead breadcrumbs={[{label:'Selected work',href:'/#mycolorado-work'},{label:'myColorado',href:'/mycolorado/'},{label:'Mobile driver’s license'}]} /><main id="main" class="page initiative-detail" tabindex="-1">
 <header class="hero"><p class="eyebrow">myColorado / Digital identity</p><h1>Mobile driver’s license</h1><p class="deck">Helping a long-running initiative move forward, from stalled work to launch.</p></header>
-<section class="launch-panel" aria-labelledby="launch-title"><div><p class="eyebrow">Shipped / myColorado mDL</p><h2 id="launch-title">A new way through airport security.</h2></div><div><p>Our team launched a mobile driver’s license you can use at TSA.</p><a href="https://www.tsa.gov/news/press/releases/2026/08/31/tsa-accepts-mycolorado-mdls-during-identity-verification" target="_blank" rel="noopener noreferrer">Read the TSA announcement <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></div></section>
+<section class="launch-panel" aria-labelledby="launch-title"><div><p class="eyebrow">Shipped / myColorado mDL</p><h2 id="launch-title">A new way through airport security.</h2></div><div><p>Our team launched a mobile driver’s license you can use at TSA.</p><a class="cm-inline-link" href="https://www.tsa.gov/news/press/releases/2026/08/31/tsa-accepts-mycolorado-mdls-during-identity-verification" target="_blank" rel="noopener noreferrer"><span class="cm-intro-link-text">Read the TSA announcement</span><span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></div></section>
 <section class="chapter" aria-labelledby="context-title"><h2 id="context-title">The context</h2><div class="chapter-copy"><p class="lead">This initiative sits within my broader work leading design across myColorado.</p><p>The mobile driver’s license had been a long-running effort. I helped our team unblock the work and bring it to launch, while continuing to work across the wider product and its design system.</p><dl class="facts"><div><dt>My role</dt><dd>Design lead</dd></div><div><dt>Product</dt><dd>myColorado</dd></div><div><dt>Focus</dt><dd>Digital identity</dd></div></dl></div></section>
-<section class="chapter" aria-labelledby="launch-story-title"><h2 id="launch-story-title">The launch</h2><div class="chapter-copy"><p>Our team’s work brought the mobile driver’s license to TSA identity verification. I was invited to DIA with the team for the governor’s announcement.</p><p><a href="https://x.com/GovofCO/status/2094562971292762554" target="_blank" rel="noopener noreferrer">See the announcement <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p></div></section>
+<section class="chapter" aria-labelledby="launch-story-title"><h2 id="launch-story-title">The launch</h2><div class="chapter-copy"><p>Our team’s work brought the mobile driver’s license to TSA identity verification. I was invited to DIA with the team for the governor’s announcement.</p><p><a class="cm-inline-link" href="https://x.com/GovofCO/status/2094562971292762554" target="_blank" rel="noopener noreferrer"><span class="cm-intro-link-text">See the announcement</span> <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p></div></section>
 <section class="in-progress" aria-labelledby="story-title"><p class="eyebrow">Case study in progress</p><h2 id="story-title">The work behind the launch</h2><p>The detailed story and supporting design artifacts are coming next.</p><ul class="story-outline"><li>Where the work was blocked</li><li>Decisions and tradeoffs</li><li>From design to launch</li></ul></section>
-<a class="return-link" href="../#initiatives"><span aria-hidden="true">←</span> All myColorado initiatives</a>
+<a class="return-link cm-inline-link" href="../#initiatives"><span aria-hidden="true">←</span><span class="cm-intro-link-text">All myColorado initiatives</span></a>
 </main><ProductFooter />
 </Base>
+
+<style>
+  /* This case study uses the current portfolio's type and card vocabulary. */
+  .hero { padding:48px 0 40px; }
+  .hero .eyebrow { margin-bottom:16px; font-weight:600; }
+  .hero h1 { font-size:clamp(36px,5vw,64px); line-height:1.12; font-weight:600; }
+  .hero .deck { max-width:760px; margin-top:20px; font-size:clamp(19px,2vw,24px); font-weight:500; line-height:1.55; }
+  .launch-panel { background:var(--cm-control-bg); border-radius:24px; padding:40px; gap:40px; grid-template-columns:minmax(0,1.45fr) minmax(0,1fr); align-items:end; }
+  .launch-panel .eyebrow { display:inline-flex; background:var(--cm-ink); color:var(--cm-paper); border-radius:999px; padding:6px 12px; margin-bottom:24px; font-size:12px; font-weight:600; }
+  .launch-panel h2 { max-width:520px; font-size:clamp(28px,3.2vw,42px); line-height:1.2; font-weight:600; }
+  .launch-panel p { font-size:16px; font-weight:500; line-height:1.7; }
+  .launch-panel a { margin-top:16px; font-weight:600; }
+  .chapter { padding-block:56px; gap:40px; }
+  .chapter h2 { font-size:24px; font-weight:600; }
+  .chapter-copy { font-size:16px; font-weight:500; line-height:1.75; }
+  .chapter-copy .lead { font-size:clamp(21px,2vw,26px); line-height:1.5; }
+  .chapter-copy a { display:inline-flex; flex-wrap:wrap; align-items:center; gap:6px; min-height:44px; font-size:14px; font-weight:600; }
+  .facts { padding-top:24px; border-top:1px solid var(--cm-line); margin-top:28px; }
+  .facts dd { font-weight:600; }
+  .in-progress { margin-block:48px 24px; padding:32px; border:1px solid var(--cm-line); border-radius:24px; }
+  .in-progress .eyebrow { margin-bottom:12px; font-size:12px; font-weight:600; }
+  .in-progress h2 { font-size:24px; font-weight:600; }
+  .in-progress p { font-weight:500; }
+  .story-outline { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:24px; padding-top:24px; border-top:1px solid var(--cm-line); font-size:14px; font-weight:500; }
+  .return-link { margin:8px 0 48px; }
+  @media(max-width:760px) {
+    .hero { padding:32px 0; }
+    .hero .deck { margin-top:16px; }
+    .launch-panel { grid-template-columns:1fr; padding:24px; gap:24px; }
+    .launch-panel .eyebrow { margin-bottom:20px; }
+    .chapter { padding-block:40px; gap:20px; }
+    .chapter h2 { font-size:22px; }
+    .in-progress { margin-top:40px; padding:24px; }
+    .in-progress h2 { font-size:22px; }
+    .story-outline { grid-template-columns:1fr; gap:12px; margin-top:20px; padding-top:20px; }
+    .return-link { margin-bottom:32px; }
+  }
+  @media(forced-colors:active) {
+    .launch-panel .eyebrow { background:Canvas; color:CanvasText; border:1px solid CanvasText; }
+  }
+</style>
