@@ -1,20 +1,24 @@
 /* One compact control shared by every masthead, with full-size hit targets. */
 .masthead-tools{display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:0}
 .theme-controls{display:flex;align-items:center;flex-shrink:0;height:44px;gap:0;pointer-events:auto;color:var(--cm-secondary)}
-.theme-controls button{appearance:none;display:grid;place-items:center;position:relative;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer}
-.theme-controls button::before{content:"";position:absolute;inset:5px;border-radius:50%;background:currentColor;opacity:0}
-.theme-controls button:hover::before{opacity:.08}
-.theme-controls button[aria-pressed="true"]{color:var(--cm-ink)}
-.theme-controls button[aria-pressed="true"]::before{opacity:.1}
-.theme-controls button:focus-visible{outline:2px solid var(--cm-accent);outline-offset:1px}
+.theme-controls button{appearance:none;display:grid;place-items:center;position:relative;box-sizing:border-box;width:44px;height:44px;padding:0;border:1px solid var(--cm-line);border-radius:999px;background:var(--cm-control-bg);color:var(--cm-ink);cursor:pointer;transition:background 160ms}
+.theme-controls button:hover{background:var(--cm-control-hover)}
+.theme-controls button:active{background:var(--cm-control-active)}
+.theme-controls button:focus-visible{outline:2px solid var(--cm-accent);outline-offset:4px;background:var(--cm-control-hover)}
+@media(prefers-reduced-motion:reduce){.theme-controls button{transition:none}}
+@media(forced-colors:active){.theme-controls button{background:ButtonFace;color:ButtonText;border-color:ButtonText}}
 .theme-controls svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+.theme-controls .theme-icon-moon,.cm-night .theme-controls .theme-icon-sun{display:none}
+.cm-night .theme-controls .theme-icon-moon{display:block}
+.cm-masthead{align-items:center}
 .cm-masthead .masthead-tools{height:21px}
 .cm-masthead[aria-hidden="true"] .theme-controls{visibility:hidden;pointer-events:none}
 .site-head .masthead-tools .breadcrumbs{min-width:0}
 @media(max-width:1000px){.site-head .masthead-tools{align-items:flex-start;gap:12px}}
 @media(max-width:600px){
- .cm-masthead .masthead-tools{height:auto;flex-direction:column-reverse;gap:0;align-items:flex-end}
- .cm-masthead .theme-controls{height:33px}
+ .cm-masthead{flex-wrap:wrap;gap:4px 12px}
+ .cm-masthead-identity{flex-shrink:0}
+ .cm-masthead .masthead-tools{height:auto;flex-direction:row;gap:6px;align-items:center;margin-left:auto}
  .site-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 12px}
  .site-head .masthead-tools{display:contents}
  .site-head .theme-controls{grid-column:2;grid-row:1}

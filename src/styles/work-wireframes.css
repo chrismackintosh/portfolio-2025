@@ -89,9 +89,12 @@ html[data-typeface="mori"] .cm-project h3{font-weight:600}
 .cm-project-entry{display:block;text-decoration:none}
 .cm-project-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;margin-bottom:20px}
 .cm-project .cm-project-heading h3{flex:1 1 360px;margin:0}
-.cm-project-action{display:inline-flex;flex:0 0 auto;align-items:center;gap:10px;min-height:44px;padding:10px 18px;border:1px solid var(--cm-line);border-radius:999px;background:rgb(98 124 144 / .08);font-size:14px;line-height:1.4;font-weight:500;white-space:nowrap;transition:background 160ms}
-.cm-project-action>span{color:var(--cm-accent)}
-.cm-project-entry:is(:hover,:focus-visible) .cm-project-action{background:rgb(98 124 144 / .16)}
+.cm-project-action{display:inline-flex;flex:0 0 auto;align-items:center;gap:10px;min-height:44px;padding:10px 18px;border:1px solid var(--cm-line);border-radius:999px;background:var(--cm-control-bg);color:var(--cm-ink);font-size:14px;line-height:1.4;font-weight:500;white-space:nowrap;transition:background 160ms}
+.cm-project-action>span{color:currentColor}
+.cm-project-entry:is(:hover,:focus-visible) .cm-project-action{background:var(--cm-control-hover)}
+.cm-project-entry:active .cm-project-action{background:var(--cm-control-active)}
+.cm-project-entry:focus-visible .cm-project-action{outline:2px solid var(--cm-accent);outline-offset:4px}
+@media(forced-colors:active){.cm-project-action{background:ButtonFace;color:ButtonText;border-color:ButtonText}}
 @media(max-width:600px){.cm-project-heading{gap:16px;margin-bottom:18px}.cm-project .cm-project-heading h3{flex-basis:100%}}
 @media(prefers-reduced-motion:reduce){.cm-project-action{transition:none}}
 
