@@ -2,13 +2,14 @@
 .cm-recommendations h2{margin:0 0 56px;font-size:27px;line-height:1.25;letter-spacing:-.025em;font-weight:var(--cm-google-company-weight,550);color:var(--cm-ink)}
 .cm-recommendations-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2vw,32px)}
 .cm-recommendation{margin:0;text-align:center;min-width:0;container-type:inline-size}
-.cm-recommendation-wreath{position:relative;display:flex;align-items:center;justify-content:center;width:max-content;max-width:100%;min-height:144px;margin-inline:auto;padding:24px 60px}
+.cm-recommendation-wreath{position:relative;display:flex;align-items:center;justify-content:center;width:max-content;max-width:100%;min-height:168px;margin-inline:auto;padding:24px 60px}
 .cm-laurel{position:absolute;top:50%;width:52px;height:120px;transform:translateY(-50%);fill:currentColor;color:var(--cm-accent);opacity:.72;pointer-events:none}
 .cm-laurel-left{left:0}
 .cm-laurel-right{right:0;transform:translateY(-50%) scaleX(-1)}
 .cm-recommendation blockquote{position:relative;margin:0;width:max-content}
 .cm-recommendation blockquote p{margin:0;font-size:clamp(15px,4.9cqi,20px);font-weight:400;line-height:1.5;letter-spacing:-.025em;color:var(--cm-secondary)}
 .cm-quote-line{display:block;white-space:nowrap}
+.cm-recommendation .cm-quote-flow{width:230px;min-width:0;text-wrap:balance}
 .cm-recommendation strong{font-weight:550;color:var(--cm-ink)}
 .cm-recommendation figcaption{display:flex;flex-direction:column;gap:5px;margin:4px auto 0;max-width:270px;padding:0 8px;color:var(--cm-secondary);font-size:13px;line-height:1.5;text-wrap:balance}
 .cm-recommendation-name{font-weight:600;color:var(--cm-ink)}
@@ -19,7 +20,7 @@
  .cm-recommendations{padding-top:16px;padding-bottom:64px}
  .cm-recommendations h2{font-size:25px;margin-bottom:28px}
  .cm-recommendations-list{grid-template-columns:1fr;gap:32px;max-width:380px;margin-inline:auto}
- .cm-recommendation-wreath{position:relative;display:flex;align-items:center;justify-content:center;width:max-content;max-width:100%;min-height:144px;margin-inline:auto;padding:24px 60px}
+ .cm-recommendation-wreath{position:relative;display:flex;align-items:center;justify-content:center;width:max-content;max-width:100%;min-height:168px;margin-inline:auto;padding:24px 60px}
 
  .cm-recommendation figcaption{margin-top:4px}
  .cm-recommendations-more{margin-top:36px}
