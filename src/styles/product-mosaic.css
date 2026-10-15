@@ -10,7 +10,8 @@
 .myco-app{grid-area:1/1/2/2;background:radial-gradient(ellipse at center,#fff,#ededf0)}
 .cm-work .myco-app img{width:49%;mix-blend-mode:multiply}
 .myco-metrics{grid-area:1/2/2/3;background:#007d30;color:#fff}
-.cm-work .myco-metrics>img{position:absolute;width:100%;height:100%;object-fit:cover}
+/* Clip the pale edge and rounded corners baked into the source image. */
+.cm-work .myco-metrics>img{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);object-fit:cover}
 .myco-metrics>div{position:relative;display:flex;flex-direction:column;gap:.25cqw}
 .myco-metrics strong{font:500 5.208cqw/1 CMRobotoSlab,Georgia,serif;letter-spacing:-.1cqw}
 .myco-metrics .myco-mau{font-size:1.25cqw}
