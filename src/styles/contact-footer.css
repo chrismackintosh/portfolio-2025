@@ -1,14 +1,14 @@
 /* A compact identity, an open invitation, and a quiet end to the page. */
 
-html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-weight:700;line-height:1.5;letter-spacing:-.018em;max-width:none}
-.cm-intro-role{font-size:var(--cm-intro-identity-size);font-weight:500;line-height:1.5;letter-spacing:-.018em;color:var(--cm-copy-soft)}
+html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-weight:800;line-height:1.3;letter-spacing:-.018em;max-width:none}
+.cm-intro-role{font-size:var(--cm-intro-identity-size);font-weight:800;line-height:1.3;letter-spacing:-.018em;color:var(--cm-copy-soft)}
 .cm-intro-ai{white-space:nowrap}
-.cm-intro-separator{display:inline-block;margin-inline:5px 9px;font-weight:500}
+.cm-intro-separator{display:inline-block;margin-inline:5px 9px;font-weight:inherit}
 .cm-intro{--cm-intro-identity-size:18px;--cm-intro-body-size:16px;--cm-intro-small-size:14px}
-.cm-intro-contact{margin-top:36px;font-size:var(--cm-intro-small-size);line-height:1.7;letter-spacing:-.018em;color:var(--cm-secondary)}
-.cm-intro-contact p{font-weight:500}
+.cm-intro-contact{margin-top:36px;font-size:var(--cm-intro-small-size);line-height:1.45;letter-spacing:-.018em;color:var(--cm-copy-soft)}
+.cm-intro-contact p{font-weight:600}
 .cm-intro-contact p span{color:inherit}
-.cm-intro-contact>a{display:inline-block;margin-top:6px;min-height:44px;color:var(--cm-ink)}
+.cm-intro-contact>a{display:inline-block;margin-top:2px;min-height:44px;color:var(--cm-copy-ink)}
 .cm-project h3{display:flex;flex-wrap:wrap;column-gap:.45em;row-gap:.12em}
 .cm-project-name{color:var(--cm-secondary)}
 .cm-site-footer{padding:28px var(--cm-page-gutter) 100px;display:flex;align-items:baseline;justify-content:space-between;gap:24px;color:var(--cm-secondary);font-size:13px;line-height:1.6;background:var(--cm-paper)}
@@ -35,8 +35,8 @@ html[data-typeface="manrope"] body{font-family:"CM Manrope",var(--cm-system-sans
 @media(prefers-reduced-motion:reduce){.cm-intro-title,.cm-intro-prose>p,.cm-intro-stack,.cm-intro-contact{opacity:1}}
 @media print{.cm-intro-title,.cm-intro-prose>p,.cm-intro-stack,.cm-intro-contact{opacity:1}}
 
-/* Medium-weight copy links with a quiet directional cue. */
-html[data-typeface] .cm-intro .cm-intro-prose a{font-weight:500}
+/* Bold intro links follow the Figma weight hierarchy. */
+html[data-typeface] .cm-intro .cm-intro-prose a{font-weight:700}
 /* A brief light sweep, followed by a long rest; preserve solid text without motion. */
 @supports (background-clip:text){
   @media(prefers-reduced-motion:no-preference) and (forced-colors:none){
@@ -77,22 +77,27 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 .cm-weather-credit a{color:inherit;text-decoration:underline;text-underline-offset:.2em}
 
 /* Main introduction stays larger; studio details and contact use 14px. */
-.cm-intro-lead{font-weight:600}
+.cm-intro-lead{font-weight:700}
 .cm-intro-prose>p{font-size:var(--cm-intro-body-size)}
-.cm-intro-prose .cm-intro-studio{font-size:var(--cm-intro-small-size);font-weight:500;line-height:1.7}
-.cm-intro-stack{margin-top:16px;font-size:var(--cm-intro-small-size);line-height:1.7;color:var(--cm-copy-soft)}
-.cm-intro-stack .cm-stack-label{font-weight:500;margin:0 0 4px;color:var(--cm-copy-ink)}
+.cm-intro-prose .cm-intro-studio{font-size:var(--cm-intro-small-size);font-weight:600;line-height:1.7}
+.cm-intro-stack{margin-top:16px;font-size:var(--cm-intro-small-size);line-height:1.45;color:var(--cm-copy-soft)}
+.cm-intro-stack .cm-stack-label{font-weight:600;margin:0 0 2px;color:var(--cm-copy-ink)}
 .cm-intro-stack .cm-stack-row{margin:0;color:inherit;font-weight:500}
 .cm-stack-item{white-space:nowrap}
 .cm-stack-slash{margin-inline:.22em}
 
 /* Keep the identity lines close, with breathing room before the introduction. */
-.cm-intro{--cm-intro-heading-gap:4px}
+.cm-intro{--cm-intro-heading-gap:0px}
 .cm-intro-title{gap:var(--cm-intro-heading-gap)}
 .cm-intro-prose{margin-top:16px}
 
 /* Intro external-link cues sit above the punctuation baseline. */
 .cm-intro-prose a[target="_blank"] .cm-intro-link-icon{width:.65em;height:.65em;vertical-align:.3em;stroke-width:1.6}
+
+/* Cap the opening card, then let it expand with the existing scroll transition. */
+@media(min-width:601px) and (prefers-reduced-motion:no-preference){
+  .cm-sheet{inset-inline:calc(max(var(--cm-inset), (100% - 1120px) / 2) * (1 - var(--cm-progress)))}
+}
 
 /* More sky around the opening and a narrower desktop reading measure. */
 .cm-intro h1{font-size:34px}
@@ -104,4 +109,12 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 
 /* Separate intro reading rhythm from the supporting copy and link weights. */
 .cm-intro-prose .cm-intro-main{font-weight:500;line-height:1.65}
-html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:500}
+html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:700}
+
+/* One compact rhythm for the stacked identity; more air throughout mobile body copy. */
+@media(max-width:600px){
+  .cm-intro{--cm-intro-heading-gap:0px}
+  html[data-typeface] .cm-intro h1,.cm-intro-role{line-height:1.3}
+  .cm-intro-ai{margin-top:0;line-height:inherit}
+  .cm-intro-prose .cm-intro-main,.cm-intro-prose .cm-intro-studio{line-height:1.85}
+}

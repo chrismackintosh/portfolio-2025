@@ -9,14 +9,13 @@
 .cm-recommendation blockquote{position:relative;margin:0;width:max-content}
 .cm-recommendation blockquote p{margin:0;font-size:clamp(15px,4.9cqi,20px);font-weight:400;line-height:1.5;letter-spacing:-.025em;color:var(--cm-secondary)}
 .cm-quote-line{display:block;white-space:nowrap}
-.cm-recommendation .cm-quote-flow{width:230px;min-width:0;text-wrap:balance}
 .cm-recommendation strong{font-weight:550;color:var(--cm-ink)}
 .cm-recommendation figcaption{display:flex;flex-direction:column;gap:5px;margin:4px auto 0;max-width:270px;padding:0 8px;color:var(--cm-secondary);font-size:13px;line-height:1.5;text-wrap:balance}
 .cm-recommendation-name{font-weight:600;color:var(--cm-ink)}
 .cm-recommendations-more{display:table;align-content:center;min-height:44px;margin:32px auto 0;color:var(--cm-ink);font-size:14px;font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.2em;text-decoration-color:transparent;transition:text-decoration-color 180ms ease-in-out}
 .cm-recommendations-more:is(:hover,:focus-visible){text-decoration-color:currentColor}
 .cm-recommendations-more:focus-visible{outline:2px solid var(--cm-accent);outline-offset:4px}
-@media(max-width:900px){
+@media(max-width:1024px){
  .cm-recommendations{padding-top:16px;padding-bottom:64px}
  .cm-recommendations h2{font-size:25px;margin-bottom:28px}
  .cm-recommendations-list{grid-template-columns:1fr;gap:32px;max-width:380px;margin-inline:auto}
