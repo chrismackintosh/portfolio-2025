@@ -74,7 +74,11 @@
  let nudgeReady=false,nudgePlayed=false,nudgeTimer=0,nudgeAnimation=null,releaseTimer=0;
  let touchX=0,touchY=0,heldScrollY=null;
  function holdPosition(){
-  if(heldScrollY!==null&&Math.abs(scrollY-heldScrollY)>1)scrollTo({top:heldScrollY,behavior:'instant'});
+  if(heldScrollY===null)return;
+  // Follow the heading through late font/scrollbar reflow above the timeline.
+  const header=document.querySelector('.cm-masthead')?.getBoundingClientRect().bottom||0;
+  heldScrollY=Math.max(0,Math.round(scrollY+heading.getBoundingClientRect().top-header-16));
+  if(Math.abs(scrollY-heldScrollY)>1)scrollTo({top:heldScrollY,behavior:'instant'});
  }
  function releaseScroll(){
   clearTimeout(releaseTimer);releaseTimer=0;
