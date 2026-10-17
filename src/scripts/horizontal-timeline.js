@@ -74,11 +74,16 @@
  let nudgeReady=false,nudgePlayed=false,nudgeTimer=0,nudgeAnimation=null,releaseTimer=0;
  let touchX=0,touchY=0,heldScrollY=null;
  function holdPosition(){
-  if(heldScrollY!==null&&Math.abs(scrollY-heldScrollY)>1)scrollTo({top:heldScrollY,behavior:'instant'});
+  if(heldScrollY===null)return;
+  // Follow the heading through late font/scrollbar reflow above the timeline.
+  const header=document.querySelector('.cm-masthead')?.getBoundingClientRect().bottom||0;
+  heldScrollY=Math.max(0,Math.round(scrollY+heading.getBoundingClientRect().top-header-16));
+  if(Math.abs(scrollY-heldScrollY)>1)scrollTo({top:heldScrollY,behavior:'instant'});
  }
  function releaseScroll(){
   clearTimeout(releaseTimer);releaseTimer=0;
   heldScrollY=null;document.documentElement.classList.remove('cm-timeline-hold');
+  document.documentElement.style.removeProperty('--cm-hold-gutter');
   removeEventListener('wheel',holdWheel,true);
   removeEventListener('touchmove',holdTouch,true);
   removeEventListener('keydown',cancelNudge,true);
@@ -116,7 +121,10 @@
    // Pin the section heading below the masthead while the real track advances.
    const header=document.querySelector('.cm-masthead')?.getBoundingClientRect().bottom||0;
    heldScrollY=Math.max(0,Math.round(scrollY+heading.getBoundingClientRect().top-header-16));
-   document.documentElement.classList.add('cm-timeline-hold');
+   // Reserve only an existing scrollbar gutter; adding one can rewrap phone copy.
+   const root=document.documentElement;
+   root.style.setProperty('--cm-hold-gutter',innerWidth>root.clientWidth?'stable':'auto');
+   root.classList.add('cm-timeline-hold');
    holdPosition();
    addEventListener('wheel',holdWheel,{passive:false,capture:true});
    addEventListener('touchmove',holdTouch,{passive:false,capture:true});

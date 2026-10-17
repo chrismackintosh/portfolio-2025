@@ -1,5 +1,5 @@
 /* Local timeline experiment. Without enhancement, the original vertical story remains. */
-html.cm-timeline-hold{overflow-y:hidden;scrollbar-gutter:stable}
+html.cm-timeline-hold{overflow-y:hidden;scrollbar-gutter:var(--cm-hold-gutter,auto)}
 .cm-journey-head,.cm-journey-window{display:contents}
 .cm-journey-counter{display:none}
 .cm-timeline.cm-journey-enabled{--cm-journey-card:min(560px,calc(100vw - 88px));--cm-journey-gap:clamp(24px,5vw,72px);padding:0;border-radius:0}

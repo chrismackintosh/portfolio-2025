@@ -104,3 +104,19 @@ test('intro builds speed and chapter years remain independent of display labels'
  await page.keyboard.press('ArrowRight');
  await expect.poll(()=>visibleYear(page)).toBe('2026');
 });
+
+test('late intro reflow keeps the mobile timeline heading pinned',async({page})=>{
+ await page.setViewportSize({width:375,height:800});await page.goto('/#stop-1');await started(page);
+ // Model a late font or scrollbar reflow above the timeline during its cue.
+ await page.locator('.cm-opening').evaluate(e=>{(e as HTMLElement).style.paddingBottom='54px';});
+ await expect.poll(()=>page.evaluate(()=>Math.abs(document.querySelector('.cm-timeline-heading')!.getBoundingClientRect().top-document.querySelector('.cm-masthead')!.getBoundingClientRect().bottom-16)),{timeout:1000,intervals:[20]}).toBeLessThanOrEqual(1);
+ await released(page);await expect.poll(()=>visibleYear(page)).toBe('2023');
+});
+
+test('timeline hold preserves the page width before and after release',async({page})=>{
+ await page.setViewportSize({width:375,height:800});await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+ const width=await page.evaluate(()=>document.documentElement.clientWidth);
+ await page.locator('.cm-timeline').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));await started(page);
+ expect(await page.evaluate(()=>document.documentElement.clientWidth)).toBe(width);
+ await released(page);expect(await page.evaluate(()=>document.documentElement.clientWidth)).toBe(width);
+});
