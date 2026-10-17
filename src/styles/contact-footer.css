@@ -96,11 +96,19 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 
 /* Cap the opening card, then let it expand with the existing scroll transition. */
 @media(min-width:601px) and (prefers-reduced-motion:no-preference){
-  /* Start inside the safe area, then expand the decorative card edge to edge. */
   html,body,.cm-stage{background:var(--cm-ground)}
+  /* Resolve the shared starting insets against the stage, not the growing sheet. */
+  .cm-stage{container-type:inline-size}
   .cm-sheet{
-    left:calc(max(env(safe-area-inset-left,0px),var(--cm-inset), (100% - 1120px) / 2) * (1 - var(--cm-progress)));
-    right:calc(max(env(safe-area-inset-right,0px),var(--cm-inset), (100% - 1120px) / 2) * (1 - var(--cm-progress)));
+    --cm-sheet-inset-left:max(env(safe-area-inset-left,0px),var(--cm-inset), (100cqw - 1120px) / 2);
+    --cm-sheet-inset-right:max(env(safe-area-inset-right,0px),var(--cm-inset), (100cqw - 1120px) / 2);
+    left:calc(var(--cm-sheet-inset-left) * (1 - var(--cm-progress)));
+    right:calc(var(--cm-sheet-inset-right) * (1 - var(--cm-progress)));
+  }
+  /* Counter the surface expansion so the reading measure and line breaks stay fixed. */
+  .cm-sheet-content{
+    margin-left:calc(var(--cm-sheet-inset-left) * var(--cm-progress));
+    margin-right:calc(var(--cm-sheet-inset-right) * var(--cm-progress));
   }
 }
 
