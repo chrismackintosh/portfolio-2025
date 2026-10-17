@@ -83,6 +83,7 @@
  function releaseScroll(){
   clearTimeout(releaseTimer);releaseTimer=0;
   heldScrollY=null;document.documentElement.classList.remove('cm-timeline-hold');
+  document.documentElement.style.removeProperty('--cm-hold-gutter');
   removeEventListener('wheel',holdWheel,true);
   removeEventListener('touchmove',holdTouch,true);
   removeEventListener('keydown',cancelNudge,true);
@@ -120,7 +121,10 @@
    // Pin the section heading below the masthead while the real track advances.
    const header=document.querySelector('.cm-masthead')?.getBoundingClientRect().bottom||0;
    heldScrollY=Math.max(0,Math.round(scrollY+heading.getBoundingClientRect().top-header-16));
-   document.documentElement.classList.add('cm-timeline-hold');
+   // Reserve only an existing scrollbar gutter; adding one can rewrap phone copy.
+   const root=document.documentElement;
+   root.style.setProperty('--cm-hold-gutter',innerWidth>root.clientWidth?'stable':'auto');
+   root.classList.add('cm-timeline-hold');
    holdPosition();
    addEventListener('wheel',holdWheel,{passive:false,capture:true});
    addEventListener('touchmove',holdTouch,{passive:false,capture:true});
