@@ -3,6 +3,8 @@
  const timeline=document.querySelector('.cm-timeline');
  if(!timeline)return;
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
+ // Match the existing phone/tablet layout, including landscape phones.
+ const mobileLayout=matchMedia('(max-width: 999px)');
  const heading=timeline.querySelector('.cm-timeline-heading');
  const grid=timeline.querySelector('.cm-timeline-grid');
  const rail=timeline.querySelector('.cm-rail');
@@ -112,11 +114,12 @@
   return rect.top>=header-1&&rect.top<innerHeight*.5&&visible>=Math.min(rect.height,available*.6);
  }
  function scheduleNudge(){
+  if(mobileLayout.matches)return;
   if(nudgeAnimation){holdPosition();return;}
   if(!nudgeReady||nudgeTimer||nudgePlayed||document.hidden||motion.matches||!enabled||viewport.scrollLeft>1||!nudgeInView())return;
   nudgeTimer=setTimeout(()=>{
    nudgeTimer=0;
-   if(nudgePlayed||document.hidden||motion.matches||viewport.scrollLeft>1||!nudgeInView())return;
+   if(nudgePlayed||document.hidden||motion.matches||mobileLayout.matches||viewport.scrollLeft>1||!nudgeInView())return;
    nudgePlayed=true;
    // Pin the section heading below the masthead while the real track advances.
    const header=document.querySelector('.cm-masthead')?.getBoundingClientRect().bottom||0;

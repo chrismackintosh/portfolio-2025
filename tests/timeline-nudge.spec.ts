@@ -11,7 +11,7 @@ async function visibleYear(page:Page){return page.locator('.cm-journey-digit').e
  const top=d.getBoundingClientRect().top;
  return [...d.querySelectorAll('.cm-journey-digit-strip>span')].sort((a,b)=>Math.abs(a.getBoundingClientRect().top-top)-Math.abs(b.getBoundingClientRect().top-top))[0].textContent;
 }).join(''));}
-for(const viewport of [{width:1440,height:900},{width:375,height:800}]){
+for(const viewport of [{width:1440,height:900}]){
  test(`scrolls to visible 2023 once and stays there at ${viewport.width}px`,async({page})=>{
   await page.setViewportSize(viewport);await page.goto('/#stop-1');
   await started(page);
@@ -105,18 +105,32 @@ test('intro builds speed and chapter years remain independent of display labels'
  await expect.poll(()=>visibleYear(page)).toBe('2026');
 });
 
-test('late intro reflow keeps the mobile timeline heading pinned',async({page})=>{
- await page.setViewportSize({width:375,height:800});await page.goto('/#stop-1');await started(page);
- // Model a late font or scrollbar reflow above the timeline during its cue.
- await page.locator('.cm-opening').evaluate(e=>{(e as HTMLElement).style.paddingBottom='54px';});
- await expect.poll(()=>page.evaluate(()=>Math.abs(document.querySelector('.cm-timeline-heading')!.getBoundingClientRect().top-document.querySelector('.cm-masthead')!.getBoundingClientRect().bottom-16)),{timeout:1000,intervals:[20]}).toBeLessThanOrEqual(1);
- await released(page);await expect.poll(()=>visibleYear(page)).toBe('2023');
-});
+for(const viewport of [{width:375,height:800},{width:393,height:852},{width:852,height:393}]){
+ test(`mobile arrival never takes over or locks scrolling at ${viewport.width}px`,async({page})=>{
+  await page.setViewportSize(viewport);await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+  await page.evaluate(()=>{
+   const timeline=document.querySelector('.cm-timeline')!;
+   scrollTo({top:timeline.getBoundingClientRect().top+scrollY-100,behavior:'instant'});
+  });
+  const before=await page.evaluate(()=>({y:scrollY,width:document.documentElement.clientWidth}));
+  await page.waitForTimeout(2000);
+  expect(await page.evaluate(()=>scrollY)).toBe(before.y);
+  expect(await track(page).evaluate(e=>e.scrollLeft)).toBe(0);
+  await released(page);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(before.width);
+  expect(await track(page).evaluate(e=>e.dispatchEvent(new Event('touchmove',{bubbles:true,cancelable:true})))).toBe(true);
+  await page.mouse.move(viewport.width/2,viewport.height/2);
+  await page.mouse.wheel(0,100);
+  await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(before.y+50);
+  const down=await page.evaluate(()=>scrollY);
+  await page.mouse.wheel(0,-100);
+  await expect.poll(()=>page.evaluate(()=>scrollY)).toBeLessThan(down-50);
+ });
+}
 
-test('timeline hold preserves the page width before and after release',async({page})=>{
- await page.setViewportSize({width:375,height:800});await page.goto('/');await page.evaluate(()=>document.fonts.ready);
- const width=await page.evaluate(()=>document.documentElement.clientWidth);
- await page.locator('.cm-timeline').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));await started(page);
- expect(await page.evaluate(()=>document.documentElement.clientWidth)).toBe(width);
- await released(page);expect(await page.evaluate(()=>document.documentElement.clientWidth)).toBe(width);
+test('rotating into mobile layout cancels a running desktop cue',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.goto('/#stop-1');await started(page);
+ await page.setViewportSize({width:852,height:393});await released(page);
+ const x=await track(page).evaluate(e=>e.scrollLeft);
+ await page.waitForTimeout(1700);expect(await track(page).evaluate(e=>e.scrollLeft)).toBe(x);
 });
