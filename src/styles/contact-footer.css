@@ -96,7 +96,12 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 
 /* Cap the opening card, then let it expand with the existing scroll transition. */
 @media(min-width:601px) and (prefers-reduced-motion:no-preference){
-  .cm-sheet{inset-inline:calc(max(var(--cm-inset), (100% - 1120px) / 2) * (1 - var(--cm-progress)))}
+  /* Paint the full viewport; keep the card clear of the iPhone sensor housing. */
+  html,body,.cm-stage{background:var(--cm-ground)}
+  .cm-sheet{
+    left:max(env(safe-area-inset-left,0px),calc(max(var(--cm-inset), (100% - 1120px) / 2) * (1 - var(--cm-progress))));
+    right:max(env(safe-area-inset-right,0px),calc(max(var(--cm-inset), (100% - 1120px) / 2) * (1 - var(--cm-progress))));
+  }
 }
 
 /* More sky around the opening and a narrower desktop reading measure. */
