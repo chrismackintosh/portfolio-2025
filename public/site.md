@@ -27,5 +27,3 @@ Let’s work together. I'm always interested in new projects and opportunities.
 
 - [Portfolio homepage](/)
 - [Site directory for agents](/llms.txt)
-
-- [Privacy](/privacy-policy.html)

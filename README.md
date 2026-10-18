@@ -17,7 +17,7 @@ npm run preview -- --port 4175
 
 ## Source map
 
-- `src/pages/`: homepage, product overview, initiative detail, retained archive pages, privacy, robots, and sitemap; all are static direct routes.
+- `src/pages/`: homepage, product overview, initiative detail, retained archive pages, robots, and sitemap; all are static direct routes.
 - `src/layouts/Base.astro`: metadata, route-specific styles, early appearance/navigation controllers.
 - `src/components/`: homepage sections and shared theme controls.
 - `src/styles/tokens.css`: shared semantic palette; `home.css` and `product.css` preserve the approved cascade.
@@ -47,17 +47,18 @@ Keep `public/site.md` and `public/llms.txt` aligned with approved public copy an
 
 ## Release boundary
 
-This is a local release candidate. Default builds emit `noindex, nofollow`, disallow-all robots, and an empty sitemap. Only a production build with both `SITE_INDEXING=enabled` and `DEPLOY_TARGET=github-pages-production` emits indexable pages, allow-all robots, and the six public canonical routes in `/sitemap.xml`. Missing or preview target values keep indexing disabled, even if the indexing flag is enabled. Only enable the flag for the approved production cutover; rebuild when changing it. No deployment or domain changes are performed by these commands.
+This is a local release candidate. Default builds emit `noindex, nofollow`, disallow-all robots, and an empty sitemap. Only a production build with both `SITE_INDEXING=enabled` and `DEPLOY_TARGET=github-pages-production` emits indexable pages, allow-all robots, and the five public canonical routes in `/sitemap.xml`. Missing or preview target values keep indexing disabled, even if the indexing flag is enabled. Only enable the flag for the approved production cutover; rebuild when changing it. No deployment or domain changes are performed by these commands.
 
 The homepage, product pages, and archives use absolute production canonical URLs and shared Open Graph/Twitter metadata. `build.format: preserve` keeps index-based project paths and emits the legacy `.html` files directly. Do not enable host-level clean-URL rewriting without checking these exact routes:
 
 - `/case-studies/visible-core-experience.html`
 - `/case-studies/visible-esim.html`
-- `/privacy-policy.html`
+
+The former `/privacy-policy.html` page was retired at Chris’s request. Its extensionless host alias `/privacy-policy` is also expected to return 404 after publication. The source remains recoverable in Git history; no public archive or replacement redirect is generated.
 
 Archives contain condensed public narratives, not obsolete embeds or unverified growth/NPS figures. They do not imply that the expanded case studies are finished. Preserve the prior live revision and published artifact before replacing the site; the existing public repository remains the publishing destination.
 
-No analytics or third-party embeds are included. The sky uses the local Denver solar calculation plus direct NWS observations from Denver International Airport (`KDEN`). Browser requests omit credentials and referrers, use the standard browser User-Agent, and need no API key or backend. A successful observation is cached locally for 15 minutes; each visible page attempts refresh at most every 15 minutes. Observations older than two hours, malformed responses, and unavailable service fall back to local daylight. No visitor geolocation is requested. The privacy page describes the NWS request and browser cache. The old Open-Meteo controller is unreferenced and absent from the public bundle. Manual theme switches update text and surface colors together to avoid temporary contrast failure.
+No analytics or third-party embeds are included. The sky uses the local Denver solar calculation plus direct NWS observations from Denver International Airport (`KDEN`). Browser requests omit credentials and referrers, use the standard browser User-Agent, and need no API key or backend. A successful observation is cached locally for 15 minutes; each visible page attempts refresh at most every 15 minutes. Observations older than two hours, malformed responses, and unavailable service fall back to local daylight. No visitor geolocation is requested. The old Open-Meteo controller is unreferenced and absent from the public bundle. Manual theme switches update text and surface colors together to avoid temporary contrast failure.
 
 ## Brand assets
 
@@ -83,4 +84,4 @@ References: [GitHub Pages workflows](https://docs.github.com/en/pages/getting-st
 
 ## Release review
 
-Before publication, review content and artwork, keyboard and screen-reader behavior, responsive layouts, performance, remote CI results, the exact candidate artifact, and the rollback package. Verify domain behavior, all six routes, assets, privacy, metadata, robots, and sitemap after publication. A passing automated audit does not replace manual review.
+Before publication, review content and artwork, keyboard and screen-reader behavior, responsive layouts, performance, remote CI results, the exact candidate artifact, and the rollback package. Verify domain behavior, all five routes, assets, privacy, metadata, robots, and sitemap after publication. A passing automated audit does not replace manual review.

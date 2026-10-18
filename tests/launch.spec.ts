@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 test.beforeEach(async ({page}) => { await page.route('https://api.weather.gov/**', route => route.abort()); });
-const legacyRoutes = ['/case-studies/visible-core-experience.html', '/case-studies/visible-esim.html', '/privacy-policy.html'];
+const legacyRoutes = ['/case-studies/visible-core-experience.html', '/case-studies/visible-esim.html'];
 const routes = ['/', '/mycolorado/', '/mycolorado/mobile-drivers-license/', ...legacyRoutes];
 for (const path of legacyRoutes) {
  test(`legacy address survives direct entry and refresh: ${path}`, async ({page}) => {
@@ -26,7 +26,7 @@ test('all public pages have consistent metadata and reachable launch assets',asy
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content',await page.title());
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content','https://chrismackintosh.work/social-preview.png');
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content','summary_large_image');
-  await expect(page.locator('footer a[href="/privacy-policy.html"]')).toHaveCount(0);
+  await expect(page.locator('a[href="/privacy-policy.html"], a[href="/privacy-policy"]')).toHaveCount(0);
  }
  for(const path of ['/favicon.svg','/favicon-32.png','/apple-touch-icon.png','/social-preview.png','/site.md','/llms.txt','/sitemap.xml'])expect((await request.get(path)).status()).toBe(200);
  expect(await (await request.get('/robots.txt')).text()).toContain('Disallow: /');
@@ -42,4 +42,13 @@ test('legacy pages remain readable without JavaScript',async({browser})=>{
  const context=await browser.newContext({javaScriptEnabled:false});const page=await context.newPage();
  for(const path of legacyRoutes){await page.goto('http://127.0.0.1:4175'+path);await expect(page.locator('h1')).toHaveCount(1);await expect(page.locator('head link[href="/site.md"]')).toHaveAttribute('type','text/markdown');}
  await context.close();
+});
+
+test('retired privacy routes are absent and public directories do not link to them', async ({request}) => {
+ for (const path of ['/privacy-policy.html', '/privacy-policy', '/privacy-policy/', '/privacy', '/privacy/']) {
+  expect((await request.get(path)).status(), path).toBe(404);
+ }
+ for (const path of ['/site.md', '/llms.txt', '/sitemap.xml']) {
+  expect(await (await request.get(path)).text()).not.toContain('/privacy');
+ }
 });

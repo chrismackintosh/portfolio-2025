@@ -5,5 +5,4 @@ export const indexable = import.meta.env.PROD && process.env.SITE_INDEXING === '
 export const publicRoutes = [
   '/', '/mycolorado/', '/mycolorado/mobile-drivers-license/',
   '/case-studies/visible-core-experience.html', '/case-studies/visible-esim.html',
-  '/privacy-policy.html',
 ];
