@@ -1,6 +1,6 @@
 # Chris Mackintosh
 
-> Product designer and builder. Working with AI.
+> Product designer and builder.
 
 A concise, public summary of this portfolio. Links beginning with `/` are relative to this website. The linked project pages contain the full published details; this summary does not imply that unfinished case studies are complete.
 
@@ -16,9 +16,9 @@ Evenings and weekends, I run [Rendered Intent](https://renderedintent.com/), a s
 
 ## Contact
 
-Let’s work together. I'm always interested in new projects and opportunities.
+Say hello,
 
-- [Email Chris](mailto:hello@chrismackintosh.work)
+- [hello@chrismackintosh.work](mailto:hello@chrismackintosh.work)
 - [LinkedIn](https://www.linkedin.com/in/chris-mackintosh/)
 - [GitHub](https://github.com/chrismackintosh)
 - [Bluesky](https://bsky.app/profile/chrismackintosh.work)
