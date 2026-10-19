@@ -19,3 +19,11 @@ assert(!existsSync(`${root}/style-guide/index.html`));
 for (const file of ['privacy-policy.html', 'privacy-policy/index.html', 'privacy/index.html']) assert(!existsSync(`${root}/${file}`));
 for (const file of ['site.md', 'llms.txt', 'sitemap.xml']) assert(!readFileSync(`${root}/${file}`, 'utf8').includes('/privacy'));
 console.log('Pages release artifact: domain, five routes, canonical URLs, indexing, sitemap, and privacy retirement passed.');
+
+const synack = readFileSync(`${root}/synack/index.html`, 'utf8');
+assert(synack.includes('href="https://chrismackintosh.work/synack/"'));
+assert(synack.includes('property="og:url" content="https://chrismackintosh.work/synack/"'));
+assert(synack.includes('content="noindex, follow"'));
+assert(!sitemap.includes('/synack/'));
+assert(!synack.includes('http-equiv="refresh"'));
+console.log('Synack share entry: static page, retained canonical/social path, noindex, no redirect.');

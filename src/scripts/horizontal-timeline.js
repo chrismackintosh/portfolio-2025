@@ -172,7 +172,7 @@
  const loaded=document.readyState==='complete'?Promise.resolve():new Promise(resolve=>addEventListener('load',resolve,{once:true}));
  Promise.all([loaded,document.fonts.ready]).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
   const target=document.getElementById(location.hash.slice(1));
-  if(target)goTo(target,'instant');
+  if(target)goTo(target,'instant',!globalThis.CMWorkNavigation?.returningHome);
   nudgeReady=true;scheduleNudge();
  })));
  globalThis.CMHorizontalTimeline={goTo};
@@ -187,7 +187,7 @@
  addEventListener('resize',queueLayout,{passive:true});motion.addEventListener('change',queueLayout);
  const resize=new ResizeObserver(queueLayout);resize.observe(document.querySelector('.cm-opening'));resize.observe(head);
  document.fonts.ready.then(queueLayout);addEventListener('load',()=>{
-  layout();const target=document.getElementById(location.hash.slice(1));if(target)goTo(target,'instant');
+  layout();const target=document.getElementById(location.hash.slice(1));if(target)goTo(target,'instant',!globalThis.CMWorkNavigation?.returningHome);
  });
  layout();
 })();
