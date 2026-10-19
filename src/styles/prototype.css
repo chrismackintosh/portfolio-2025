@@ -44,7 +44,8 @@ html[data-text-treatment="neutral"] .cm-intro h1{color:var(--cm-ink)}
 .cm-intro a,.cm-timeline .cm-stop-link{font-weight:600}
 .cm-link-unit{white-space:normal}
 .cm-timeline .cm-stop-link{display:inline-block;padding-block:10px;line-height:1.6}
-.cm-intro a,.cm-timeline .cm-stop-link{
+/* Prose links underline their text spans; avoid a second line on the animated anchor. */
+.cm-intro-contact>a,.cm-timeline .cm-stop-link{
   text-decoration-line:underline;text-decoration-thickness:2px;text-underline-offset:.18em;
   text-decoration-color:transparent;transition:text-decoration-color 180ms ease-in-out;
 }
