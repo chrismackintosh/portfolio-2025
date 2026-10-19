@@ -49,8 +49,13 @@ html[data-typeface] .cm-intro .cm-intro-prose a{font-weight:700}
       -webkit-text-fill-color:transparent;
       animation:cm-intro-link-shimmer 12s ease-in-out 1.8s infinite;
     }
-    .cm-intro .cm-intro-prose a .cm-intro-link-text{text-decoration-line:none}
-    .cm-intro .cm-intro-prose a:is(:hover,:focus-visible) .cm-intro-link-text{text-decoration-line:underline}
+    /* A clipped text background also paints transparent text decorations. Keep the
+       shimmer and fade a separate 2px underline with the shared link timing. */
+    .cm-intro .cm-intro-prose a .cm-intro-link-text{
+      text-decoration-line:none;border-bottom:2px solid transparent;
+      transition:border-bottom-color 180ms ease-in-out;
+    }
+    .cm-intro .cm-intro-prose a:is(:hover,:focus-visible) .cm-intro-link-text{border-bottom-color:currentColor}
   }
 }
 @keyframes cm-intro-link-shimmer{
