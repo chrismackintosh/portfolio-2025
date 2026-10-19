@@ -3,7 +3,8 @@
   const root = document.documentElement;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const key = 'cm-work-navigation';
-  const home = location.pathname === '/' || location.pathname === '/index.html';
+  const homePaths = ['/', '/index.html', '/synack/', '/synack/index.html'];
+  const home = homePaths.includes(location.pathname);
   const route = url => url.pathname + url.search;
   const read = () => { try { return JSON.parse(sessionStorage.getItem(key)); } catch { return null; } };
   const write = value => { try { sessionStorage.setItem(key, JSON.stringify(value)); } catch {} };
@@ -14,7 +15,7 @@
     if (!value || !Number.isFinite(value.y) || value.y < 0) return null;
     try {
       const url = new URL(value.url, location.href);
-      return url.origin === location.origin && ['/', '/index.html'].includes(url.pathname) ? value : null;
+      return url.origin === location.origin && homePaths.includes(url.pathname) ? value : null;
     } catch { return null; }
   };
   let arrival = read();
@@ -33,9 +34,9 @@
   let animation;
   let breadcrumbAnimation;
 
+  const homePosition = () => home ? validOrigin(arrival?.kind === 'return' ? arrival.origin : restoringHistory ? state().cmWorkPosition : null) : null;
   function restoreHomePosition() {
-    if (!home) return false;
-    const position = validOrigin(arrival?.kind === 'return' ? arrival.origin : restoringHistory ? state().cmWorkPosition : null);
+    const position = homePosition();
     if (!position) return false;
     scrollTo({top: position.y, left: 0, behavior: 'instant'});
     // Return keyboard users to their trigger without forcing a focus ring after pointer navigation.
@@ -64,7 +65,7 @@
       breadcrumbAnimation?.finished.catch(() => {});
     }
   }
-  globalThis.CMWorkNavigation = {restoreHomePosition, completeArrival};
+  globalThis.CMWorkNavigation = {restoreHomePosition, completeArrival, get returningHome() { return Boolean(homePosition()); }};
 
   document.addEventListener('click', async event => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;

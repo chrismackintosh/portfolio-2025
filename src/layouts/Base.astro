@@ -6,8 +6,8 @@ import weather from '../scripts/nws-weather.js?raw';
 import { siteUrl, indexable } from '../config/site';
 import theme from '../scripts/theme-controls.js?raw';
 import navigation from '../scripts/work-navigation.js?raw';
-interface Props { title: string; description: string; home?: boolean; canonicalPath?: string }
-const { title, description, home = false, canonicalPath = Astro.url.pathname } = Astro.props;
+interface Props { title: string; description: string; home?: boolean; canonicalPath?: string; searchIndexable?: boolean }
+const { title, description, home = false, searchIndexable = true, canonicalPath = Astro.url.pathname } = Astro.props;
 const canonical = new URL(canonicalPath, siteUrl).href;
 const socialImage = new URL('/social-preview.png', siteUrl).href;
 const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Chris Mackintosh', url: siteUrl + '/', jobTitle: 'Product designer and builder', sameAs: ['https://www.linkedin.com/in/chris-mackintosh/', 'https://github.com/chrismackintosh', 'https://bsky.app/profile/chrismackintosh.work'] };
@@ -19,7 +19,7 @@ const earlyScripts = weather + '\n' + theme + '\n' + navigation;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="robots" content={indexable ? 'index, follow' : 'noindex, nofollow'} />
+    <meta name="robots" content={indexable ? (searchIndexable ? 'index, follow' : 'noindex, follow') : 'noindex, nofollow'} />
     <link rel="canonical" href={canonical} />
     <meta name="author" content="Chris Mackintosh" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />

@@ -85,3 +85,7 @@ References: [GitHub Pages workflows](https://docs.github.com/en/pages/getting-st
 ## Release review
 
 Before publication, review content and artwork, keyboard and screen-reader behavior, responsive layouts, performance, remote CI results, the exact candidate artifact, and the rollback package. Verify domain behavior, all five routes, assets, privacy, metadata, robots, and sitemap after publication. A passing automated audit does not replace manual review.
+
+## Synack share entry
+
+`/synack/` serves the shared homepage and initializes its existing Synack chapter (`#stop-4`). The pathname stays intact; there is no redirect or homepage canonical, so saving the link without its fragment retains the destination. Explicit fragments still take precedence. The entry reuses approved content and artwork. Production marks this duplicate entry `noindex, follow` and leaves the five canonical content routes in the sitemap. With JavaScript disabled the same content remains available through the timeline links.

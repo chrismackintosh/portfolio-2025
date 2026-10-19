@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Opening from './Opening.astro';
+import Timeline from './Timeline.astro';
+import SelectedWork from './SelectedWork.astro';
+import Testimonials from './Testimonials.astro';
+import HomeFooter from './HomeFooter.astro';
+import interactions from '../scripts/prototype.js?raw';
+import mosaic from '../scripts/product-mosaic.js?raw';
+import horizontalTimeline from '../scripts/horizontal-timeline.js?raw';
+interface Props { initialStop?: string }
+const { initialStop } = Astro.props;
+---
+<Base home searchIndexable={!initialStop} title="Chris Mackintosh — Product designer and builder" description="Product design, selected work, and independent exploration of how AI changes the way products get designed and built.">
+  <div id="cm-opening-study">
+    <Opening />
+    <main><Timeline /><SelectedWork /><Testimonials /></main>
+    <HomeFooter />
+  </div>
+  {initialStop && <script is:inline define:vars={{ initialStop }}>
+    // Keep the shareable path; a stripped fragment is restored on a fresh visit.
+    if (initialStop && !location.hash) {
+      history.replaceState(history.state, '', location.pathname + location.search + '#' + initialStop);
+    }
+  </script>}
+  <script is:inline set:html={interactions + '\n' + mosaic + '\n' + horizontalTimeline} />
+</Base>
