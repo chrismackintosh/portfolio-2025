@@ -19,18 +19,10 @@
     'Dusk': ['#d0d3df','linear-gradient(165deg,#c5cedd 0%,#d4d6e1 60%,#ded7de 100%)'],
     'Night': ['#151d2b','linear-gradient(165deg,#101725 0%,#192436 58%,#2b3547 100%)']
   };
-  const textPalettes = {
-    'Sunrise': ['#465d70','#765b64','#806348','#354c5e','#6c6d75'],
-    'Sunny midday': ['#39566f','#4a6a79','#666a59','#304e65','#64717a'],
-    'Cloudy': ['#4c6272','#627174','#646a67','#435862','#647174'],
-    'Gray / rain': ['#435966','#5a6974','#666e71','#3d5260','#64717a'],
-    'Sunset': ['#665b78','#815e6d','#8b634b','#5c4552','#796770'],
-    'Dusk': ['#535a77','#6b6481','#766676','#484a62','#6d6b7c'],
-    'Night': ['#b7c7df','#bac8d6','#d3bec9','#d6dfec','#aab8ca']
-  };
-  // Verified at >=4.5:1 across every sRGB gradient segment on both paper surfaces.
+  // Daytime text is neutral and independent of the sky.
+  // Preserve the existing Night treatment, as requested.
   function applyTextTreatment(){
-    html.dataset.textTreatment='gradient';
+    html.dataset.textTreatment='solid';
   }
   let appearance = {sky:'Sunny midday',dark:false,source:'Local daylight'};
   let height = innerHeight, travel = 450, readingInset = 90, queued = false;
@@ -119,10 +111,11 @@
     const selected=palettes[state.sky]||palettes['Sunny midday'];
     // Keep the sky dark too when an automatic dawn/dusk palette crosses night.
     const colors=state.dark?palettes.Night:selected;
-    const textColors=state.dark?textPalettes.Night:(textPalettes[state.sky]||textPalettes['Sunny midday']);
-    ['start','middle','end'].forEach((part,i)=>html.style.setProperty('--cm-title-'+part,textColors[i]));
-    html.style.setProperty('--cm-copy-ink',textColors[3]);
-    html.style.setProperty('--cm-copy-soft',textColors[4]);
+    const textColors=state.dark?['#d6dfec','#848f9b']:['#26313b','#767676'];
+    html.style.setProperty('--cm-intro-name',textColors[0]);
+    html.style.setProperty('--cm-intro-role',textColors[1]);
+    html.style.setProperty('--cm-copy-ink',textColors[0]);
+    html.style.setProperty('--cm-copy-soft',textColors[1]);
     html.style.setProperty('--cm-ground',colors[0]);
     html.style.setProperty('--cm-weather-gradient',colors[1]);
     html.style.setProperty('--cm-gradient',colors[1]);

@@ -14,4 +14,4 @@
 @media print{.cm-intro-link-text{text-decoration-color:currentColor}}
 
 
-.cm-inline-link .cm-intro-link-icon{color:var(--cm-secondary);width:.65em;height:.65em;vertical-align:.3em;stroke-width:1.6}
+.cm-inline-link .cm-intro-link-icon{color:var(--cm-icon);width:.65em;height:.65em;vertical-align:.3em;stroke-width:1.6}

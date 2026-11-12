@@ -1,6 +1,6 @@
 /* White continues the opening sheet and the parallel studio track. */
 .cm-timeline{
-  --cm-timeline:#ffffff;--cm-ink:#26313b;--cm-secondary:#64717a;
+  --cm-timeline:#ffffff;--cm-ink:#26313b;--cm-secondary:#767676;
   --cm-line:#dce2e6;--cm-accent:#627c90;--cm-side-surface:#f7f8fa;
   color:var(--cm-ink);background:var(--cm-timeline);
 }

@@ -15,19 +15,12 @@ html[data-typeface="instrument"] .cm-stop-2 .cm-stop-meta>span:first-child{font-
 html[data-typeface="system"] body{font-family:var(--cm-system-sans)}
 .cm-intro h1:focus{outline:none}
 
-/* Sky colors remain fully opaque; the second paragraph uses a softer AA solid. */
-:root{--cm-title-start:#39566f;--cm-title-middle:#4a6a79;--cm-title-end:#666a59;--cm-copy-ink:#304e65;--cm-copy-soft:#64717a}
+/* Intro text is solid; daytime text no longer follows the sky palette. */
+:root{--cm-intro-name:#26313b;--cm-intro-role:#767676;--cm-copy-ink:var(--cm-intro-name);--cm-copy-soft:var(--cm-intro-role)}
 .cm-intro-prose{color:var(--cm-copy-ink)}.cm-intro-prose p+p{color:var(--cm-copy-soft)}
-html[data-text-treatment="neutral"] .cm-intro{--cm-copy-ink:var(--cm-ink);--cm-copy-soft:var(--cm-secondary)}
-.cm-intro h1{color:var(--cm-title-start)}
+html[data-text-treatment="neutral"] .cm-intro{--cm-copy-ink:var(--cm-ink);--cm-copy-soft:var(--cm-secondary);--cm-intro-role:var(--cm-secondary)}
+.cm-intro h1{color:var(--cm-intro-name)}
 html[data-text-treatment="neutral"] .cm-intro h1{color:var(--cm-ink)}
-@supports (background-clip:text) or (-webkit-background-clip:text){
- html[data-text-treatment="gradient"] .cm-intro h1{
-  background-image:linear-gradient(105deg,var(--cm-title-start),var(--cm-title-middle) 55%,var(--cm-title-end));
-  background-image:linear-gradient(105deg in srgb,var(--cm-title-start),var(--cm-title-middle) 55%,var(--cm-title-end));
-  background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
- }
-}
 @media(forced-colors:active){
  html[data-text-treatment] .cm-intro h1{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText}
  .cm-intro-prose p+p{color:CanvasText}
@@ -199,7 +192,7 @@ html[data-typeface="mori"] .cm-intro h1{font-weight:600}
 }
 .cm-fork-diagram path{stroke-linecap:round;stroke-linejoin:round}
 .cm-fork-trunk{stroke:var(--cm-accent);stroke-width:1.5}
-.cm-fork-other{stroke:var(--cm-secondary);stroke-opacity:.45;stroke-width:1.25}
+.cm-fork-other{stroke:var(--cm-icon);stroke-opacity:.45;stroke-width:1.25}
 .cm-fork-chosen{stroke-width:2;opacity:calc(.6 + .4 * var(--cm-fork-progress,1))}
 .cm-fork-junction{
   position:absolute;
