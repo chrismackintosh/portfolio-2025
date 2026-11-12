@@ -110,8 +110,10 @@
   const header=document.querySelector('.cm-masthead')?.getBoundingClientRect().bottom||0;
   const available=innerHeight-header;
   const visible=Math.min(rect.bottom,innerHeight)-Math.max(rect.top,header);
-  // Long phone cards cannot fit in one screen; wait until their reading area fills it.
-  return rect.top>=header-1&&rect.top<innerHeight*.5&&visible>=Math.min(rect.height,available*.6);
+  // A large desktop gesture can move the card top above the masthead.
+  // Start while most of the reading area is visible, not only in a narrow
+  // top-edge band; never pull the reader back after the section is passed.
+  return rect.top<innerHeight*.5&&visible>=Math.min(rect.height,available)*.6;
  }
  function scheduleNudge(){
   if(mobileLayout.matches)return;
