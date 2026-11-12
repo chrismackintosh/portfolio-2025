@@ -1,7 +1,7 @@
 /* A compact identity, an open invitation, and a quiet end to the page. */
 
 html[data-typeface] .cm-intro h1{font-size:var(--cm-intro-identity-size);font-weight:800;line-height:1.3;letter-spacing:-.018em;max-width:none}
-.cm-intro-role{font-size:var(--cm-intro-identity-size);font-weight:800;line-height:1.3;letter-spacing:-.018em;color:var(--cm-copy-soft)}
+.cm-intro-role{font-size:var(--cm-intro-identity-size);font-weight:800;line-height:1.3;letter-spacing:-.018em;color:var(--cm-intro-role)}
 .cm-intro-ai{white-space:nowrap}
 .cm-intro-separator{display:inline-block;margin-inline:5px 9px;font-weight:inherit}
 .cm-intro{--cm-intro-identity-size:18px;--cm-intro-body-size:16px;--cm-intro-small-size:14px}
@@ -33,6 +33,7 @@ html[data-typeface="manrope"] body{font-family:"CM Manrope",var(--cm-system-sans
 .cm-intro-title,.cm-intro-prose>p,.cm-intro-stack,.cm-intro-contact{opacity:var(--cm-intro-opacity,1)}
 .cm-intro-title:focus-within,.cm-intro-prose>p:focus-within,.cm-intro-stack:focus-within,.cm-intro-contact:focus-within{opacity:1}
 @media(prefers-reduced-motion:reduce){.cm-intro-title,.cm-intro-prose>p,.cm-intro-stack,.cm-intro-contact{opacity:1}}
+@media print{.cm-intro-role{color:var(--cm-copy-soft)}}
 @media print{.cm-intro-title,.cm-intro-prose>p,.cm-intro-stack,.cm-intro-contact{opacity:1}}
 
 /* Bold intro links follow the Figma weight hierarchy. */
@@ -65,7 +66,7 @@ html[data-typeface] .cm-intro .cm-intro-prose a{font-weight:700}
 @media print{.cm-intro .cm-intro-prose a{animation:none;background:none;-webkit-text-fill-color:currentColor}}
 
 /* Quiet directional cues follow the current theme. */
-.cm-intro-link-icon{color:var(--cm-secondary)}
+.cm-intro-link-icon{color:var(--cm-icon)}
 @media(forced-colors:active){.cm-intro-link-icon{color:LinkText}}
 
 /* Timeline copy and work links share the intro's regular text and quiet arrows. */
@@ -84,6 +85,7 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 /* Main introduction stays larger; studio details and contact use 14px. */
 .cm-intro-lead{font-weight:700}
 .cm-intro-prose>p{font-size:var(--cm-intro-body-size)}
+.cm-intro-prose p{text-wrap:pretty}
 .cm-intro-prose .cm-intro-studio{font-size:var(--cm-intro-small-size);font-weight:600;line-height:1.7}
 .cm-intro-stack{margin-top:16px;font-size:var(--cm-intro-small-size);line-height:1.45;color:var(--cm-copy-soft)}
 .cm-intro-stack .cm-stack-label{font-weight:600;margin:0 0 2px;color:var(--cm-copy-ink)}
@@ -135,4 +137,11 @@ html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:700}
   html[data-typeface] .cm-intro h1,.cm-intro-role{line-height:1.3}
   .cm-intro-ai{margin-top:0;line-height:inherit}
   .cm-intro-prose .cm-intro-main,.cm-intro-prose .cm-intro-studio{line-height:1.85}
+}
+
+/* Figma 56:461 daytime text assignments; preserve the existing Night treatment. */
+@media(forced-colors:none){
+  html:not(.cm-night) .cm-intro-prose>.cm-intro-studio,
+  html:not(.cm-night) .cm-intro-contact>p{color:var(--cm-copy-ink)}
+  html:not(.cm-night) .cm-intro-prose a{color:inherit}
 }

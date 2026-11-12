@@ -3,3 +3,6 @@
 .cm-footer-link:is(:hover,:focus-visible){text-decoration-color:currentColor}
 @media(prefers-reduced-motion:reduce){.cm-footer-link{transition:none}}
 @media(forced-colors:active){.cm-footer-link{color:LinkText;text-decoration-color:LinkText}}
+
+/* Daytime links match their surrounding footer text; retain Night and forced colors. */
+@media(forced-colors:none){html:not(.cm-night) .cm-footer-link{color:inherit}}

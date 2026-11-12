@@ -5,7 +5,7 @@
   border:1px solid #ffffffc9;background:rgb(255 255 255 / .86);
   box-shadow:0 2px 5px #26313b04,0 8px 28px #26313b08;
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  color:#52616d;font-size:13px;font-weight:600;line-height:1.4;letter-spacing:-.01em;
+  color:var(--cm-ink);font-size:13px;font-weight:600;line-height:1.4;letter-spacing:-.01em;
 }
 .cm-status-light{position:relative;flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:#568574}
 .cm-status-light::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:#568574;opacity:.12;animation:cm-status-breathe 2800ms ease-in-out infinite}
