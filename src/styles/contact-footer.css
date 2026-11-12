@@ -86,6 +86,9 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 .cm-intro-lead{font-weight:700}
 .cm-intro-prose>p{font-size:var(--cm-intro-body-size)}
 .cm-intro-prose p{text-wrap:pretty}
+/* Normal wrapping avoids a short Apple-credit line on desktop Safari.
+   Keep pretty wrapping on smaller screens, where it avoids the same widow. */
+@media(min-width:900px){.cm-intro-prose .cm-intro-main{text-wrap:wrap}}
 .cm-intro-prose .cm-intro-studio{font-size:var(--cm-intro-small-size);font-weight:600;line-height:1.7}
 .cm-intro-stack{margin-top:16px;font-size:var(--cm-intro-small-size);line-height:1.45;color:var(--cm-copy-soft)}
 .cm-intro-stack .cm-stack-label{font-weight:600;margin:0 0 2px;color:var(--cm-copy-ink)}

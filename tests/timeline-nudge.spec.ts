@@ -134,3 +134,23 @@ test('rotating into mobile layout cancels a running desktop cue',async({page})=>
  const x=await track(page).evaluate(e=>e.scrollLeft);
  await page.waitForTimeout(1700);expect(await track(page).evaluate(e=>e.scrollLeft)).toBe(x);
 });
+
+for(const viewport of [{width:1346,height:960},{width:1440,height:900}]){
+ test(`large desktop scroll still starts the entry cue at ${viewport.width}px`,async({page})=>{
+  await page.setViewportSize(viewport);await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+  // A trackpad/Page Down-sized jump can carry the card top past the masthead
+  // between scroll events while most of its reading area remains visible.
+  await page.evaluate(()=>{
+   const track=document.querySelector('.cm-journey-window')!;
+   scrollTo({top:scrollY+track.getBoundingClientRect().top+80,behavior:'instant'});
+  });
+  await started(page);await expect.poll(()=>visibleYear(page)).toBe('2023');await released(page);
+ });
+}
+test('jumping beyond the history does not pull the reader back',async({page})=>{
+ await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+ await page.locator('.cm-recommendations').evaluate(e=>e.scrollIntoView({behavior:'instant'}));
+ const y=await page.evaluate(()=>scrollY);await page.waitForTimeout(2000);
+ expect(await page.evaluate(()=>scrollY)).toBe(y);
+ expect(await track(page).evaluate(e=>e.scrollLeft)).toBe(0);await released(page);
+});
