@@ -154,3 +154,32 @@ test('jumping beyond the history does not pull the reader back',async({page})=>{
  expect(await page.evaluate(()=>scrollY)).toBe(y);
  expect(await track(page).evaluate(e=>e.scrollLeft)).toBe(0);await released(page);
 });
+
+for(const mode of ['pixels','lines','pages','shift','zoom','outside','noncancelable'] as const){
+ test(`held wheel handoff respects ${mode}`,async({page})=>{
+  await page.setViewportSize({width:1440,height:900});await page.goto('/#stop-1');await started(page);
+  const result=await page.evaluate(mode=>{
+   const viewport=document.querySelector('.cm-journey-window') as HTMLElement;
+   const before=viewport.scrollLeft;
+   const event=new WheelEvent('wheel',{bubbles:true,cancelable:mode!=='noncancelable',deltaX:mode==='shift'?0:mode==='lines'?3:mode==='pages'?1:150,deltaY:mode==='shift'?150:0,deltaMode:mode==='lines'?1:mode==='pages'?2:0,shiftKey:mode==='shift',ctrlKey:mode==='zoom'});
+   const unit=mode==='lines'?(parseFloat(getComputedStyle(viewport).lineHeight)||16):mode==='pages'?viewport.clientWidth:1;
+   (mode==='outside'?document.body:viewport).dispatchEvent(event);
+   return {before,after:viewport.scrollLeft,prevented:event.defaultPrevented,held:document.documentElement.classList.contains('cm-timeline-hold'),expected:(mode==='lines'?3:mode==='pages'?1:150)*unit};
+  },mode);
+  expect(result.held).toBe(false);
+  const manual=!['zoom','outside','noncancelable'].includes(mode);
+  expect(result.prevented).toBe(manual);
+  expect(result.after-result.before).toBeCloseTo(manual?result.expected:0,0);
+ });
+}
+test('after horizontal handoff subsequent wheel returns to native handling',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.goto('/#stop-1');await started(page);
+ const result=await page.evaluate(()=>{
+  const viewport=document.querySelector('.cm-journey-window') as HTMLElement;
+  const first=new WheelEvent('wheel',{bubbles:true,cancelable:true,deltaX:150});viewport.dispatchEvent(first);
+  const after=viewport.scrollLeft;
+  const next=new WheelEvent('wheel',{bubbles:true,cancelable:true,deltaX:150});viewport.dispatchEvent(next);
+  return {first:first.defaultPrevented,next:next.defaultPrevented,after,last:viewport.scrollLeft};
+ });
+ expect(result.first).toBe(true);expect(result.next).toBe(false);expect(result.last).toBe(result.after);
+});

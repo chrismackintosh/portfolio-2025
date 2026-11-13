@@ -55,3 +55,7 @@ Geometry, sampled type/color rules, content, and interactions were compared with
 ## Launch additions
 
 Archive and privacy pages use the shared palette, masthead, theme controls, and footer. Public metrics carry reporting dates and source links. The favicon is a white C on a blue rounded square; the social preview is Chris’s self-hosted 1200×630 Figma card. Text and surface colors switch together during manual theme changes; only decorative borders and shadows ease, preserving contrast through the transition.
+
+## November 13 minimal homepage intro
+
+The approved simplified intro keeps Manrope, neutral name/contact colors and the daytime role/caret color `#677787`. The contact email is weight 600. Desktop card radius is 100px before expansion; desktop surround is 184px and tablet surround 80px, with no drop shadow. Phones retain the full-width, ordinary reading-flow layout. Rendered Intent's tool rows use the adjacent Shipped-list label/rule rhythm; only “Less vibe. More intent.” is semibold in its paragraph. Decorative weather-colored wheat and its pause control do not change text colors or product-page typography.

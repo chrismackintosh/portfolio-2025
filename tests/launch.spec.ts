@@ -40,7 +40,7 @@ test('launch pages contact only the fixed NWS endpoint and set no cookies',async
 });
 test('legacy pages remain readable without JavaScript',async({browser})=>{
  const context=await browser.newContext({javaScriptEnabled:false});const page=await context.newPage();
- for(const path of legacyRoutes){await page.goto('http://127.0.0.1:4175'+path);await expect(page.locator('h1')).toHaveCount(1);await expect(page.locator('head link[href="/site.md"]')).toHaveAttribute('type','text/markdown');}
+ for(const path of legacyRoutes){await page.goto(path);await expect(page.locator('h1')).toHaveCount(1);await expect(page.locator('head link[href="/site.md"]')).toHaveAttribute('type','text/markdown');}
  await context.close();
 });
 
