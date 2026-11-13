@@ -3,7 +3,7 @@ test.beforeEach(async({page})=>{await page.route('https://api.weather.gov/**',r=
 test('mobile typography and short breeze settle; reduced motion and save data stay static',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');await page.evaluate(()=>document.fonts.ready);
  await expect(page.locator('.cm-intro-next')).toBeHidden();
- for(const s of ['.cm-intro h1','.cm-intro-role']) {await expect(page.locator(s)).toHaveCSS('font-size','22px');await expect(page.locator(s)).toHaveCSS('font-weight','500');await expect(page.locator(s)).toHaveCSS('line-height','24.2px');}
+ for(const s of ['.cm-intro h1','.cm-intro-role']) {await expect(page.locator(s)).toHaveCSS('font-size','22px');await expect(page.locator(s)).toHaveCSS('font-weight','500');expect(await page.locator(s).evaluate(e=>parseFloat(getComputedStyle(e).lineHeight))).toBeCloseTo(24.2,3);}
  const canvas=page.locator('canvas.cm-wheat'),pixels=()=>canvas.evaluate((c:HTMLCanvasElement)=>c.toDataURL());
  await expect(canvas).toBeVisible();expect(await canvas.evaluate((c:HTMLCanvasElement)=>c.width)).toBeLessThanOrEqual(396);
  await page.waitForTimeout(5000);let a=await pixels();await page.waitForTimeout(700);expect(await pixels()).toBe(a);
