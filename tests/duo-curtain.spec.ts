@@ -5,7 +5,7 @@ for (const [width,height,inset] of [[951,589,80],[669,871,80],[1280,900,184]]) {
   await page.setViewportSize({width,height});
   await page.route('https://api.weather.gov/**',r=>r.abort());
   await page.goto('/'); await page.evaluate(()=>document.fonts.ready);
-  await page.waitForTimeout(800);
+  await page.locator('.cm-sheet').evaluate(e=>Promise.all(e.getAnimations().map(a=>a.finished)));
   await expect(page.locator('.cm-sheet')).toHaveCSS('border-top-left-radius','24px');
   expect(await page.locator('.cm-sheet').evaluate(e=>Math.round(e.getBoundingClientRect().top))).toBe(inset);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

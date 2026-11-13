@@ -92,3 +92,13 @@ html[data-typeface="mori"] .cm-project h3{font-weight:600}
   .cm-project-initiatives{margin-top:16px;gap:6px 0;font-size:13px}
   .cm-project-initiatives li:not(:last-child)::after{margin:0 8px}
 }
+
+/* Mobile project headers read as a name, description, then a separate action. */
+@media(max-width:600px){
+ .cm-project .cm-project-heading{display:flex;flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:20px}
+ .cm-project .cm-project-heading h3{flex:0 1 auto;width:100%;min-width:0}
+ .cm-project h3{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+ .cm-project h3 .cm-project-company{display:block}
+ .cm-project h3 .cm-project-name{display:block;margin-top:6px;font-size:16px;line-height:1.5;letter-spacing:-.015em;white-space:normal}
+ .cm-project-action{max-width:100%;white-space:normal}
+}
