@@ -183,6 +183,10 @@ html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:600}
 @media(max-width:760px),(forced-colors:active){.cm-wheat{display:none}}
 
 /* Continuous decorative motion has an explicit keyboard-accessible pause. */
-.cm-wheat-pause{position:absolute;right:28px;bottom:20px;z-index:2;min-height:44px;padding:8px 12px;border:1px solid var(--cm-line);border-radius:999px;background:var(--cm-paper);color:var(--cm-copy-ink);font:inherit;font-size:12px;cursor:pointer}
+.cm-wheat-pause{position:absolute;right:48px;bottom:48px;z-index:2;width:44px;height:44px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;color:var(--cm-copy-ink);cursor:pointer}
+.cm-wheat-pause svg{grid-area:1/1}
+.cm-wheat-pause .cm-breeze-play-icon,.cm-wheat-pause[data-paused="true"] .cm-breeze-pause-icon{display:none}
+.cm-wheat-pause[data-paused="true"] .cm-breeze-play-icon{display:block}
+.cm-wheat-pause:hover{background:var(--cm-line)}
 .cm-wheat-pause:focus-visible{outline:2px solid var(--cm-copy-ink);outline-offset:3px}
 @media(max-width:760px),(prefers-reduced-motion:reduce),(forced-colors:active){.cm-wheat-pause{display:none}}

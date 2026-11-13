@@ -30,7 +30,10 @@
   breezeButton?.addEventListener('click', () => {
     breezePaused = !breezePaused;
     wheat?.set({motion:breezePaused ? 'none' : 'always'});
-    breezeButton.textContent = breezePaused ? 'Resume breeze' : 'Pause breeze';
+    const label = breezePaused ? 'Resume breeze' : 'Pause breeze';
+    breezeButton.setAttribute('aria-label',label);
+    breezeButton.setAttribute('title',label);
+    breezeButton.dataset.paused = String(breezePaused);
   });
   addEventListener('pagehide', event => { if (!event.persisted) wheat?.destroy(); });
   let appearance = {sky:'Sunny midday',dark:false,source:'Local daylight'};
@@ -161,8 +164,42 @@
       }
     });
   });
+  // Only the intro caret gets a deliberate, slower transition. Other anchors
+  // retain native scrolling. Any new gesture gives control straight back.
+  let cancelIntroScroll = () => {};
+  function scrollFromIntro(target) {
+    cancelIntroScroll();
+    target.focus({preventScroll:true});
+    if (motion.matches) { target.scrollIntoView({behavior:'instant',block:'start'}); return; }
+    const finishCue = globalThis.CMHorizontalTimeline?.beginIntroScroll();
+    const from = scrollY;
+    const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+    const to = Math.max(0,Math.min(document.documentElement.scrollHeight-innerHeight,
+      from + target.getBoundingClientRect().top - margin));
+    const duration = 1500, started = performance.now();
+    let frame = 0;
+    const inputs = ['wheel','touchstart','pointerdown','keydown','resize','pagehide'];
+    const cancel = (completed = false) => {
+      cancelAnimationFrame(frame);
+      inputs.forEach(type=>removeEventListener(type,cancel,true));
+      motion.removeEventListener('change',reduce);
+      cancelIntroScroll = () => {};
+      finishCue?.(completed === true);
+    };
+    const reduce = () => { cancel(); if(motion.matches)target.scrollIntoView({behavior:'instant',block:'start'}); };
+    inputs.forEach(type=>addEventListener(type,cancel,{capture:true,passive:true}));
+    motion.addEventListener('change',reduce);
+    cancelIntroScroll = cancel;
+    const tick = now => {
+      const progress = clamp((now-started)/duration);
+      const eased = progress < .5 ? 4*progress**3 : 1-(-2*progress+2)**3/2;
+      scrollTo({top:from+(to-from)*eased,behavior:'instant'});
+      if(progress<1)frame=requestAnimationFrame(tick);else cancel(true);
+    };
+    frame=requestAnimationFrame(tick);
+  }
   applyTextTreatment();
-  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(!target)return;e.preventDefault();if(globalThis.CMHorizontalTimeline?.goTo(target)){history.replaceState(null,'',a.getAttribute('href'));return;}target.focus({preventScroll:true});target.scrollIntoView({behavior:motion.matches?'instant':'smooth',block:'start'});history.replaceState(null,'',a.getAttribute('href'));}));
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(!target)return;e.preventDefault();cancelIntroScroll();if(a.matches('.cm-intro-next')){scrollFromIntro(target);history.replaceState(null,'',a.getAttribute('href'));return;}if(globalThis.CMHorizontalTimeline?.goTo(target)){history.replaceState(null,'',a.getAttribute('href'));return;}target.focus({preventScroll:true});target.scrollIntoView({behavior:motion.matches?'instant':'smooth',block:'start'});history.replaceState(null,'',a.getAttribute('href'));}));
   addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(update);}},{passive:true});
   content.addEventListener('focusin',()=>requestAnimationFrame(update));
   content.addEventListener('focusout',()=>requestAnimationFrame(update));

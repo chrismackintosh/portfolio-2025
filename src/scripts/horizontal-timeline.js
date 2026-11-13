@@ -73,6 +73,7 @@
   return true;
  }
  // Briefly hold vertical gestures for one cue, then always release native scrolling.
+ let introScrollActive=false;
  let nudgeReady=false,nudgePlayed=false,nudgeTimer=0,nudgeAnimation=null,releaseTimer=0;
  let touchX=0,touchY=0,heldScrollY=null;
  function holdPosition(){
@@ -128,12 +129,12 @@
   return rect.top<innerHeight*.5&&visible>=Math.min(rect.height,available)*.6;
  }
  function scheduleNudge(){
-  if(mobileLayout.matches)return;
+  if(mobileLayout.matches||introScrollActive)return;
   if(nudgeAnimation){holdPosition();return;}
   if(!nudgeReady||nudgeTimer||nudgePlayed||document.hidden||motion.matches||!enabled||viewport.scrollLeft>1||!nudgeInView())return;
   nudgeTimer=setTimeout(()=>{
    nudgeTimer=0;
-   if(nudgePlayed||document.hidden||motion.matches||mobileLayout.matches||viewport.scrollLeft>1||!nudgeInView())return;
+   if(introScrollActive||nudgePlayed||document.hidden||motion.matches||mobileLayout.matches||viewport.scrollLeft>1||!nudgeInView())return;
    nudgePlayed=true;
    // Pin the section heading below the masthead while the real track advances.
    const header=document.querySelector('.cm-masthead')?.getBoundingClientRect().bottom||0;
@@ -189,7 +190,15 @@
   if(target)goTo(target,'instant',!globalThis.CMWorkNavigation?.returningHome);
   nudgeReady=true;scheduleNudge();
  })));
- globalThis.CMHorizontalTimeline={goTo};
+ function beginIntroScroll(){
+  introScrollActive=true;clearTimeout(nudgeTimer);nudgeTimer=0;
+  if(nudgeAnimation)cancelNudge();
+  return completed=>{
+   introScrollActive=false;
+   if(completed)scheduleNudge();else cancelNudge();
+  };
+ }
+ globalThis.CMHorizontalTimeline={goTo,beginIntroScroll};
  viewport.addEventListener('scroll',queue,{passive:true});
  viewport.addEventListener('focusin',event=>goTo(event.target,'instant',false));
  viewport.addEventListener('keydown',event=>{
