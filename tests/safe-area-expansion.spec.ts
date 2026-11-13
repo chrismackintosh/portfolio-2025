@@ -54,7 +54,7 @@ function expectStableReading(current: Awaited<ReturnType<typeof readingLayout>>,
 
 for (const [width, height, left, right, openingMeasure] of [
   // Opening measures recorded from PR10; desktop/zero-inset values also match pre-PR9.
-  [852, 393, 59, 59, 606], [932, 430, 59, 0, 526.8125], [667, 375, 0, 59, 440],
+  [852, 393, 59, 59, 606], [932, 430, 59, 0, 734.8125], [667, 375, 0, 59, 440],
   [852, 393, 0, 0, 644], [1280, 900, 0, 0, 840], [1440, 900, 0, 0, 824], [1920, 1080, 0, 0, 824],
 ]) test(`card expands with stable text at ${width}px (${left}/${right} safe area)`, async ({ page, browserName }, testInfo) => {
   await page.setViewportSize({ width, height });

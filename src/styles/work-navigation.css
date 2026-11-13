@@ -1,3 +1,15 @@
-/* Only in-app navigations animate; direct links render immediately. */
-@media(prefers-reduced-motion:no-preference){html[data-work-arrival] main,html[data-work-breadcrumb-arrival] .site-head .breadcrumbs{opacity:0}}
-@media(prefers-reduced-motion:reduce){html[data-work-arrival] main,html[data-work-breadcrumb-arrival] .site-head .breadcrumbs{opacity:1}}
+/* About's upward curtain from renderedintent.com, recolored with the existing
+   myColorado mosaic green (#007d30). Direct loads have no transition. */
+html::after { content:""; position:fixed; inset:0; z-index:2147483646;
+  background:#007d30; transform:translateY(100%); visibility:hidden; pointer-events:none; }
+@media(prefers-reduced-motion:no-preference) {
+  html[data-work-departure]::after { visibility:visible; pointer-events:auto;
+    animation:cm-work-close 600ms cubic-bezier(.16,1,.3,1) both; }
+  html[data-work-arrival="forward"]::after { visibility:visible; pointer-events:auto; transform:translateY(0); }
+  html[data-work-arrival="forward"][data-work-opening]::after {
+    animation:cm-work-open 680ms cubic-bezier(.16,1,.3,1) 80ms both; }
+  html[data-work-arrival="return"] main {opacity:0}
+}
+@keyframes cm-work-close {from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes cm-work-open {from{transform:translateY(0)}to{transform:translateY(-100%)}}
+@media(prefers-reduced-motion:reduce) {html::after{display:none}}

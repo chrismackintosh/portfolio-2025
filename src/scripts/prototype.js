@@ -92,7 +92,9 @@
       update();
       return;
     }
-    const inset = innerWidth<600 ? 20 : innerWidth<900 ? 80 : 184;
+    // Give short, open landscape views the approved tablet surround.
+    const shortLandscape = innerWidth <= 1100 && innerWidth > innerHeight && innerHeight <= 800;
+    const inset = innerWidth<600 ? 20 : innerWidth<900 || shortLandscape ? 80 : 184;
     html.style.setProperty('--cm-inset',inset+'px');
     html.style.setProperty('--cm-progress',motion.matches ? 1 : 0);
     // Measure natural content without the current stage's minimum height.
