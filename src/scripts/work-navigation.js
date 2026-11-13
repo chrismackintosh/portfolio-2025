@@ -120,8 +120,10 @@
   addEventListener('pageshow', event => {
     busy = false;
     delete root.dataset.workDeparture;
-    delete root.dataset.workOpening;
     if (!event.persisted) return;
+    // A normal load may have just begun its reveal once fonts are ready.
+    // Only a restored BFCache page should discard that animation state.
+    delete root.dataset.workOpening;
     animation?.cancel();
     breadcrumbAnimation?.cancel();
     const pending = read();
