@@ -104,9 +104,12 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 /* Intro external-link cues sit above the punctuation baseline. */
 .cm-intro-prose a[target="_blank"] .cm-intro-link-icon{width:.65em;height:.65em;vertical-align:.3em;stroke-width:1.6}
 
+/* Safari samples the homepage ground for its reserved browser-control strips.
+   Keep content surfaces separate and retain automatic weather / saved themes. */
+:root,body,.cm-stage{background:var(--cm-ground)}
+
 /* Cap the opening card, then let it expand with the existing scroll transition. */
 @media(min-width:601px) and (prefers-reduced-motion:no-preference){
-  html,body,.cm-stage{background:var(--cm-ground)}
   /* Resolve the shared starting insets against the stage, not the growing sheet. */
   .cm-stage{container-type:inline-size}
   .cm-sheet{
@@ -151,7 +154,7 @@ html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:700}
 
 /* Local simple-intro study: Figma 69:258 and Chris's November 13 refinements. */
 .cm-sheet,.cm-night .cm-sheet{box-shadow:none}
-.cm-sheet{border-radius:calc(100px * (1 - var(--cm-progress)))}
+.cm-sheet{border-radius:calc(24px * (1 - var(--cm-progress)))}
 .cm-intro{position:relative}
 .cm-intro .cm-intro-role{font-weight:700}
 html:not(.cm-night) .cm-intro{--cm-intro-role:#677787}

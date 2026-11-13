@@ -47,6 +47,15 @@
 
   function completeArrival() {
     const kind = root.dataset.workArrival;
+    if (kind === 'forward' && !motion.matches) {
+      root.dataset.workOpening = '';
+      delete root.dataset.workBreadcrumbArrival;
+      setTimeout(() => {
+        delete root.dataset.workArrival;
+        delete root.dataset.workOpening;
+      }, 760);
+      return;
+    }
     const fadeBreadcrumb = root.hasAttribute('data-work-breadcrumb-arrival');
     delete root.dataset.workArrival;
     delete root.dataset.workBreadcrumbArrival;
@@ -89,7 +98,10 @@
     if (isReturn && origin) destination = new URL(origin.url, location.href);
     const pending = {destination: route(destination), origin, fromHome: home, kind: isReturn ? 'return' : 'forward', created: Date.now()};
     const main = document.querySelector('main');
-    if (!motion.matches && main) {
+    if (!motion.matches && main && !isReturn) {
+      root.dataset.workDeparture = '';
+      await new Promise(resolve => setTimeout(resolve, 600));
+    } else if (!motion.matches && main) {
       animation?.cancel();
       animation = main.animate([{opacity: 1}, {opacity: 0}], {duration: 160, easing: 'ease-out', fill: 'forwards'});
       await Promise.race([animation.finished.catch(() => {}), new Promise(resolve => setTimeout(resolve, 220))]);
@@ -102,11 +114,13 @@
     } else {
       location.assign(destination.href);
     }
-    setTimeout(() => { animation?.cancel(); busy = false; }, 1500);
+    setTimeout(() => { animation?.cancel(); delete root.dataset.workDeparture; busy = false; }, 1500);
   });
 
   addEventListener('pageshow', event => {
     busy = false;
+    delete root.dataset.workDeparture;
+    delete root.dataset.workOpening;
     if (!event.persisted) return;
     animation?.cancel();
     breadcrumbAnimation?.cancel();
@@ -129,6 +143,8 @@
   motion.addEventListener('change', () => {
     if (motion.matches) {
       animation?.cancel();
+      delete root.dataset.workDeparture;
+      delete root.dataset.workOpening;
       breadcrumbAnimation?.cancel();
       delete root.dataset.workArrival;
       delete root.dataset.workBreadcrumbArrival;

@@ -99,3 +99,17 @@ The decorative wheat is dependency-free Canvas 2D, drawn from the shared weather
 Desktop card expansion retains stable text geometry, then fades intro content only after the card fills the viewport. Keyboard focus keeps the text visible; completely faded links become inert. Phones retain normal flow and a 70svh minimum intro; reduced motion skips the fade. New browser checks cover the intro, weather recoloring, persistent/pause behavior, responsive canvas growth, reduced motion and offscreen suspension. Literal weather-gradient text remains an unadopted exploration, not shipped styling.
 
 The intro caret uses a scoped 1.5-second ease-in/out transition; other anchors keep native behavior. Any new wheel, touch, pointer or keyboard input cancels it, and reduced motion skips it. The existing chapter cue waits for caret arrival rather than competing for vertical scroll, and interruption cancels that cue. Breeze control uses inline play/pause icons with accessible action labels, a 44px target and equal 48px bottom/right insets.
+
+## Mobile browser edges and myColorado transition (November 13, 2026)
+
+The homepage root/body/stage use the existing weather ground so Safari can tint
+its reserved browser-control strips; this does not draw content behind system UI
+or force a theme. Content surfaces retain their own light/Night colors. The
+opening card has a 24px optical radius that squares as it expands. Short
+landscape viewports from 900–1100px wide and at most 800px high use an 80px
+surround; wider desktop and portrait layout remain unchanged.
+
+In-app forward navigation into the myColorado overview and initiative uses the
+existing myColorado green as an upward curtain: 600ms close, then an 80ms hold
+and 680ms reveal. Direct loads stay immediate, return navigation keeps scroll
+and keyboard-focus restoration, and reduced motion skips the curtain.
