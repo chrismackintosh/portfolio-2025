@@ -96,7 +96,19 @@
   releaseScroll();removeEventListener('scroll',scheduleNudge);
  }
  function holdWheel(event){
-  if(event.ctrlKey||event.shiftKey||Math.abs(event.deltaX)>Math.abs(event.deltaY)){cancelNudge();return;}
+  if(event.ctrlKey){cancelNudge();return;}
+  if(event.shiftKey||Math.abs(event.deltaX)>Math.abs(event.deltaY)){
+   // WebKit can discard the native horizontal default when releasing the
+   // root overflow hold in this same event. Transfer that first gesture
+   // explicitly, only inside the track and while this held cue is active.
+   const transfer=event.cancelable&&event.composedPath().includes(viewport);
+   const delta=event.deltaX||event.deltaY;
+   const unit=event.deltaMode===1?(parseFloat(getComputedStyle(viewport).lineHeight)||16):event.deltaMode===2?viewport.clientWidth:1;
+   if(transfer)event.preventDefault();
+   cancelNudge();
+   if(transfer)viewport.scrollLeft+=delta*unit;
+   return;
+  }
   if(event.cancelable)event.preventDefault();
  }
  function holdTouch(event){
