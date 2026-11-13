@@ -42,3 +42,6 @@ html.cm-night{--cm-masthead-wash:rgb(29 35 43 / .9)}
 }
 @media(forced-colors:active){.masthead .masthead-name,.masthead-role,.masthead-location{color:CanvasText}}
 @media print{.masthead{display:none}}
+
+/* Homepage masthead follows the same gutters as the journey and work sections. */
+@media(min-width:601px){.masthead.cm-masthead{--cm-masthead-gutter:var(--cm-page-gutter)}}
