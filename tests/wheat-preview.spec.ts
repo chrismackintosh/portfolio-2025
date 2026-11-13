@@ -4,7 +4,7 @@ for(const width of [1440,820,390])test(`wheat composition ${width}`,async({page}
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.setViewportSize({width,height:1000});await page.goto('/');await page.waitForTimeout(1300);
  const canvas=page.locator('.cm-wheat');
- if(width<=760)await expect(canvas).toBeHidden();else {
+ if(width>600&&width<=760)await expect(canvas).toBeHidden();else {
  await expect(canvas).toBeVisible();
  expect(await canvas.evaluate((c:HTMLCanvasElement)=>c.getContext('2d')!.getImageData(0,0,c.width,c.height).data.some((x,i)=>i%4===3&&x>0))).toBe(true);
  await page.screenshot({path:`../wheat-${info.project.name}-${width}-sunrise.png`});

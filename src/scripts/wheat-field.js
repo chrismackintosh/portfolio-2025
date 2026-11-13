@@ -30,7 +30,7 @@
     /* ---------- scene ---------- */
     function build() {
       const r = canvas.getBoundingClientRect();
-      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const dpr = Math.min(devicePixelRatio || 1, o.maxDpr || 2);
       px = Math.max(1, Math.round(o.cell * dpr));
       cols = Math.max(8, Math.ceil(r.width * dpr / px));
       rows = Math.max(8, Math.ceil(r.height * dpr / px));
@@ -165,7 +165,7 @@
     }
     const kick = () => { if (!raf && !reduce.matches && visible && !document.hidden && canvas.getClientRects().length) { last = performance.now(); raf = requestAnimationFrame(frame); } };
     const gust = () => { if (o.motion !== 'none') { burstUntil = performance.now() + o.burst; kick(); } };
-    const enter = () => { hovered = true; gust(); }, leave = () => { hovered = false; };
+    const enter = () => { hovered = true; if(o.interactive !== false) gust(); }, leave = () => { hovered = false; };
     host.addEventListener('pointerenter', enter); host.addEventListener('pointerleave', leave);
     const ro = new ResizeObserver(() => { build(); render(); });
     ro.observe(canvas);
@@ -180,7 +180,7 @@
     build(); render(); gust();
 
     return {
-      refresh() { gradient(); render(); gust(); },                            // sky changed: recolour, small gust
+      refresh() { gradient(); render(); if(o.refreshMotion !== false) gust(); },                            // sky changed: recolour, small gust
       set(next) { Object.assign(o, next); if (o.motion === 'none') { burstUntil = 0; stop(); } build(); render(); if (o.motion !== 'none') kick(); },
       destroy() { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect();
         host.removeEventListener('pointerenter', enter); host.removeEventListener('pointerleave', leave);
