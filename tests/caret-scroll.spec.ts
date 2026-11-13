@@ -17,19 +17,18 @@ test('wheel and keyboard interrupt without resuming animation',async({page})=>{
   await page.waitForTimeout(1500);expect(Math.abs(await page.evaluate(()=>scrollY)-stopped)).toBeLessThan(3);
  }
 });
-test('reduced motion skips tween including on mobile',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:390,height:844});
+test('reduced motion skips desktop caret tween',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:1440,height:900});
  await page.goto('/');await page.evaluate(()=>document.fonts.ready);
  await page.getByRole('link',{name:'Explore the work',exact:true}).click();await page.waitForTimeout(60);
  const y=await page.evaluate(()=>scrollY);expect(y).toBeGreaterThan(200);await page.waitForTimeout(500);
  expect(await page.evaluate(()=>scrollY)).toBe(y);await expect(page.locator('#career-timeline')).toBeFocused();
 });
-test('mobile caret eases and touch stops it',async({page})=>{
+test('mobile omits caret and retains ordinary scroll',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');await page.evaluate(()=>document.fonts.ready);
- await page.getByRole('link',{name:'Explore the work',exact:true}).click();await page.waitForTimeout(250);
- expect(await page.evaluate(()=>scrollY)).toBeLessThan(200);
- await page.evaluate(()=>dispatchEvent(new Event('touchstart')));const stopped=await page.evaluate(()=>scrollY);
- await page.waitForTimeout(1600);expect(await page.evaluate(()=>scrollY)).toBe(stopped);
+ await expect(page.locator('.cm-intro-next')).toBeHidden();
+ await page.evaluate(()=>scrollTo({top:300,behavior:'instant'}));const y=await page.evaluate(()=>scrollY);
+ expect(y).toBe(300);await page.waitForTimeout(500);expect(await page.evaluate(()=>scrollY)).toBe(y);
 });
 test('switching reduced motion mid-transition finishes immediately',async({page})=>{
  await page.getByRole('link',{name:'Explore the work',exact:true}).click();await page.waitForTimeout(250);
