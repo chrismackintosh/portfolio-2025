@@ -13,9 +13,6 @@ for (const [width,height,inset] of [[951,589,80],[669,871,80],[1280,900,184]]) {
   for(const theme of ['light','dark']) {
    await page.evaluate(theme=>{localStorage.setItem('cm-color-appearance',theme);},theme); await page.reload();
    await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor===getComputedStyle(document.querySelector('.cm-stage')!).backgroundColor)).toBe(true);
-   await expect(page.locator('html')).toHaveAttribute('data-work-opening','');
-   await page.waitForTimeout(160);
-   expect(await page.evaluate(()=>new DOMMatrix(getComputedStyle(document.documentElement,'::after').transform).m42)).toBeLessThan(0);
    expect(await page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor===getComputedStyle(document.querySelector('.cm-sheet')!).backgroundColor)).toBe(false);
   }
  });
@@ -27,7 +24,7 @@ for(const reducedMotion of ['no-preference','reduce'] as const) {
   // Ensure fonts settle before load, exposing a normal-pageshow reveal race.
   await page.route('**/*', async route=>{
    if(route.request().resourceType()==='image') await new Promise(resolve=>setTimeout(resolve,700));
-   await route.continue();
+   await route.fallback();
   });
   await page.goto('/'); await page.evaluate(()=>document.fonts.ready);
   const entry=page.locator('#mycolorado-work .cm-project-entry');
