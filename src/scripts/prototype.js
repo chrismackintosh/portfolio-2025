@@ -19,12 +19,24 @@
     'Dusk': ['#d0d3df','linear-gradient(165deg,#c5cedd 0%,#d4d6e1 60%,#ded7de 100%)'],
     'Night': ['#151d2b','linear-gradient(165deg,#101725 0%,#192436 58%,#2b3547 100%)']
   };
-  // Daytime text is neutral and independent of the sky.
-  // Preserve the existing Night treatment, as requested.
+  // Weather-tinted intro pairs; Night retains its existing accessible treatment.
+  const introPalettes = {
+    'Sunrise':['#31414e','#846c74'],
+    'Sunny midday':['#283c4e','#5a7785'],
+    'Cloudy':['#354550','#677578'],
+    'Gray / rain':['#2f3e47','#66747e'],
+    'Sunset':['#474054','#8a6a78'],
+    'Dusk':['#3a3f53','#756f8a'],
+    'Night':['#d6dfec','#848f9b']
+  };
   function applyTextTreatment(){
     html.dataset.textTreatment='solid';
   }
-  const wheat = globalThis.CMWheat?.mount(document.querySelector('.cm-wheat'), {motion:'always',speed:.55});
+  const mobileWheatOptions = () => compact.matches
+    ? {motion:navigator.connection?.saveData ? 'none' : 'hover',speed:.35,fps:8,cell:7,maxDpr:1,burst:1600,interactive:false,refreshMotion:false}
+    : {motion:'always',speed:.55,fps:12,cell:5,maxDpr:2,burst:2200,interactive:true,refreshMotion:true};
+  const wheat = globalThis.CMWheat?.mount(document.querySelector('.cm-wheat'), mobileWheatOptions());
+  compact.addEventListener('change',()=>{wheat?.set({...mobileWheatOptions(),...(breezePaused ? {motion:'none'} : {})});});
   const breezeButton = document.querySelector('.cm-wheat-pause');
   let breezePaused = false;
   breezeButton?.addEventListener('click', () => {
@@ -130,8 +142,9 @@
     // Keep the sky dark too when an automatic dawn/dusk palette crosses night.
     const colors=state.dark?palettes.Night:selected;
     const textColors=state.dark?['#d6dfec','#848f9b']:['#26313b','#767676'];
-    html.style.setProperty('--cm-intro-name',textColors[0]);
-    html.style.setProperty('--cm-intro-role',textColors[1]);
+    const introColors=state.dark ? introPalettes.Night : (introPalettes[state.sky] || introPalettes['Sunny midday']);
+    html.style.setProperty('--cm-intro-name',introColors[0]);
+    html.style.setProperty('--cm-intro-role',introColors[1]);
     html.style.setProperty('--cm-copy-ink',textColors[0]);
     html.style.setProperty('--cm-copy-soft',textColors[1]);
     html.style.setProperty('--cm-ground',colors[0]);
