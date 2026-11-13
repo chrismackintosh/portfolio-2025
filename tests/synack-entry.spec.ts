@@ -39,7 +39,7 @@ test('share entry retains the approved homepage content',async({page})=>{
 });
 test('Synack content and chapter anchors survive without JavaScript',async({browser})=>{
  const context=await browser.newContext({javaScriptEnabled:false});const page=await context.newPage();
- await page.goto('http://127.0.0.1:4175/synack/');
+ await page.goto('/synack/');
  await expect(page.locator('#title-4')).toHaveText('Synack');
  await page.locator('.cm-rail a[href="#stop-4"]').click();
  await expect(page.locator('#title-4')).toBeInViewport();await context.close();

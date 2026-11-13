@@ -89,3 +89,11 @@ Before publication, review content and artwork, keyboard and screen-reader behav
 ## Synack share entry
 
 `/synack/` serves the shared homepage and initializes its existing Synack chapter (`#stop-4`). The pathname stays intact; there is no redirect or homepage canonical, so saving the link without its fragment retains the destination. Explicit fragments still take precedence. The entry reuses approved content and artwork. Production marks this duplicate entry `noindex, follow` and leaves the five canonical content routes in the sitemap. With JavaScript disabled the same content remains available through the timeline links.
+
+## Minimal intro and pixel wheat (November 13, 2026)
+
+The homepage opens with name, role, contact and an accessible caret to the career timeline. Earlier proof/context remains in the timeline: Visible holds the qualified eSIM/Apple account, and Rendered Intent holds the studio description and current tools. Product/case pages retain their existing presentation.
+
+The decorative wheat is dependency-free Canvas 2D, drawn from the shared weather gradient. It uses a gentle persistent breeze, a visible keyboard-operable Pause/Resume control, a 12fps paint cap and at most 2× pixel ratio. It stops when offscreen, hidden or reduced motion is requested; phones <=760px omit the artwork. No new network or storage use is introduced. Existing automatic Denver/NWS appearance and saved Light/Dark preferences remain unchanged.
+
+Desktop card expansion retains stable text geometry, then fades intro content only after the card fills the viewport. Keyboard focus keeps the text visible; completely faded links become inert. Phones retain normal flow and a 70svh minimum intro; reduced motion skips the fade. New browser checks cover the intro, weather recoloring, persistent/pause behavior, responsive canvas growth, reduced motion and offscreen suspension. Literal weather-gradient text remains an unadopted exploration, not shipped styling.

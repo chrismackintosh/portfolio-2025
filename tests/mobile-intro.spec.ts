@@ -9,7 +9,10 @@ test('phone intro stays full width and stable through scroll and toolbar resizin
  for(const height of [800,600,667]){
   await page.setViewportSize({width:375,height});await page.evaluate(()=>scrollTo({top:100,behavior:'instant'}));
   const box=await sheet.boundingBox();expect(box?.x).toBe(0);expect(box?.width).toBe(375);
-  expect((await opening.boundingBox())?.height).toBe(initial?.height);
+  // The approved minimal intro occupies 70svh; desktop emulation changes svh with viewport height.
+  expect((await opening.boundingBox())!.height).toBeCloseTo(height*.7,0);
+  const beforeScroll=(await opening.boundingBox())!.height;await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
+  expect((await opening.boundingBox())!.height).toBe(beforeScroll);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(375);
  }
  await page.setViewportSize({width:900,height:800});await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));

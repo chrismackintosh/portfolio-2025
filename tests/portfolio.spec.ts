@@ -36,7 +36,7 @@ test('work navigation returns to previous homepage scroll',async ({page})=>{
   const y=await page.evaluate(()=>scrollY);
   await entry.click();await expect(page).toHaveURL(/\/mycolorado\/$/);
   await expect(page.locator('.breadcrumbs')).toBeVisible();
-  await page.locator('.return-link').click();await expect(page).toHaveURL(/:4175\/$/);
+  await page.locator('.return-link').click();await expect.poll(()=>new URL(page.url()).pathname).toBe('/');
   await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(y-3);
   expect(Math.abs(await page.evaluate(()=>scrollY)-y)).toBeLessThan(3);
 });
@@ -71,7 +71,7 @@ test('reduced motion exposes completed static content',async ({page})=>{
 });
 test('content and direct navigation survive no JavaScript',async ({browser})=>{
  const context=await browser.newContext({javaScriptEnabled:false});const page=await context.newPage();
- for(const route of routes){await page.goto('http://127.0.0.1:4175'+route);await expect(page.locator('h1')).toHaveCount(1);expect(await page.locator('body').innerText()).toContain('Chris Mackintosh');}
+ for(const route of routes){await page.goto(route);await expect(page.locator('h1')).toHaveCount(1);expect(await page.locator('body').innerText()).toContain('Chris Mackintosh');}
  await context.close();
 });
 for(const route of routes) for(const theme of ['light','dark']) test(`axe ${theme} ${route}`,async ({page})=>{

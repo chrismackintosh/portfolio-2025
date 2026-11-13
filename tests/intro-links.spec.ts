@@ -5,7 +5,7 @@ for(const width of [375,1440])for(const reducedMotion of ['no-preference','reduc
   await page.setViewportSize({width,height:1000});await page.emulateMedia({reducedMotion});
   await page.addInitScript(theme=>localStorage.setItem('cm-color-appearance',theme),theme);
   await page.goto('/');await page.evaluate(()=>document.fonts.ready);
-  const links=page.locator('.cm-intro-prose a,.cm-intro-contact>a');await expect(links).toHaveCount(5);
+  const links=page.locator('.cm-intro-contact>a');await expect(links).toHaveCount(1);
   for(const link of await links.all()){
    await link.scrollIntoViewIfNeeded();await page.mouse.move(0,0);
    const prose=await link.evaluate(e=>Boolean(e.closest('.cm-intro-prose')));

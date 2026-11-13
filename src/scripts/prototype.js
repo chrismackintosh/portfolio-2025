@@ -24,6 +24,15 @@
   function applyTextTreatment(){
     html.dataset.textTreatment='solid';
   }
+  const wheat = globalThis.CMWheat?.mount(document.querySelector('.cm-wheat'), {motion:'always',speed:.55});
+  const breezeButton = document.querySelector('.cm-wheat-pause');
+  let breezePaused = false;
+  breezeButton?.addEventListener('click', () => {
+    breezePaused = !breezePaused;
+    wheat?.set({motion:breezePaused ? 'none' : 'always'});
+    breezeButton.textContent = breezePaused ? 'Resume breeze' : 'Pause breeze';
+  });
+  addEventListener('pagehide', event => { if (!event.persisted) wheat?.destroy(); });
   let appearance = {sky:'Sunny midday',dark:false,source:'Local daylight'};
   let height = innerHeight, travel = 450, readingInset = 90, queued = false;
   const clamp = v => Math.max(0,Math.min(1,v));
@@ -39,11 +48,15 @@
     masthead.setAttribute('aria-hidden',mastheadOpacity === 0 ? 'true' : 'false');
     masthead.inert = mastheadOpacity === 0;
     const viewport = innerHeight;
-    // Keep readable text at full contrast until the entire block leaves the viewport.
-    // The old fade started even at scrollY=0 on short mobile screens.
-    introBlocks.forEach(block => {
-      block.style.setProperty('--cm-intro-opacity', motion.matches || block.getBoundingClientRect().bottom > 0 ? 1 : 0);
-    });
+    // Fade the selected intro content only after the card has filled the viewport.
+    // Phones retain ordinary reading flow; reduced motion skips this effect.
+    const fillEnd = Math.max(0,height-innerHeight) + travel;
+    const fadeDistance = Math.min(300,innerHeight * .3);
+    const focused = content.contains(document.activeElement);
+    const opacity = motion.matches || compact.matches || focused ? 1 : 1-clamp((y-fillEnd)/fadeDistance);
+    content.style.opacity = String(opacity);
+    content.inert = opacity === 0;
+    introBlocks.forEach(block => block.style.setProperty('--cm-intro-opacity',1));
     const timelineRect = timeline.getBoundingClientRect();
     timeline.classList.toggle('cm-rail-engaged', timelineRect.top < viewport * .8 && timelineRect.bottom > readingInset);
     if (!timeline.classList.contains('cm-journey-enabled')) {
@@ -76,7 +89,7 @@
       update();
       return;
     }
-    const inset = innerWidth<600 ? 20 : innerWidth<900 ? 40 : 80;
+    const inset = innerWidth<600 ? 20 : innerWidth<900 ? 80 : 184;
     html.style.setProperty('--cm-inset',inset+'px');
     html.style.setProperty('--cm-progress',motion.matches ? 1 : 0);
     // Measure natural content without the current stage's minimum height.
@@ -119,6 +132,7 @@
     html.style.setProperty('--cm-ground',colors[0]);
     html.style.setProperty('--cm-weather-gradient',colors[1]);
     html.style.setProperty('--cm-gradient',colors[1]);
+    wheat?.refresh();
   }
   // Play once when the sentence enters view, never while someone is revealing it.
   const redactionObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries=>{
@@ -150,6 +164,8 @@
   applyTextTreatment();
   document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(!target)return;e.preventDefault();if(globalThis.CMHorizontalTimeline?.goTo(target)){history.replaceState(null,'',a.getAttribute('href'));return;}target.focus({preventScroll:true});target.scrollIntoView({behavior:motion.matches?'instant':'smooth',block:'start'});history.replaceState(null,'',a.getAttribute('href'));}));
   addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(update);}},{passive:true});
+  content.addEventListener('focusin',()=>requestAnimationFrame(update));
+  content.addEventListener('focusout',()=>requestAnimationFrame(update));
   addEventListener('resize',layout,{passive:true});
   motion.addEventListener('change',layout);
   layout();

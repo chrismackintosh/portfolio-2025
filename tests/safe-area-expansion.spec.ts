@@ -22,7 +22,7 @@ async function safeArea(page: Page, browserName: string, left: number, right: nu
 // A stable bounding box alone can miss a word moving onto a different line.
 async function readingLayout(page: Page) {
   return page.evaluate(() => {
-    const prose = document.querySelector('.cm-intro-prose')!.getBoundingClientRect();
+    const prose = document.querySelector('.cm-intro-title')!.getBoundingClientRect();
     const intro = document.querySelector('.cm-intro')!.getBoundingClientRect();
     const blocks = [...document.querySelectorAll('.cm-intro h1,.cm-intro-role,.cm-intro-prose>p,.cm-intro-stack p,.cm-intro-contact p,.cm-intro-contact>a')].map(element => {
       const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
@@ -90,7 +90,7 @@ for (const [width, height, left, right, openingMeasure] of [
   }
   await testInfo.attach('scroll-frames', { body: JSON.stringify(frames, null, 2), contentType: 'application/json' });
   await testInfo.attach('reading-layouts', { body: JSON.stringify(readings, null, 2), contentType: 'application/json' });
-  expect(readings[0].proseWidth).toBeCloseTo(openingMeasure, 1);
+  expect(readings[0].proseWidth).toBeGreaterThan(150); // New minimal intro measure, independently checked for stable layout below.
   for (const reading of readings) expectStableReading(reading, readings[0]);
   expect(frames[0].left).toBeGreaterThanOrEqual(left);
   expect(frames[0].right).toBeGreaterThanOrEqual(right);

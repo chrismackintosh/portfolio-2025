@@ -148,3 +148,41 @@ html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:700}
   html:not(.cm-night) .cm-intro-contact>p{color:var(--cm-copy-ink)}
   html:not(.cm-night) .cm-intro-prose a{color:inherit}
 }
+
+/* Local simple-intro study: Figma 69:258 and Chris's November 13 refinements. */
+.cm-sheet,.cm-night .cm-sheet{box-shadow:none}
+.cm-sheet{border-radius:calc(100px * (1 - var(--cm-progress)))}
+.cm-intro{position:relative}
+.cm-intro .cm-intro-role{font-weight:700}
+html:not(.cm-night) .cm-intro{--cm-intro-role:#677787}
+.cm-intro .cm-intro-next{position:absolute;left:var(--cm-card-padding);top:calc(100% - 4px);display:flex;align-items:center;justify-content:flex-start;width:44px;height:44px;color:var(--cm-intro-role);text-decoration:none;opacity:1}
+.cm-intro-next span{display:inline-block;transform:rotate(90deg);font-size:24px;line-height:1;letter-spacing:.748px;font-weight:600}
+.cm-intro .cm-intro-next:is(:hover,:focus-visible){text-decoration:none}
+#career-timeline{scroll-margin-top:calc(var(--cm-header-height) + 16px)}
+#career-timeline:focus{outline:none}
+@media(min-width:900px){.cm-intro .cm-intro-next{left:calc(var(--cm-card-padding) + 20px)}}
+@media(max-width:600px){.cm-intro .cm-intro-next{position:relative;left:auto;top:auto;margin-top:14px}.cm-sheet-content{min-height:70svh}}
+@media(forced-colors:active){.cm-intro .cm-intro-next{color:LinkText}}
+
+/* Review refinement: double desktop/tablet surround; retain phone flow. */
+:root{--cm-inset:184px}
+html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:600}
+@media(min-width:601px) and (max-width:899px){:root{--cm-inset:80px}}
+
+
+/* Tool groups follow the adjacent Shipped label, rules and compact row rhythm. */
+.cm-ri-stack.cm-shipped .cm-tools-list{list-style:none;padding:0;margin:12px 0 0}
+.cm-ri-stack.cm-shipped .cm-stack-row{display:flex;flex-wrap:wrap;gap:0 .25em;border-top:1px solid var(--cm-accent);padding:12px 0;margin:0;font-size:14px;line-height:1.4;letter-spacing:-.015em}
+.cm-ri-stack .cm-stack-slash{margin-inline:.15em}
+
+#stop-6 .cm-ri-intent{font-weight:600}
+
+/* Claude wheat study: decorative, clipped to the card, never intercepts controls. */
+.cm-wheat{position:absolute;right:0;bottom:0;width:62%;height:78%;pointer-events:none}
+.cm-sheet-content{position:relative;z-index:1}
+@media(max-width:760px),(forced-colors:active){.cm-wheat{display:none}}
+
+/* Continuous decorative motion has an explicit keyboard-accessible pause. */
+.cm-wheat-pause{position:absolute;right:28px;bottom:20px;z-index:2;min-height:44px;padding:8px 12px;border:1px solid var(--cm-line);border-radius:999px;background:var(--cm-paper);color:var(--cm-copy-ink);font:inherit;font-size:12px;cursor:pointer}
+.cm-wheat-pause:focus-visible{outline:2px solid var(--cm-copy-ink);outline-offset:3px}
+@media(max-width:760px),(prefers-reduced-motion:reduce),(forced-colors:active){.cm-wheat-pause{display:none}}
