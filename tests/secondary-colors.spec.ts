@@ -10,10 +10,11 @@ const scenarios=[
  {sky:'Night',time:'2026-10-15T04:00:00Z',description:'Clear',color:'rgb(170, 180, 192)'},
 ];
 for(const scenario of scenarios) test(`${scenario.sky}: shared secondary text follows title palette`,async({page},testInfo)=>{
+ await page.emulateMedia({reducedMotion:'reduce'});
  const time=Date.parse(scenario.time); await page.clock.setFixedTime(time);
  await page.route('https://api.weather.gov/**',route=>route.fulfill({json:{properties:{station:'https://api.weather.gov/stations/KDEN',timestamp:new Date(time-60000).toISOString(),textDescription:scenario.description,cloudLayers:[],presentWeather:[]}}}));
  for(const path of ['/','/mycolorado/','/mycolorado/mobile-drivers-license/','/synack/','/case-studies/visible-core-experience.html','/case-studies/visible-esim.html']){
-  await page.goto(path);
+  await page.goto(path);await page.evaluate(()=>document.fonts.ready);
   await expect(page.locator('.masthead-role')).toHaveCSS('color',scenario.color);
   const accessibility=await new AxeBuilder({page}).withRules(['color-contrast']).analyze();
   expect(accessibility.violations).toEqual([]);
