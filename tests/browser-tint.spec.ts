@@ -8,7 +8,7 @@ for(const reducedMotion of ['no-preference','reduce'] as const)test(`opaque tint
   await expect(strip).toHaveCSS('pointer-events','none');await expect(strip).toHaveCSS('height','12px');
   await expect(strip).toHaveCSS('position','fixed');await expect(strip).toHaveCSS('animation-name','none');
   await expect.poll(async()=>strip.evaluate(e=>getComputedStyle(e).backgroundColor)).toBe(await page.locator('.cm-sheet').evaluate(e=>getComputedStyle(e).backgroundColor));
-  await expect(page.locator('.masthead')).toHaveCSS('backdrop-filter','blur(16px)');
+  await expect(page.locator('.masthead')).toHaveCSS('backdrop-filter','none');
   expect(await strip.evaluate(e=>document.elementFromPoint(10,5)===e)).toBe(false);
   await button.focus();await button.press('Space');await expect(button).toBeFocused();
  }
@@ -26,7 +26,7 @@ test('interior page tint has no focus or layout role',async({page})=>{
  await page.route('https://api.weather.gov/**',r=>r.abort());await page.goto('/mycolorado/');
  const strip=page.locator('.cm-browser-tint');await expect(strip).toHaveCount(1);
  expect(await strip.evaluate(e=>({children:e.childElementCount,tabIndex:(e as HTMLElement).tabIndex,text:e.textContent}))).toEqual({children:0,tabIndex:-1,text:''});
- await expect(page.locator('.masthead')).toHaveCSS('backdrop-filter','blur(16px)');
+ await expect(page.locator('.masthead')).toHaveCSS('backdrop-filter','none');
 });
 
 test('initial homepage keeps its weather surround unobstructed',async({page})=>{
