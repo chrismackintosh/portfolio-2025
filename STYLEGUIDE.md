@@ -26,13 +26,13 @@ These are intro-specific rules, not global weight assignments. Product page typo
 | --- | --- | --- |
 | `--cm-paper` | `#fff` | `#1d232b` |
 | `--cm-ink` | `#26313b` | `#e6e9ed` |
-| `--cm-secondary` | `#64717a` | `#aab4c0` |
+| `--cm-secondary` | Weather role tint (`#5a7785` fallback) | `#aab4c0` |
 | `--cm-line` | `#dce2e6` | `#3e4b59` |
 | `--cm-accent` | `#627c90` | `#afc3d7` |
 
 Route-specific surface tokens preserve the approved background differences. The homepage gutter starts at `max(32px, 6vw)`, becomes 32px below 900px, and 24px below 600px; later component rules in the preserved cascade remain authoritative. The opening is measured against its real content and font, rather than forcing a fixed-height card. Product pages retain their existing reading widths and responsive composition.
 
-Theme selection persists under `cm-color-appearance`. Automatic mode combines a local sunrise/sunset calculation for Denver with recent NWS observations from Denver International Airport. Clear, cloudy, and precipitation conditions affect the daytime sky; local daylight is the fallback for stale or unavailable observations. Manual switches update text and surfaces immediately, with decorative border/shadow easing only. Sky-specific intro colors remain scoped to the intro controller.
+Theme selection persists under `cm-color-appearance`. Automatic mode combines a local sunrise/sunset calculation for Denver with recent NWS observations from Denver International Airport. Clear, cloudy, and precipitation conditions affect the daytime sky; local daylight is the fallback for stale or unavailable observations. Manual switches update text and surfaces immediately, with decorative border/shadow easing only. The shared text palette supplies the title role and all light-mode secondary text, including masthead labels, timeline metadata, body decks, and footers. Primary text remains unchanged. Secondary copy on tinted product panels uses a slightly darker version of the same hue for contrast. Night retains its existing separate intro and secondary treatments.
 
 ## Shared prose links
 

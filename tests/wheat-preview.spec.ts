@@ -1,5 +1,5 @@
 import {test,expect} from '@playwright/test';
-test.beforeEach(async({page})=>{await page.addInitScript(()=>localStorage.setItem('cm-color-appearance','light'));});
+test.beforeEach(async({page})=>{await page.addInitScript(()=>localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:'light',expiresAt:Date.now()+3600000})));});
 for(const width of [1440,820,390])test(`wheat composition ${width}`,async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.setViewportSize({width,height:1000});await page.goto('/');await page.waitForTimeout(1300);

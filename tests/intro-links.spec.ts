@@ -3,7 +3,7 @@ test.beforeEach(async({page})=>{await page.route('https://api.weather.gov/**',ro
 for(const width of [375,1440])for(const reducedMotion of ['no-preference','reduce'] as const)for(const theme of ['light','dark']){
  test(`intro links underline only on hover or focus ${width} ${reducedMotion} ${theme}`,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.emulateMedia({reducedMotion});
-  await page.addInitScript(theme=>localStorage.setItem('cm-color-appearance',theme),theme);
+  await page.addInitScript(theme=>localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:theme,expiresAt:Date.now()+3600000})),theme);
   await page.goto('/');await page.evaluate(()=>document.fonts.ready);
   const links=page.locator('.cm-intro-contact>a');await expect(links).toHaveCount(1);
   for(const link of await links.all()){

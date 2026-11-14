@@ -15,7 +15,7 @@ const cases=[
 for(const scenario of cases) for(const mode of ['auto','light','dark'])test(`${scenario.sky} ${scenario.time} with ${mode} appearance`,async({page})=>{
  const time=Date.parse(scenario.time);
  await page.clock.setFixedTime(time);
- if(mode!=='auto')await page.addInitScript(mode=>localStorage.setItem('cm-color-appearance',mode),mode);
+ if(mode!=='auto')await page.addInitScript(mode=>localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:mode,expiresAt:Date.now()+3600000})),mode);
  await page.route(endpoint,route=>route.fulfill({json:{properties:{station:'https://api.weather.gov/stations/KDEN',timestamp:new Date(time-60000).toISOString(),textDescription:scenario.description,cloudLayers:[],presentWeather:[]}}}));
  await page.goto('/');
  const dark=mode==='auto'?scenario.dark:mode==='dark';

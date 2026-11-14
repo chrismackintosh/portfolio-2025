@@ -1,5 +1,5 @@
-/* Shared neutral typography; Night values remain unchanged. */
-:root{--cm-paper:#fff;--cm-ink:#26313b;--cm-secondary:#767676;--cm-masthead-muted:#767676;--cm-icon:#64717a;--cm-line:#dce2e6;--cm-accent:#627c90}
+/* Shared weather-tinted secondary typography; Night values remain unchanged. */
+:root{--cm-paper:#fff;--cm-ink:#26313b;--cm-secondary:var(--cm-weather-secondary,#5a7785);--cm-masthead-muted:var(--cm-secondary);--cm-icon:#64717a;--cm-line:#dce2e6;--cm-accent:#627c90}
 html.cm-night{--cm-paper:#1d232b;--cm-ink:#e6e9ed;--cm-secondary:#aab4c0;--cm-masthead-muted:#aab4c0;--cm-icon:#aab4c0;--cm-line:#3e4b59;--cm-accent:#afc3d7}
 
 /* Shared filled controls: icon and text buttons use the same surfaces. */

@@ -9,7 +9,7 @@ test('icon-only breeze control preserves keyboard, label, hit target and contras
  await expect(button).toHaveAccessibleName('Resume breeze');await expect(button.locator('.cm-breeze-play-icon')).toBeVisible();await expect(button.locator('.cm-breeze-pause-icon')).toBeHidden();
  await page.keyboard.press('Space');await expect(button).toHaveAccessibleName('Pause breeze');
  for(const mode of ['light','dark']){
-  await page.evaluate(mode=>{localStorage.setItem('cm-color-appearance',mode);dispatchEvent(new StorageEvent('storage',{key:'cm-color-appearance'}));},mode);await page.waitForTimeout(450);
+  await page.evaluate(mode=>{localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:mode,expiresAt:Date.now()+3600000}));dispatchEvent(new StorageEvent('storage',{key:'cm-color-appearance'}));},mode);await page.waitForTimeout(450);
   const ratio=await button.evaluate(el=>{
    const lum=(s:string)=>{const c=s.match(/[\d.]+/g)!.slice(0,3).map(Number).map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return c[0]*.2126+c[1]*.7152+c[2]*.0722;};
    const a=lum(getComputedStyle(el).color),b=lum(getComputedStyle(document.querySelector('.cm-sheet')!).backgroundColor);return(Math.max(a,b)+.05)/(Math.min(a,b)+.05);
