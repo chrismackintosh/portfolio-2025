@@ -26,12 +26,16 @@ for(const width of [1440,1144,900,760,601,600,375,320])test(`mastheads preserve 
  }
 });
 
-for(const width of [390,1440])test(`masthead blurs scrolled content with opaque accessibility fallback at ${width}px`,async({page,browserName})=>{
+for(const width of [390,1440])test(`masthead stays solid across themes and transparency preferences at ${width}px`,async({page,browserName})=>{
  await page.setViewportSize({width,height:900});
  await page.route('https://api.weather.gov/**',r=>r.abort());
  await page.goto('/#stop-2');
  const header=page.locator('.masthead');
- await expect(header).toHaveCSS('backdrop-filter','blur(16px)');
+ await expect(header).toHaveCSS('backdrop-filter','none');
+ for(let i=0;i<2;i++){
+  expect(await header.evaluate(e=>getComputedStyle(e).backgroundColor)).toBe(await page.locator('.cm-sheet').evaluate(e=>getComputedStyle(e).backgroundColor));
+  await page.locator('.masthead [data-theme-toggle]').click();
+ }
  await expect(header).toHaveCSS('opacity','1');
  if(browserName!=='chromium')return; // CDP transparency override is Chromium-only.
  const cdp=await page.context().newCDPSession(page);

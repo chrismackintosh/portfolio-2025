@@ -114,4 +114,4 @@ existing myColorado green as an upward curtain: 600ms close, then an 80ms hold
 and 680ms reveal. Direct loads stay immediate, return navigation keeps scroll
 and keyboard-focus restoration, and reduced motion skips the curtain.
 
-The myColorado scanner plays once for five seconds while visible, with offscreen/background pausing and a static reduced-motion state. Its decorative QR encodes the portfolio homepage. Mastheads use a direct16px backdrop blur with opaque reduced-transparency/forced-colors fallback, and an icon-only44px theme control with keyboard focus retained.
+The myColorado scanner plays once for five seconds while visible, with offscreen/background pausing and a static reduced-motion state. Its decorative QR encodes the portfolio homepage. Mastheads use a solid theme-matched paper background without backdrop blur, and an icon-only44px theme control with keyboard focus retained.
