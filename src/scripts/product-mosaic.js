@@ -39,7 +39,7 @@
 })();
 
 (() => {
-  const tiles = document.querySelectorAll('[data-mosaic-motion]:not(.myco-departure)');
+  const tiles = document.querySelectorAll('[data-mosaic-motion]:not(.myco-departure):not(.myco-scanner)');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (!tiles.length || !('IntersectionObserver' in window)) return;
   const observer = new IntersectionObserver(entries => {
@@ -84,7 +84,7 @@
   });
 })();
 
-// Only the flight repeats. Keep its clock still offscreen or in a background tab.
+// The flight repeats independently. Keep its clock still offscreen or in a background tab.
 (() => {
   const tile = document.querySelector('.myco-departure');
   if (!tile || !('IntersectionObserver' in window)) return;
@@ -94,6 +94,26 @@
     const playing = inView && !document.hidden && !reduced.matches;
     if (playing) tile.classList.add('cm-mosaic-play');
     tile.classList.toggle('myco-flight-paused', !playing);
+  };
+  const observer = new IntersectionObserver(entries => {
+    inView = entries[0].isIntersecting && entries[0].intersectionRatio >= .65;
+    sync();
+  }, {threshold: [0, .65]});
+  observer.observe(tile);
+  document.addEventListener('visibilitychange', sync);
+  reduced.addEventListener('change', sync);
+})();
+
+// Play the scanner once for five seconds, pausing offscreen/background and respecting reduced motion.
+(() => {
+  const tile = document.querySelector('.myco-scanner');
+  if (!tile || !('IntersectionObserver' in window)) return;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let inView = false;
+  const sync = () => {
+    const playing = inView && !document.hidden && !reduced.matches;
+    if (playing) tile.classList.add('cm-mosaic-play');
+    tile.classList.toggle('myco-scanner-paused', !playing);
   };
   const observer = new IntersectionObserver(entries => {
     inView = entries[0].isIntersecting && entries[0].intersectionRatio >= .65;

@@ -20,3 +20,11 @@
   transition:border-color 360ms cubic-bezier(.4,0,.2,1),box-shadow 360ms cubic-bezier(.4,0,.2,1);
  }
 }
+
+/* Masthead theme toggle: icon only, with the full 44px interactive target retained. */
+.masthead .theme-controls button{border:0;background:transparent;box-shadow:none;transition:opacity 160ms}
+.masthead .theme-controls button:hover{background:transparent;opacity:.72}
+.masthead .theme-controls button:active{background:transparent;opacity:.55}
+.masthead .theme-controls button:focus-visible{background:transparent;opacity:1;outline:2px solid var(--cm-accent);outline-offset:0}
+@media(prefers-reduced-motion:reduce){.masthead .theme-controls button{transition:none}}
+@media(forced-colors:active){.masthead .theme-controls button{color:ButtonText;opacity:1}}

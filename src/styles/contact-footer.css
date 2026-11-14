@@ -216,3 +216,15 @@ html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:600}
 
 /* Bring the mobile wheat directly beneath the introduction; avoid compensating blank space. */
 @media(max-width:600px){.cm-wheat{margin-top:-112px;margin-bottom:0}}
+
+/* Fill the visible phone viewport without locking content into a fixed height.
+   dvh follows mobile browser chrome; older browsers retain the vh/svh fallback. */
+@media(max-width:600px){
+ .cm-sheet{min-height:100vh;min-height:100svh;min-height:100dvh;padding-bottom:env(safe-area-inset-bottom,0px)}
+ .cm-sheet-content{flex:1 0 auto;justify-content:flex-start;padding-top:calc(56px + env(safe-area-inset-top,0px))}
+}
+@media print{.cm-sheet{min-height:0;padding-bottom:0}}
+
+/* Phone pages have no inset sky surround. Use their actual paper surface for
+   the document canvas Safari samples behind its controls and safe-area edges. */
+@media(max-width:600px){:root,body,.cm-stage{background:var(--cm-paper)}}

@@ -34,14 +34,14 @@
 .cm-work .myco-portrait img{width:100%;mix-blend-mode:multiply}
 .cm-work .myco-portrait .myco-ring{position:absolute;inset:0}
 .myco-scanner{grid-area:3/1/4/2}
-.myco-viewfinder{position:relative;width:65.76%;aspect-ratio:1;display:grid;place-items:center}
-.myco-viewfinder i{position:absolute;width:11%;height:11%;border:solid #007d30;border-width:0;border-radius:0}
-.myco-viewfinder i:nth-child(1){top:0;left:0;border-top-width:.2cqw;border-left-width:.2cqw;border-top-left-radius:.44cqw}
-.myco-viewfinder i:nth-child(2){top:0;right:0;border-top-width:.2cqw;border-right-width:.2cqw;border-top-right-radius:.44cqw}
-.myco-viewfinder i:nth-child(3){bottom:0;left:0;border-bottom-width:.2cqw;border-left-width:.2cqw;border-bottom-left-radius:.44cqw}
-.myco-viewfinder i:nth-child(4){bottom:0;right:0;border-bottom-width:.2cqw;border-right-width:.2cqw;border-bottom-right-radius:.44cqw}
-.myco-scan-label{position:relative;z-index:1;background:#3d3d3d;color:white;border-radius:99px;padding:.62cqw .94cqw;white-space:nowrap;font:500 .74cqw/1.2 -apple-system,BlinkMacSystemFont,sans-serif}
-.myco-scanline{position:absolute;left:4%;right:4%;top:8%;height:1px;background:#007d30;box-shadow:0 -3px 12px #007d3040;opacity:0}
+.myco-viewfinder{position:relative;width:65.76%;aspect-ratio:1;display:grid;place-items:center;container-type:inline-size}
+.myco-viewfinder i{position:absolute;width:18%;height:18%;border:solid #007d30;border-width:0;border-radius:0}
+.myco-viewfinder i:nth-child(1){--scan-x:-12%;--scan-y:-12%;top:0;left:0;border-top-width:4.5cqw;border-left-width:4.5cqw;border-top-left-radius:14cqw}
+.myco-viewfinder i:nth-child(2){--scan-x:12%;--scan-y:-12%;top:0;right:0;border-top-width:4.5cqw;border-right-width:4.5cqw;border-top-right-radius:14cqw}
+.myco-viewfinder i:nth-child(3){--scan-x:-12%;--scan-y:12%;bottom:0;left:0;border-bottom-width:4.5cqw;border-left-width:4.5cqw;border-bottom-left-radius:14cqw}
+.myco-viewfinder i:nth-child(4){--scan-x:12%;--scan-y:12%;bottom:0;right:0;border-bottom-width:4.5cqw;border-right-width:4.5cqw;border-bottom-right-radius:14cqw}
+.cm-work .myco-scanner-code{width:74%;height:74%;border-radius:5cqw;image-rendering:pixelated}
+.myco-scanline{position:absolute;left:8%;right:8%;top:70%;height:18%;background:linear-gradient(to bottom,#00ed655e 0%,#00ed6524 45%,#00ed6500 100%);border-top:1px solid #38ff8da6;box-shadow:0 -2px 6px #00ff6824;opacity:1}
 .myco-departure{grid-area:3/5/4/6;background:#007396}
 .cm-work .myco-departure img{position:absolute;max-height:none}
 .cm-work .myco-departure .myco-plane{width:38%;left:31%;top:35%;transform-origin:50% 50%}
@@ -74,7 +74,7 @@
  .cm-myco-mosaic .myco-verify{grid-area:7/3/8/4}
  .myco-metrics strong{font-size:8cqw}.myco-metrics .myco-mau{font-size:2cqw}
  .myco-account,.myco-verify{font-size:1.8cqw}.myco-confirmed{font-size:2.3cqw}.myco-verifier,.myco-selfie{font-size:1.6cqw}
- .myco-scan-label{font-size:1.3cqw;padding:1cqw 1.5cqw}.myco-reader{font-size:2.5cqw}
+.myco-reader{font-size:2.5cqw}
  .myco-check-pill{font-size:1.8cqw;padding:.8cqw 1.4cqw}.cm-work .myco-check-pill img{width:2.6cqw}
  .myco-viewfinder{width:60%}.cm-work .myco-brand img{width:65%}.cm-work .myco-app img{width:45%}
  .cm-work .myco-phones img{inset:0;width:100%;height:100%;object-fit:contain}
@@ -94,8 +94,6 @@
  .myco-account,.myco-verify{font-size:clamp(11px,3.1cqw,18px)}.myco-confirmed{font-size:4.2cqw}.myco-verifier,.myco-selfie{font-size:clamp(11px,2.9cqw,17px)}
  .myco-verifier span,.myco-verify span,.myco-selfie>span{max-width:90%}
  .myco-verifier br,.myco-verify br{display:none}
- .myco-scan-label{font-size:2.4cqw;padding:2cqw 2.8cqw}
- .myco-viewfinder i{border-width:0}.myco-viewfinder i:nth-child(1){border-width:2px 0 0 2px}.myco-viewfinder i:nth-child(2){border-width:2px 2px 0 0}.myco-viewfinder i:nth-child(3){border-width:0 0 2px 2px}.myco-viewfinder i:nth-child(4){border-width:0 2px 2px 0}
  .myco-reader{font-size:4cqw;gap:1.8cqw}.myco-check-pill{font-size:3.3cqw;padding:1.8cqw 3cqw}
  .cm-work .myco-check-pill img{width:4.5cqw}.myco-state-logo{gap:1cqw}
  .myco-id{gap:5cqw}.cm-work .myco-license{width:65%}.cm-work .myco-signature{width:70%}
@@ -103,12 +101,15 @@
  .cm-work .myco-wallet img{width:145%;left:5%;top:4%}
 }
 @media(prefers-reduced-motion:no-preference){
- .myco-scanner.cm-mosaic-play .myco-scanline{animation:cm-mosaic-scan 1800ms cubic-bezier(.4,0,.2,1) 200ms 1}
+ .myco-scanner.cm-mosaic-play .myco-viewfinder i{animation:cm-scanner-pulse 2500ms ease-in-out 2 both}
+ .myco-scanner.cm-mosaic-play .myco-scanline{animation:cm-mosaic-scan 4750ms cubic-bezier(.4,0,.2,1) 250ms 1 both}
  .cm-work .myco-confirmed.cm-mosaic-play img{animation:cm-mosaic-confirm 850ms cubic-bezier(.22,1,.36,1) 300ms 1}
  .cm-work .myco-departure.cm-mosaic-play .myco-plane{animation:cm-mosaic-takeoff 14000ms linear 900ms infinite both}
  .cm-work .myco-departure.cm-mosaic-play .myco-plane-shadow{animation:cm-mosaic-shadow 14000ms linear 900ms infinite both}
 }
-@keyframes cm-mosaic-scan{0%,100%{opacity:0;transform:translateY(0)}15%{opacity:.5}80%{opacity:.5}95%{opacity:0;transform:translateY(7cqw)}}
+@keyframes cm-mosaic-scan{0%,8%{transform:translateY(-310%);opacity:0}16%{opacity:1}62%,76%{transform:translateY(0);opacity:1}88%,100%{transform:translateY(0);opacity:0}}
+@keyframes cm-scanner-pulse{0%,100%{transform:translate(0,0)}50%{transform:translate(var(--scan-x),var(--scan-y))}}
+.myco-scanner.myco-scanner-paused .myco-scanline,.myco-scanner.myco-scanner-paused .myco-viewfinder i{animation-play-state:paused}
 @keyframes cm-mosaic-confirm{0%{transform:scale(.86);opacity:.55}55%{transform:scale(1.055);opacity:1}100%{transform:scale(1)}}
 /* The line is wiped from its left edge; its right edge stays anchored below takeoff. */
 /* Two seconds of flight, then twelve seconds of rest, including a quiet reset. */
