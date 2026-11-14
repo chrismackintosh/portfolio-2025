@@ -118,7 +118,18 @@
       lastAttempt = cached.savedAt;
     }
   } catch { /* Storage may be blocked or malformed. */ }
-  globalThis.CMWeather = { start(onChange) {
+  globalThis.CMWeather = {
+    current: state,
+    nextBoundary(now = Date.now()) {
+      // After sunset, tomorrow's sunrise is the next boundary (including DST days).
+      const today = estimatedSunTimes(now);
+      if (now < today.sunrise) return today.sunrise;
+      if (now < today.sunset) return today.sunset;
+      const {year, month, day} = localDate(now);
+      // A 19:00 UTC anchor stays inside tomorrow in Denver across both DST changes.
+      return estimatedSunTimes(Date.UTC(year, month - 1, day + 1, 19)).sunrise;
+    },
+    start(onChange) {
     listener = onChange;
     emit();
     if (!timer) { timer = setInterval(tick, minute); document.addEventListener('visibilitychange', tick); }

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 for (const mobile of [false,true]) {
  test(`simple intro ${mobile?'mobile':'desktop'}`, async ({page},testInfo)=>{
   await page.setViewportSize(mobile?{width:390,height:844}:{width:1440,height:1000});
-  await page.addInitScript(()=>localStorage.setItem('cm-color-appearance','light'));
+  await page.addInitScript(()=>localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:'light',expiresAt:Date.now()+3600000})));
   await page.goto('/'); await page.evaluate(()=>document.fonts.ready);
   await page.waitForTimeout(1000);
   await expect(page.locator('#stop-3')).toContainText('one of the first ways');

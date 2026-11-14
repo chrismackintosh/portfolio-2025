@@ -11,7 +11,7 @@ for (const [width,height,inset] of [[951,589,80],[669,871,80],[1280,900,184]]) {
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   for(const selector of ['.cm-intro h1','.cm-intro-contact>a','.cm-intro-next']) await expect(page.locator(selector)).toBeVisible();
   for(const theme of ['light','dark']) {
-   await page.evaluate(theme=>{localStorage.setItem('cm-color-appearance',theme);},theme); await page.reload();
+   await page.evaluate(theme=>{localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:theme,expiresAt:Date.now()+3600000}));},theme); await page.reload();
    await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor===getComputedStyle(document.querySelector('.cm-stage')!).backgroundColor)).toBe(true);
    expect(await page.evaluate(()=>getComputedStyle(document.documentElement).backgroundColor===getComputedStyle(document.querySelector('.cm-sheet')!).backgroundColor)).toBe(false);
   }

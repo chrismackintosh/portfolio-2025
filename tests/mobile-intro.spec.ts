@@ -20,7 +20,7 @@ test('phone intro stays full width and stable through scroll and toolbar resizin
  await page.setViewportSize({width:375,height:667});await expect(page.locator('.cm-ground')).toHaveCSS('display','none');
 });
 for(const theme of ['light','dark'])test(`icon and project controls share ${theme} surfaces and touch size`,async({page})=>{
- await page.addInitScript(theme=>localStorage.setItem('cm-color-appearance',theme),theme);await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+ await page.addInitScript(theme=>localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:theme,expiresAt:Date.now()+3600000})),theme);await page.goto('/');await page.evaluate(()=>document.fonts.ready);
  await page.locator('#stop-2').evaluate(e=>e.scrollIntoView({behavior:'instant'}));
  const styles=await page.evaluate(()=>['.theme-controls button','.cm-project-action'].map(selector=>{const e=document.querySelector(selector)!;const s=getComputedStyle(e),r=e.getBoundingClientRect();return {background:s.backgroundColor,border:s.borderColor,borderWidth:s.borderWidth,color:s.color,height:r.height};}));
  expect(styles[0]).toEqual(styles[1]);expect(styles[0].height).toBeGreaterThanOrEqual(44);

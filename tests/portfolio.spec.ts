@@ -19,7 +19,7 @@ for (const width of [375, 960, 1440]) for (const route of routes) {
   });
 }
 test('theme persists across routes and reload',async ({page})=>{
-  await page.addInitScript(() => {if(!localStorage.getItem('cm-color-appearance'))localStorage.setItem('cm-color-appearance','light');});
+  await page.addInitScript(() => {if(!localStorage.getItem('cm-color-appearance'))localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:'light',expiresAt:Date.now()+3600000}));});
   await page.goto('/mycolorado/');
   await page.locator('[data-theme-toggle]').click();
   await expect(page.locator('html')).toHaveClass(/cm-night/);
@@ -75,14 +75,14 @@ test('content and direct navigation survive no JavaScript',async ({browser})=>{
  await context.close();
 });
 for(const route of routes) for(const theme of ['light','dark']) test(`axe ${theme} ${route}`,async ({page})=>{
- await page.addInitScript(theme=>localStorage.setItem('cm-color-appearance',theme),theme);
+ await page.addInitScript(theme=>localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:theme,expiresAt:Date.now()+3600000})),theme);
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto(route);await page.evaluate(()=>document.fonts.ready);
  const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
  expect(result.violations).toEqual([]);
 });
 
 test('keyboard skip link and appearance control are usable', async ({page, browserName}) => {
-  await page.addInitScript(() => localStorage.setItem('cm-color-appearance','light'));
+  await page.addInitScript(() => localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:'light',expiresAt:Date.now()+3600000})));
   await page.goto('/mycolorado/');
   // macOS WebKit uses Option-Tab to include links in keyboard navigation.
   await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab');

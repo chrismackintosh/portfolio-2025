@@ -13,12 +13,12 @@ test('persistent breeze pauses, resumes and grows with card',async({page})=>{
 test('automatic palette and saved override restored',async({page})=>{
  await page.addInitScript(()=>{
   localStorage.removeItem('cm-color-appearance');let weather:any;
-  Object.defineProperty(window,'CMWeather',{get:()=>weather,set:v=>{weather={...v,start:(fn:any)=>{(window as any).__setWeather=fn;fn({dark:false,sky:'Cloudy',source:'test'})}}}});
+  Object.defineProperty(window,'CMWeather',{get:()=>weather,set:v=>{weather={...v,current:()=>weather.testState,start:(fn:any)=>{(window as any).__setWeather=(state:any)=>{weather.testState=state;fn(state)};(window as any).__setWeather({dark:false,sky:'Cloudy',source:'test'})}}}});
  });
  await page.goto('/');await page.waitForTimeout(400);
  const gradient=()=>page.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--cm-weather-gradient'));
  expect(await gradient()).toContain('#d6dfe5');
  await page.evaluate(()=>(window as any).__setWeather({dark:false,sky:'Sunset',source:'test'}));expect(await gradient()).toContain('#d8d5e2');
- await page.evaluate(()=>{localStorage.setItem('cm-color-appearance','dark');dispatchEvent(new StorageEvent('storage',{key:'cm-color-appearance'}))});expect(await gradient()).toContain('#101725');
+ await page.evaluate(()=>{localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:'dark',expiresAt:Date.now()+3600000}));dispatchEvent(new StorageEvent('storage',{key:'cm-color-appearance'}))});expect(await gradient()).toContain('#101725');
  await page.evaluate(()=>{localStorage.removeItem('cm-color-appearance');dispatchEvent(new StorageEvent('storage',{key:'cm-color-appearance'}))});expect(await gradient()).toContain('#d8d5e2');
 });
