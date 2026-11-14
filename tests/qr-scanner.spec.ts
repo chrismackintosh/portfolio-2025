@@ -12,10 +12,10 @@ for(const width of [390,1440]) for(const motion of ['reduce','no-preference'] as
   if(motion==='reduce') await expect(band).toHaveCSS('animation-name','none');
   else {
    await expect(band).toHaveCSS('animation-name','cm-mosaic-scan');
-   await expect(band).toHaveCSS('animation-iteration-count','1');
-   await expect(band).toHaveCSS('animation-duration','4.75s');
-   await expect(tile.locator('i').first()).toHaveCSS('animation-iteration-count','2');
-   await expect(tile.locator('i').first()).toHaveCSS('animation-duration','2.5s');
+   await expect(band).toHaveCSS('animation-iteration-count','infinite');
+   await expect(band).toHaveCSS('animation-duration','14s');
+   await expect(tile.locator('i').first()).toHaveCSS('animation-iteration-count','infinite');
+   await expect(tile.locator('i').first()).toHaveCSS('animation-duration','14s');
    await expect(tile.locator('i').first()).toHaveCSS('border-top-color','rgb(0, 125, 48)');
    await expect(tile.locator('i').first()).toHaveCSS('animation-name','cm-scanner-pulse');
    await expect(tile.locator('i').first()).toHaveCSS('opacity','1');
@@ -25,9 +25,17 @@ for(const width of [390,1440]) for(const motion of ['reduce','no-preference'] as
    await expect(band).toHaveCSS('animation-play-state','paused');
    await tile.scrollIntoViewIfNeeded();
    await expect(band).toHaveCSS('animation-play-state','running');
-   await page.waitForTimeout(5200);
-   expect(await tile.evaluate(el=>el.getAnimations({subtree:true}).every(a=>a.playState==='finished'))).toBe(true);
-   await expect(band).toHaveCSS('opacity','0');
+   const pause=page.locator('.cm-mosaic-pause');
+   await expect(pause).toHaveAccessibleName('Pause animations for myColorado');
+   await pause.focus();await pause.press('Space');
+   await expect(band).toHaveCSS('animation-play-state','paused');
+   await expect(page.locator('.myco-plane')).toHaveCSS('animation-play-state','paused');
+   await expect(pause).toHaveAccessibleName('Play animations for myColorado');
+   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await tile.scrollIntoViewIfNeeded();
+   await expect(band).toHaveCSS('animation-play-state','paused');
+   const url=page.url();await pause.click();expect(page.url()).toBe(url);
+   await tile.scrollIntoViewIfNeeded();await expect(band).toHaveCSS('animation-play-state','running');
+   expect(await band.evaluate(el=>el.getAnimations()[0].effect?.getComputedTiming().iterations)).toBe(Infinity);
    await page.emulateMedia({reducedMotion:'reduce'});
    await expect(band).toHaveCSS('animation-name','none');
   }

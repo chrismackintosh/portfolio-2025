@@ -84,42 +84,32 @@
   });
 })();
 
-// The flight repeats independently. Keep its clock still offscreen or in a background tab.
+// One accessible control for both repeating decorative animations.
 (() => {
-  const tile = document.querySelector('.myco-departure');
-  if (!tile || !('IntersectionObserver' in window)) return;
+  const button = document.querySelector('.cm-mosaic-pause');
+  const tiles = [...document.querySelectorAll('.myco-departure,.myco-scanner')];
+  if (!button || !tiles.length || !('IntersectionObserver' in window)) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let inView = false;
+  const visible = new WeakMap();
+  let paused = false;
   const sync = () => {
-    const playing = inView && !document.hidden && !reduced.matches;
-    if (playing) tile.classList.add('cm-mosaic-play');
-    tile.classList.toggle('myco-flight-paused', !playing);
+    button.hidden = reduced.matches;
+    button.dataset.paused = String(paused);
+    button.setAttribute('aria-label', paused ? 'Play animations for myColorado' : 'Pause animations for myColorado');
+    button.title = button.getAttribute('aria-label');
+    tiles.forEach(tile => {
+      const playing = visible.get(tile) && !paused && !document.hidden && !reduced.matches;
+      if (playing) tile.classList.add('cm-mosaic-play');
+      tile.classList.toggle(tile.matches('.myco-scanner') ? 'myco-scanner-paused' : 'myco-flight-paused', !playing);
+    });
   };
   const observer = new IntersectionObserver(entries => {
-    inView = entries[0].isIntersecting && entries[0].intersectionRatio >= .65;
+    entries.forEach(entry => visible.set(entry.target, entry.isIntersecting && entry.intersectionRatio >= .65));
     sync();
-  }, {threshold: [0, .65]});
-  observer.observe(tile);
+  }, {threshold:[0,.65]});
+  tiles.forEach(tile => observer.observe(tile));
+  button.addEventListener('click', () => { paused = !paused; sync(); });
   document.addEventListener('visibilitychange', sync);
   reduced.addEventListener('change', sync);
-})();
-
-// Play the scanner once for five seconds, pausing offscreen/background and respecting reduced motion.
-(() => {
-  const tile = document.querySelector('.myco-scanner');
-  if (!tile || !('IntersectionObserver' in window)) return;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let inView = false;
-  const sync = () => {
-    const playing = inView && !document.hidden && !reduced.matches;
-    if (playing) tile.classList.add('cm-mosaic-play');
-    tile.classList.toggle('myco-scanner-paused', !playing);
-  };
-  const observer = new IntersectionObserver(entries => {
-    inView = entries[0].isIntersecting && entries[0].intersectionRatio >= .65;
-    sync();
-  }, {threshold: [0, .65]});
-  observer.observe(tile);
-  document.addEventListener('visibilitychange', sync);
-  reduced.addEventListener('change', sync);
+  sync();
 })();

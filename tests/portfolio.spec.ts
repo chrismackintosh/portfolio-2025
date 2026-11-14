@@ -106,7 +106,7 @@ test('mobile intro remains full contrast before scrolling with motion enabled', 
 test('project artwork stays clickable without becoming part of the link name', async ({page}) => {
   await page.goto('/');
   const link = page.locator('.cm-project-entry');
-  await expect(link).toHaveAccessibleName('myColorado Product design and digital identity Explore myColorado');
+  await expect(link).toHaveAccessibleName('myColorado Product strategy, design and digital identity Explore myColorado');
   await expect(link.locator('[role="img"]')).toHaveCount(0);
   const mosaic = page.locator('.cm-myco-mosaic');
   await mosaic.scrollIntoViewIfNeeded();

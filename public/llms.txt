@@ -12,7 +12,7 @@ This is a directory of public portfolio content. Some project stories are still 
 ## Project pages
 
 - [myColorado](/mycolorado/): Product design and digital identity overview.
-- [Mobile driver's license](/mycolorado/mobile-drivers-license/): Initial look at the initiative.
+- [Mobile driver license](/mycolorado/mobile-drivers-license/): Initial look at the initiative.
 
 ## Archive
 

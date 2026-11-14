@@ -11,7 +11,7 @@ Evenings and weekends, I run [Rendered Intent](https://renderedintent.com/), a s
 ## Selected work
 
 - [myColorado](/mycolorado/): Product design and digital identity.
-- [Mobile driver's license](/mycolorado/mobile-drivers-license/): An initial look at the mobile driver's license work.
+- [Mobile driver license](/mycolorado/mobile-drivers-license/): An initial look at the mobile driver license work.
 - [Visible (Verizon)](/#visible-case): Growth, e-commerce, member acquisition and membership experience. Product story taking shape; the expanded case study is not yet published here. Retained accounts are available for the [core experience](/case-studies/visible-core-experience.html) and [eSIM activation](/case-studies/visible-esim.html).
 
 ## Contact
