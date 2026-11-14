@@ -101,19 +101,19 @@
  .cm-work .myco-wallet img{width:145%;left:5%;top:4%}
 }
 @media(prefers-reduced-motion:no-preference){
- .myco-scanner.cm-mosaic-play .myco-viewfinder i{animation:cm-scanner-pulse 2500ms ease-in-out 2 both}
- .myco-scanner.cm-mosaic-play .myco-scanline{animation:cm-mosaic-scan 4750ms cubic-bezier(.4,0,.2,1) 250ms 1 both}
+ .myco-scanner.cm-mosaic-play .myco-viewfinder i{animation:cm-scanner-pulse 14000ms ease-in-out infinite both}
+ .myco-scanner.cm-mosaic-play .myco-scanline{animation:cm-mosaic-scan 14000ms cubic-bezier(.4,0,.2,1) 250ms infinite both}
  .cm-work .myco-confirmed.cm-mosaic-play img{animation:cm-mosaic-confirm 850ms cubic-bezier(.22,1,.36,1) 300ms 1}
  .cm-work .myco-departure.cm-mosaic-play .myco-plane{animation:cm-mosaic-takeoff 14000ms linear 900ms infinite both}
  .cm-work .myco-departure.cm-mosaic-play .myco-plane-shadow{animation:cm-mosaic-shadow 14000ms linear 900ms infinite both}
 }
-@keyframes cm-mosaic-scan{0%,8%{transform:translateY(-310%);opacity:0}16%{opacity:1}62%,76%{transform:translateY(0);opacity:1}88%,100%{transform:translateY(0);opacity:0}}
-@keyframes cm-scanner-pulse{0%,100%{transform:translate(0,0)}50%{transform:translate(var(--scan-x),var(--scan-y))}}
+@keyframes cm-mosaic-scan{0%,2.7%{transform:translateY(-310%);opacity:0}5.4%{opacity:1}21%,25.8%{transform:translateY(0);opacity:1}29.8%,100%{transform:translateY(0);opacity:0}}
+@keyframes cm-scanner-pulse{0%,17.86%,35.72%,100%{transform:translate(0,0)}8.93%,26.79%{transform:translate(var(--scan-x),var(--scan-y))}}
 .myco-scanner.myco-scanner-paused .myco-scanline,.myco-scanner.myco-scanner-paused .myco-viewfinder i{animation-play-state:paused}
 @keyframes cm-mosaic-confirm{0%{transform:scale(.86);opacity:.55}55%{transform:scale(1.055);opacity:1}100%{transform:scale(1)}}
 /* The line is wiped from its left edge; its right edge stays anchored below takeoff. */
 /* Two seconds of flight, then twelve seconds of rest, including a quiet reset. */
-.cm-work .myco-departure.myco-flight-paused img{animation-play-state:paused}
+.cm-work .myco-departure.myco-flight-paused .myco-plane,.cm-work .myco-departure.myco-flight-paused .myco-plane-shadow{animation-play-state:paused}
 @keyframes cm-mosaic-takeoff{
   0%{transform:translate(0,0) rotate(0);opacity:1;animation-timing-function:cubic-bezier(.45,0,.8,.6)}
   14.285714%{transform:translate(210%,-420%) rotate(-8deg);opacity:1}
@@ -160,3 +160,12 @@
 .cm-mosaic-enter-pending{opacity:0}
 @media(prefers-reduced-motion:reduce){.cm-mosaic-tile{opacity:1!important;transform:none!important}}
 @media print{.cm-mosaic-tile{opacity:1!important;transform:none!important}}
+
+/* Outside the image role and above the card link overlay. */
+.cm-mosaic-pause{position:relative;z-index:2;display:grid;place-items:center;margin:8px 0 0 auto;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--cm-ink);cursor:pointer}
+.cm-mosaic-pause svg{grid-area:1/1}
+.cm-mosaic-pause .cm-breeze-play-icon,.cm-mosaic-pause[data-paused="true"] .cm-breeze-pause-icon{display:none}
+.cm-mosaic-pause[data-paused="true"] .cm-breeze-play-icon{display:block}
+.cm-mosaic-pause[hidden]{display:none}
+.cm-mosaic-pause:hover{background:var(--cm-line)}
+.cm-mosaic-pause:focus-visible{outline:2px solid var(--cm-ink);outline-offset:3px}
