@@ -19,16 +19,6 @@
     'Dusk': ['#d0d3df','linear-gradient(165deg,#c5cedd 0%,#d4d6e1 60%,#ded7de 100%)'],
     'Night': ['#151d2b','linear-gradient(165deg,#101725 0%,#192436 58%,#2b3547 100%)']
   };
-  // Weather-tinted intro pairs; Night retains its existing accessible treatment.
-  const introPalettes = {
-    'Sunrise':['#31414e','#846c74'],
-    'Sunny midday':['#283c4e','#5a7785'],
-    'Cloudy':['#354550','#677578'],
-    'Gray / rain':['#2f3e47','#66747e'],
-    'Sunset':['#474054','#8a6a78'],
-    'Dusk':['#3a3f53','#756f8a'],
-    'Night':['#d6dfec','#848f9b']
-  };
   function applyTextTreatment(){
     html.dataset.textTreatment='solid';
   }
@@ -141,8 +131,8 @@
     const selected=palettes[state.sky]||palettes['Sunny midday'];
     // Keep the sky dark too when an automatic dawn/dusk palette crosses night.
     const colors=state.dark?palettes.Night:selected;
-    const textColors=state.dark?['#d6dfec','#848f9b']:['#26313b','#767676'];
-    const introColors=state.dark ? introPalettes.Night : (introPalettes[state.sky] || introPalettes['Sunny midday']);
+    const introColors=globalThis.CMTextPalette.colors(state);
+    const textColors=state.dark?['#d6dfec','#848f9b']:['#26313b',introColors[1]];
     html.style.setProperty('--cm-intro-name',introColors[0]);
     html.style.setProperty('--cm-intro-role',introColors[1]);
     html.style.setProperty('--cm-copy-ink',textColors[0]);

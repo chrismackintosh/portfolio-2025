@@ -16,7 +16,7 @@ html[data-typeface="system"] body{font-family:var(--cm-system-sans)}
 .cm-intro h1:focus{outline:none}
 
 /* Intro text is solid; daytime text no longer follows the sky palette. */
-:root{--cm-intro-name:#26313b;--cm-intro-role:#767676;--cm-copy-ink:var(--cm-intro-name);--cm-copy-soft:var(--cm-intro-role)}
+:root{--cm-intro-name:#26313b;--cm-intro-role:var(--cm-secondary);--cm-copy-ink:var(--cm-intro-name);--cm-copy-soft:var(--cm-intro-role)}
 .cm-intro-prose{color:var(--cm-copy-ink)}.cm-intro-prose p+p{color:var(--cm-copy-soft)}
 html[data-text-treatment="neutral"] .cm-intro{--cm-copy-ink:var(--cm-ink);--cm-copy-soft:var(--cm-secondary);--cm-intro-role:var(--cm-secondary)}
 .cm-intro h1{color:var(--cm-intro-name)}

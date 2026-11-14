@@ -37,5 +37,5 @@ html.cm-night{--cm-product-wash:#252e38;--cm-product-green:#8fc2ad;--cm-product-
 /* Neutral portfolio labels; the detail-page inverse badge and Night retain their treatment. */
 @media(forced-colors:none){html:not(.cm-night) .page:not(.initiative-detail) .launch-panel .eyebrow{color:var(--cm-ink)}}
 
-/* Neutral secondary copy needs extra contrast on tinted daytime product panels. */
-@media(forced-colors:none){html:not(.cm-night) .initiative.featured>p,html:not(.cm-night) .initiative-detail .launch-panel p:not(.eyebrow){color:#686868}}
+/* Weather-tinted secondary copy needs extra contrast on tinted daytime product panels. */
+@media(forced-colors:none){html:not(.cm-night) .initiative.featured>p,html:not(.cm-night) .initiative-detail .launch-panel p:not(.eyebrow){color:color-mix(in srgb,var(--cm-secondary) 92%,#000)}}

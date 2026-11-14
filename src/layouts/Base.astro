@@ -5,13 +5,14 @@ import productCss from '../styles/product.css?url';
 import weather from '../scripts/nws-weather.js?raw';
 import { siteUrl, indexable } from '../config/site';
 import theme from '../scripts/theme-controls.js?raw';
+import textPalette from '../scripts/text-palette.js?raw';
 import navigation from '../scripts/work-navigation.js?raw';
 interface Props { title: string; description: string; home?: boolean; canonicalPath?: string; searchIndexable?: boolean }
 const { title, description, home = false, searchIndexable = true, canonicalPath = Astro.url.pathname } = Astro.props;
 const canonical = new URL(canonicalPath, siteUrl).href;
 const socialImage = new URL('/social-preview.png', siteUrl).href;
 const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Chris Mackintosh', url: siteUrl + '/', jobTitle: 'Product designer and builder', sameAs: ['https://www.linkedin.com/in/chris-mackintosh/', 'https://github.com/chrismackintosh', 'https://bsky.app/profile/chrismackintosh.work'] };
-const earlyScripts = weather + '\n' + theme + '\n' + navigation;
+const earlyScripts = weather + '\n' + theme + '\n' + textPalette + '\n' + navigation;
 ---
 <!doctype html>
 <html lang="en" data-typeface={home ? 'manrope' : undefined}>
