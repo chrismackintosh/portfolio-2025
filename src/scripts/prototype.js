@@ -33,8 +33,8 @@
     html.dataset.textTreatment='solid';
   }
   const mobileWheatOptions = () => compact.matches
-    ? {motion:navigator.connection?.saveData ? 'none' : 'hover',speed:.35,fps:8,cell:7,maxDpr:1,burst:1600,interactive:false,refreshMotion:false}
-    : {motion:'always',speed:.55,fps:12,cell:5,maxDpr:2,burst:2200,interactive:true,refreshMotion:true};
+    ? {motion:navigator.connection?.saveData ? 'none' : 'hover',speed:.35,fps:8,cell:4,maxDpr:1,sceneScale:.9,detailHeight:234,detailScale:.68,burst:1600,interactive:false,refreshMotion:false}
+    : {motion:'always',speed:.55,fps:12,cell:5,maxDpr:2,sceneScale:1,detailHeight:0,detailScale:1,burst:2200,interactive:true,refreshMotion:true};
   const wheat = globalThis.CMWheat?.mount(document.querySelector('.cm-wheat'), mobileWheatOptions());
   compact.addEventListener('change',()=>{wheat?.set({...mobileWheatOptions(),...(breezePaused ? {motion:'none'} : {})});});
   const breezeButton = document.querySelector('.cm-wheat-pause');

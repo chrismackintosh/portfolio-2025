@@ -35,7 +35,7 @@
       cols = Math.max(8, Math.ceil(r.width * dpr / px));
       rows = Math.max(8, Math.ceil(r.height * dpr / px));
       canvas.width = cols * px; canvas.height = rows * px;
-      u = rows / 100;                                   // design unit: scene authored at 100 rows
+      u = (o.detailHeight ? o.detailHeight / o.cell : rows) / 100 * (o.detailScale ?? o.sceneScale ?? 1);                                   // design unit: scene authored at 100 rows
       layers = [0, 1, 2].map(() => new Float32Array(cols * rows));
       const rand = rng(o.seed);
       stalks = [];
@@ -66,7 +66,7 @@
     }
     function drawStalk(s) {
       const buf = layers[s.layer], d = DENSITY[s.layer];
-      const H = s.h * rows, head = s.head * u, bendTotal = s.lean + s.amp * wind(s.x, time, s.phase);
+      const H = s.h * rows * (o.sceneScale || 1), head = s.head * u, bendTotal = s.lean + s.amp * wind(s.x, time, s.phase);
       const n = Math.ceil(H * 2), ds = H / n;
       let x = s.x * cols, y = rows + 1, seg = -1;
       for (let i = 0; i <= n; i++) {

@@ -5,7 +5,7 @@ test('mobile typography and short breeze settle; reduced motion and save data st
  await expect(page.locator('.cm-intro-next')).toBeHidden();
  for(const s of ['.cm-intro h1','.cm-intro-role']) {await expect(page.locator(s)).toHaveCSS('font-size','22px');await expect(page.locator(s)).toHaveCSS('font-weight','500');expect(await page.locator(s).evaluate(e=>parseFloat(getComputedStyle(e).lineHeight))).toBeCloseTo(24.2,3);}
  const canvas=page.locator('canvas.cm-wheat'),pixels=()=>canvas.evaluate((c:HTMLCanvasElement)=>c.toDataURL());
- await expect(canvas).toBeVisible();expect(await canvas.evaluate((c:HTMLCanvasElement)=>c.width)).toBeLessThanOrEqual(396);
+ await expect(canvas).toBeVisible();await expect(canvas).toHaveCSS('height','351px');expect(await canvas.evaluate((c:HTMLCanvasElement)=>c.width)).toBeLessThanOrEqual(396);
  await page.waitForTimeout(5000);let a=await pixels();await page.waitForTimeout(700);expect(await pixels()).toBe(a);
  await canvas.dispatchEvent('pointerenter');await page.waitForTimeout(700);expect(await pixels()).toBe(a);
  await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.waitForTimeout(300);a=await pixels();await page.waitForTimeout(700);expect(await pixels()).toBe(a);
