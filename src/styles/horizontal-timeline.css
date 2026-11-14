@@ -56,3 +56,6 @@ html.cm-timeline-hold{overflow-y:hidden;scrollbar-gutter:var(--cm-hold-gutter,au
 }
 
 @media(forced-colors:active){.cm-journey-year{color:CanvasText}}
+
+/* Give phone timeline columns twice the breathing room; desktop is unchanged. */
+@media(max-width:600px){.cm-timeline.cm-journey-enabled{--cm-journey-gap:clamp(48px,10vw,144px)}}
