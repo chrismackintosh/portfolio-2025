@@ -14,7 +14,11 @@ for(const reducedMotion of ['no-preference','reduce'] as const)test(`opaque tint
  }
  await page.setViewportSize({width:844,height:390});
  await page.evaluate(()=>{dispatchEvent(new Event('orientationchange'));dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));document.dispatchEvent(new Event('visibilitychange'));});
- await expect(strip).toHaveCount(1);await expect.poll(()=>strip.evaluate(e=>e.getBoundingClientRect().width)).toBe(844);
+ await expect(strip).toHaveCount(1);
+ // A breakpoint change may restore the opening section; resample at the masthead.
+ await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
+ await expect(page.locator('.cm-masthead')).toHaveAttribute('aria-hidden','false');
+ await expect.poll(()=>strip.evaluate(e=>e.getBoundingClientRect().width)).toBe(844);
  await expect.poll(async()=>strip.evaluate(e=>getComputedStyle(e).backgroundColor)).toBe(await page.locator('.cm-sheet').evaluate(e=>getComputedStyle(e).backgroundColor));
  await page.emulateMedia({media:'print'});await expect(strip).toHaveCSS('display','none');
 });
@@ -23,4 +27,11 @@ test('interior page tint has no focus or layout role',async({page})=>{
  const strip=page.locator('.cm-browser-tint');await expect(strip).toHaveCount(1);
  expect(await strip.evaluate(e=>({children:e.childElementCount,tabIndex:(e as HTMLElement).tabIndex,text:e.textContent}))).toEqual({children:0,tabIndex:-1,text:''});
  await expect(page.locator('.masthead')).toHaveCSS('backdrop-filter','blur(16px)');
+});
+
+test('initial homepage keeps its weather surround unobstructed',async({page})=>{
+ await page.route('https://api.weather.gov/**',r=>r.abort());await page.goto('/');
+ await expect(page.locator('.cm-masthead')).toHaveAttribute('aria-hidden','true');
+ await expect(page.locator('.cm-browser-tint')).toHaveCSS('display','none');
+ await page.goto('/#stop-2');await expect(page.locator('.cm-browser-tint')).toHaveCSS('display','block');
 });
