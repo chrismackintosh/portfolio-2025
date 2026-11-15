@@ -30,6 +30,7 @@ jobs:
         env:
           SITE_INDEXING: enabled
           DEPLOY_TARGET: github-pages-production
+          GA4_MEASUREMENT_ID: G-KXMH5F1QQJ
       - run: npm run check:pages
       - name: Save candidate for review
         uses: actions/upload-artifact@v4

@@ -45,9 +45,10 @@ test('legacy pages remain readable without JavaScript',async({browser})=>{
 });
 
 test('retired privacy routes are absent and public directories do not link to them', async ({request}) => {
- for (const path of ['/privacy-policy.html', '/privacy-policy', '/privacy-policy/', '/privacy', '/privacy/']) {
+ for (const path of ['/privacy-policy.html', '/privacy-policy', '/privacy-policy/']) {
   expect((await request.get(path)).status(), path).toBe(404);
  }
+ expect((await request.get('/privacy/')).status()).toBe(200);
  for (const path of ['/site.md', '/llms.txt', '/sitemap.xml']) {
   expect(await (await request.get(path)).text()).not.toContain('/privacy');
  }

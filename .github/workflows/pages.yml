@@ -41,6 +41,7 @@ jobs:
         env:
           SITE_INDEXING: enabled
           DEPLOY_TARGET: github-pages-production
+          GA4_MEASUREMENT_ID: G-KXMH5F1QQJ
       - run: npm run check:pages
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4

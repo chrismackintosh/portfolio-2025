@@ -1,4 +1,5 @@
 ---
+import PrivacyChoices from '../components/PrivacyChoices.astro';
 import fonts from '../styles/fonts.css?raw';
 import homeCss from '../styles/home.css?url';
 import productCss from '../styles/product.css?url';
@@ -54,5 +55,5 @@ const earlyScripts = weather + '\n' + theme + '\n' + textPalette + '\n' + naviga
     <link rel="stylesheet" href={home ? homeCss : productCss} />
     <script is:inline set:html={earlyScripts} />
   </head>
-  <body><slot /></body>
+  <body><slot /><PrivacyChoices /></body>
 </html>
