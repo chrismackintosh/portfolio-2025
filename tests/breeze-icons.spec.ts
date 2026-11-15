@@ -20,10 +20,13 @@ test('icon-only breeze control preserves keyboard, label, hit target and contras
 
 for(const width of [1440,1024,768])test(`breeze control is inset 24px inside card at ${width}`,async({page})=>{
  await page.setViewportSize({width,height:1000});await page.goto('/');const button=page.locator('.cm-wheat-pause');await expect(button).toBeVisible();
- const b=await button.boundingBox(),card=await page.locator('.cm-sheet').boundingBox();
- expect(b!.width).toBe(44);expect(b!.height).toBe(44);
- expect(card!.x+card!.width-b!.x-b!.width).toBeCloseTo(24,1);
- expect(card!.y+card!.height-b!.y-b!.height).toBeCloseTo(24,1);
+ // Measure both boxes synchronously: the entrance animation moves their shared parent.
+ const box=await button.evaluate(el=>{
+  const b=el.getBoundingClientRect(),card=el.closest('.cm-sheet')!.getBoundingClientRect();
+  return {width:b.width,height:b.height,right:card.right-b.right,bottom:card.bottom-b.bottom};
+ });
+ expect(box.width).toBe(44);expect(box.height).toBe(44);
+ expect(box.right).toBeCloseTo(24,1);expect(box.bottom).toBeCloseTo(24,1);
 });
 for(const width of [760,390])test(`mobile breeze behavior remains unchanged at ${width}`,async({page})=>{
  await page.setViewportSize({width,height:844});await page.goto('/');await expect(page.locator('.cm-wheat-pause')).toBeHidden();
