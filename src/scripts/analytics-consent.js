@@ -71,19 +71,23 @@
     script.async = true;
     script.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
     script.referrerPolicy = 'no-referrer';
-    script.onload = () => {
+    // Queue privacy defaults before the tag executes its account-side initialization.
+    const initialize = () => {
       if (read()?.choice !== 'accepted') return;
       window['ga-disable-' + ID] = false;
       window.dataLayer = window.dataLayer || [];
       function gtag() { window.dataLayer.push(arguments); }
       gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
-      gtag('js', new Date());
       const page = 'https://chrismackintosh.work' + location.pathname;
+      gtag('set', { send_page_view: false, page_location: page, page_referrer: '',
+        allow_google_signals: false, allow_ad_personalization_signals: false });
+      gtag('js', new Date());
       gtag('config', ID, { send_page_view: false, allow_google_signals: false, allow_ad_personalization_signals: false,
         cookie_expires: MAX_AGE / 1000, cookie_update: false, cookie_flags: 'SameSite=Lax;Secure',
         page_location: page, page_referrer: '', page_title: document.title });
       gtag('event', 'page_view', { send_to: ID, page_location: page, page_referrer: '', page_title: document.title });
     };
+    initialize();
     document.head.appendChild(script);
   }
   function sync() {
@@ -94,7 +98,7 @@
       window['ga-disable-' + ID] = true;
       clearCookies();
       // Unload an already-running Google library; do not send denied-consent pings.
-      if (started) { location.reload(); return; }
+      if (started) { window.dataLayer = []; location.reload(); return; }
     } else start();
     render(choice);
   }

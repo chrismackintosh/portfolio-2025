@@ -13,7 +13,7 @@ async function harness(page:Page){
  });
  await page.route(/https:\/\/.*google(?:tagmanager|analytics|-analytics)\.com\//,async r=>{
   google.push(r.request().url());
-  await r.fulfill({contentType:'application/javascript',body:'window.__mockGoogleLoaded=true;'});
+  await r.fulfill({contentType:'application/javascript',body:'window.__mockGoogleLoaded=true;window.__queueAtTagExecution=Array.from(window.dataLayer||[],a=>Array.from(a));'});
  });
  return google;
 }
@@ -29,8 +29,10 @@ test('no Google before consent, refusal persists, accept sends sanitized pagevie
  await page.locator('[data-consent="rejected"]').click();await page.reload();expect(google).toEqual([]);
  await page.locator('[data-privacy-open]').click();await page.locator('[data-consent="accepted"]').click();
  await expect.poll(()=>google.length).toBe(1);
- await expect.poll(()=>page.evaluate(()=>((window as any).dataLayer || []).length)).toBe(4);
+ await expect.poll(()=>page.evaluate(()=>((window as any).dataLayer || []).length)).toBe(5);
  const commands=await page.evaluate(()=>Array.from((window as any).dataLayer,(a:any)=>Array.from(a))) as any[];
+ await expect.poll(()=>page.evaluate(()=>(window as any).__queueAtTagExecution)).toEqual(commands);
+ expect(commands.find(c=>c[0]==='set')[1]).toMatchObject({send_page_view:false,page_location:HOST+'/privacy/',page_referrer:'',allow_google_signals:false,allow_ad_personalization_signals:false});
  expect(commands.filter(c=>c[0]==='event')).toEqual([['event','page_view',{send_to:'G-KXMH5F1QQJ',page_location:HOST+'/privacy/',page_referrer:'',page_title:await page.title()}]]);
  expect(commands.find(c=>c[0]==='config')[2]).toMatchObject({send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false});
  expect(JSON.stringify(commands)).not.toContain('secret');
@@ -72,14 +74,14 @@ test('keyboard, mobile reflow, themes and privacy notice are accessible',async({
 
 test('read-only storage never resurrects saved acceptance after withdrawal',async({page})=>{
  const google=await harness(page);await page.goto(HOST+'/privacy/');await page.locator('[data-consent="accepted"]').click();
- await expect.poll(()=>page.evaluate(()=>((window as any).dataLayer || []).length)).toBe(4);
+ await expect.poll(()=>page.evaluate(()=>((window as any).dataLayer || []).length)).toBe(5);
  await page.addInitScript(()=>{Storage.prototype.setItem=function(){throw new Error('blocked');};Storage.prototype.removeItem=function(){throw new Error('blocked');};});
  await page.evaluate(()=>{Storage.prototype.setItem=function(){throw new Error('blocked');};Storage.prototype.removeItem=function(){throw new Error('blocked');};});
  await page.locator('[data-privacy-open]').click();await page.locator('[data-consent="rejected"]').click();
  await expect(page.locator('#cm-analytics-choice')).toBeVisible();
  await page.reload();expect(google.length).toBe(1);expect(await page.evaluate(()=>Boolean((window as any).__mockGoogleLoaded))).toBe(false);
 });
-test('withdrawal while tag is still loading never queues collection',async({page})=>{
+test('withdrawal while tag is still loading clears queued collection',async({page})=>{
  await harness(page);let release:()=>void=()=>{};const held=new Promise<void>(r=>release=r);
  await page.route('https://www.googletagmanager.com/**',async r=>{await held;await r.fulfill({contentType:'application/javascript',body:''}).catch(()=>{});});
  await page.goto(HOST+'/privacy/');await page.locator('[data-consent="accepted"]').click();
@@ -91,7 +93,7 @@ test('withdrawal while tag is still loading never queues collection',async({page
 test('expired active consent rechecks on resume and malformed choices never opt in',async({page})=>{
  const google=await harness(page);await page.goto(HOST+'/privacy/');
  await page.evaluate(KEY=>localStorage.setItem(KEY,'accepted'),KEY);await page.reload();expect(google).toEqual([]);
- await page.locator('[data-consent="accepted"]').click();await expect.poll(()=>page.evaluate(()=>((window as any).dataLayer || []).length)).toBe(4);
+ await page.locator('[data-consent="accepted"]').click();await expect.poll(()=>page.evaluate(()=>((window as any).dataLayer || []).length)).toBe(5);
  await page.evaluate(KEY=>{localStorage.setItem(KEY,JSON.stringify({version:1,choice:'accepted',expiresAt:Date.now()-1}));window.dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));},KEY);
  await expect(page.locator('#cm-analytics-choice')).toBeVisible();
  expect(await page.evaluate(()=>Boolean((window as any).__mockGoogleLoaded))).toBe(false);expect(google.length).toBe(1);
