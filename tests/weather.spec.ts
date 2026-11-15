@@ -32,6 +32,21 @@ for(const failure of ['offline','http error','stale','missing'])test(`weather ${
  const time=Date.parse('2026-10-14T13:15:00Z');await page.clock.setFixedTime(time);
  await page.route(endpoint,route=>failure==='offline'?route.abort():failure==='http error'?route.fulfill({status:503,body:'Unavailable'}):route.fulfill({json:failure==='missing'?{}:{properties:{station:'https://api.weather.gov/stations/KDEN',timestamp:new Date(time-121*60000).toISOString(),textDescription:'Rain'}}}));
  await page.goto('/');
- await expect.poll(()=>page.locator('html').evaluate(e=>(e as HTMLElement).style.getPropertyValue('--cm-weather-gradient'))).toContain(palettes.Sunrise);
+ await expect.poll(()=>page.locator('html').evaluate(e=>(e as HTMLElement).style.getPropertyValue('--cm-weather-gradient'))).toContain(palettes.Sunset);
  await expect(page.locator('html')).not.toHaveClass(/cm-night/);
+});
+
+for(const [width,height] of [[1440,1000],[768,1024],[390,844]])test(`selected unknown-weather default matches Sunset design at ${width}`,async({page})=>{
+ await page.setViewportSize({width,height});await page.clock.setFixedTime(Date.parse('2026-11-15T19:00:00Z'));
+ await page.emulateMedia({reducedMotion:'no-preference'});await page.route(endpoint,r=>r.abort());await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+ await expect(page.locator('html')).not.toHaveClass(/cm-night/);
+ await expect(page.locator('.cm-intro h1')).toHaveCSS('color','rgb(71, 64, 84)');
+ await expect(page.locator('.cm-intro-role')).toHaveCSS('color','rgb(138, 106, 120)');
+ await expect.poll(()=>page.locator('html').evaluate(e=>(e as HTMLElement).style.getPropertyValue('--cm-weather-gradient'))).toBe('linear-gradient(165deg,#d8d5e2 0%,#e4d6d7 50%,#ead6c5 100%)');
+ await page.screenshot({path:`/tmp/portfolio-selected-default-${width}.png`,animations:'disabled'});
+});
+test('unknown nighttime weather retains automatic Night',async({page})=>{
+ await page.clock.setFixedTime(Date.parse('2026-11-16T04:00:00Z'));await page.route(endpoint,r=>r.abort());await page.goto('/');
+ await expect(page.locator('html')).toHaveClass(/cm-night/);
+ await expect.poll(()=>page.locator('html').evaluate(e=>(e as HTMLElement).style.getPropertyValue('--cm-weather-gradient'))).toContain(palettes.Night);
 });

@@ -15,6 +15,8 @@
   let observation = null;
   let pending = false;
   let lastAttempt = -Infinity;
+  let nextAttempt = -Infinity;
+  let failures = 0;
   let listener = null;
   let timer = null;
   function localDate(now) {
@@ -67,8 +69,15 @@
     const words = (description + ' ' + weather).replace(/[_-]/g, ' ');
     let condition;
     if (/rain|drizzle|snow|sleet|hail|thunder|ice pellets|freezing|showers/i.test(words)) condition = 'precipitation';
-    else if (amounts.some(amount => ['BKN', 'OVC', 'VV'].includes(amount)) || /cloudy|overcast|fog|mist|haze|smoke|dust|sand/i.test(words)) condition = 'cloudy';
-    else if (amounts.some(amount => ['CLR', 'SKC', 'FEW', 'SCT'].includes(amount)) || /clear|fair|sunny/i.test(description)) condition = 'clear';
+    // Obscured visibility still needs a muted sky, even with few/scattered layers.
+    else if (/fog|mist|haze|smoke|dust|sand/i.test(words)) condition = 'cloudy';
+    // Use the most-covered reported layer before falling back to prose. NWS calls
+    // FEW/SCT "Partly Cloudy", which must not match the generic cloudy fallback.
+    else if (amounts.some(amount => ['BKN', 'OVC', 'VV'].includes(amount))) condition = 'cloudy';
+    else if (amounts.some(amount => ['CLR', 'SKC', 'FEW', 'SCT'].includes(amount))) condition = 'clear';
+    else if (/partly\s+(cloudy|sunny)/i.test(description)) condition = 'clear';
+    else if (/cloudy|overcast/i.test(description)) condition = 'cloudy';
+    else if (/clear|fair|sunny/i.test(description)) condition = 'clear';
     else return null; // Missing or unrecognized observations are not evidence of clear skies.
     const result = { observedAt, condition };
     return valid(result) ? result : null;
@@ -86,12 +95,15 @@
     else if (Math.abs(now - sunrise) <= 30 * minute) sky = 'Sunrise';
     else if (Math.abs(now - sunset) <= 30 * minute) sky = 'Sunset';
     else if (now > sunset) sky = 'Dusk';
+    // Owner-selected Sunset design is the unknown-weather daytime palette.
+    // Solar darkness still wins; this is a visual default, not a sunset forecast.
+    if (!current && !dark) sky = 'Sunset';
     return { sky, dark, source: current ? 'NWS observation' : 'Local solar estimate' };
   }
   const emit = () => { if (listener) listener(state()); };
 
   async function refresh() {
-    if (pending || document.hidden || Date.now() - lastAttempt < refreshAfter) return;
+    if (pending || document.hidden || Date.now() < nextAttempt) return;
     lastAttempt = Date.now();
     pending = true;
     const controller = new AbortController();
@@ -103,19 +115,31 @@
       });
       if (!response.ok) throw new Error('Weather unavailable');
       const data = normalize(await response.json());
-      if (!data) throw new Error('Weather incomplete or stale');
+      if (!data || (valid(observation) && data.observedAt < observation.observedAt))
+        throw new Error('Weather incomplete, stale, or older than the current observation');
       observation = data;
+      failures = 0;
+      nextAttempt = Date.now() + refreshAfter;
       try { localStorage.setItem(cacheKey, JSON.stringify({ savedAt: Date.now(), data })); } catch { /* Cache is optional. */ }
-    } catch { /* Preserve a still-valid observation; otherwise use the local solar sky. */ }
+    } catch {
+      // Preserve valid observations, but recover sooner than the successful-fetch cadence.
+      failures = Math.min(failures + 1, 5);
+      nextAttempt = Date.now() + Math.min(refreshAfter, minute * 2 ** (failures - 1));
+    }
     finally { clearTimeout(timeout); pending = false; emit(); }
   }
   function tick() { if (!document.hidden) { emit(); void refresh(); } }
+  function resume() {
+    if (failures && !document.hidden) nextAttempt = Math.min(nextAttempt, Math.max(Date.now(), lastAttempt + minute));
+    tick();
+  }
   try {
     const cached = JSON.parse(localStorage.getItem(cacheKey));
     if (cached && Number.isFinite(cached.savedAt) && cached.savedAt <= Date.now()
-      && Date.now() - cached.savedAt < refreshAfter && valid(cached.data)) {
+      && valid(cached.data)) {
       observation = cached.data;
-      lastAttempt = cached.savedAt;
+      // Reuse still-valid weather while a refresh is due; never extend observedAt.
+      nextAttempt = cached.savedAt + refreshAfter;
     }
   } catch { /* Storage may be blocked or malformed. */ }
   globalThis.CMWeather = {
@@ -132,7 +156,11 @@
     start(onChange) {
     listener = onChange;
     emit();
-    if (!timer) { timer = setInterval(tick, minute); document.addEventListener('visibilitychange', tick); }
+    if (!timer) {
+      timer = setInterval(tick, minute);
+      document.addEventListener('visibilitychange', resume);
+      globalThis.addEventListener?.('online', resume);
+    }
     void refresh();
   }};
 })();

@@ -29,12 +29,12 @@
     } catch { return fallback; } // Blocked storage still allows a temporary in-memory choice.
   };
   let preference = read();
-  let solar = globalThis.CMWeather?.current?.() || {dark: false, sky: 'Sunny midday', source: 'Local daylight'};
+  let solar = globalThis.CMWeather?.current?.() || {dark: false, sky: 'Sunset', source: 'Local daylight'};
   const listeners = new Set();
   function effective() {
     if (!preference) return solar;
     const dark = preference.mode === 'dark';
-    return {...solar, dark, sky: dark ? 'Night' : ['Night', 'Dusk'].includes(solar.sky) ? 'Sunny midday' : solar.sky};
+    return {...solar, dark, sky: dark ? 'Night' : ['Night', 'Dusk'].includes(solar.sky) ? (solar.source === 'NWS observation' ? 'Sunny midday' : 'Sunset') : solar.sky};
   }
   function apply() {
     if (!memoryOnly) preference = read(preference);
