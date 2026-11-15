@@ -7,6 +7,8 @@ assert(existsSync(`${root}/.nojekyll`));
 for (const route of routes) {
   const file = root + route + (route.endsWith('/') ? 'index.html' : '');
   const html = readFileSync(file, 'utf8');
+  assert(html.includes('data-measurement-id="G-KXMH5F1QQJ"'), `Reviewed analytics property missing: ${route}`);
+  assert(html.includes('data-analytics-enabled="true"'), `Production consent gate missing: ${route}`);
   assert(html.includes('content="index, follow"'), `Production indexing missing: ${route}`);
   assert(html.includes(`href="https://chrismackintosh.work${route}"`), `Canonical missing: ${route}`);
 }
@@ -16,8 +18,10 @@ for (const route of routes) assert(sitemap.includes(`<loc>https://chrismackintos
 assert.equal(readFileSync(`${root}/robots.txt`, 'utf8'), 'User-agent: *\nAllow: /\nSitemap: https://chrismackintosh.work/sitemap.xml\n');
 assert(!existsSync(`${root}/style-guide.html`));
 assert(!existsSync(`${root}/style-guide/index.html`));
-for (const file of ['privacy-policy.html', 'privacy-policy/index.html', 'privacy/index.html']) assert(!existsSync(`${root}/${file}`));
+for (const file of ['privacy-policy.html', 'privacy-policy/index.html']) assert(!existsSync(`${root}/${file}`));
 for (const file of ['site.md', 'llms.txt', 'sitemap.xml']) assert(!readFileSync(`${root}/${file}`, 'utf8').includes('/privacy'));
+assert(existsSync(`${root}/privacy/index.html`));
+assert(readFileSync(`${root}/privacy/index.html`, 'utf8').includes('content="noindex, follow"'));
 console.log('Pages release artifact: domain, five routes, canonical URLs, indexing, sitemap, and privacy retirement passed.');
 
 const synack = readFileSync(`${root}/synack/index.html`, 'utf8');
