@@ -98,7 +98,8 @@
     // Owner-selected Sunset design is the unknown-weather daytime palette.
     // Solar darkness still wins; this is a visual default, not a sunset forecast.
     if (!current && !dark) sky = 'Sunset';
-    return { sky, dark, source: current ? 'NWS observation' : 'Local solar estimate' };
+    return { sky, dark, source: current ? 'NWS observation' : 'Local solar estimate',
+      solar: { now, sunrise, sunset }, condition: current?.condition || 'unknown' };
   }
   const emit = () => { if (listener) listener(state()); };
 

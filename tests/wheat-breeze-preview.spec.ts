@@ -19,6 +19,6 @@ test('automatic palette and saved override restored',async({page})=>{
  const gradient=()=>page.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--cm-weather-gradient'));
  expect(await gradient()).toContain('#d6dfe5');
  await page.evaluate(()=>(window as any).__setWeather({dark:false,sky:'Sunset',source:'test'}));expect(await gradient()).toContain('#d8d5e2');
- await page.evaluate(()=>{localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:'dark',expiresAt:Date.now()+3600000}));dispatchEvent(new StorageEvent('storage',{key:'cm-color-appearance'}))});expect(await gradient()).toContain('#101725');
+ await page.evaluate(()=>{localStorage.setItem('cm-color-appearance',JSON.stringify({version:1,mode:'dark',expiresAt:Date.now()+3600000}));dispatchEvent(new StorageEvent('storage',{key:'cm-color-appearance'}))});expect(await gradient()).toContain('#0b111f');
  await page.evaluate(()=>{localStorage.removeItem('cm-color-appearance');dispatchEvent(new StorageEvent('storage',{key:'cm-color-appearance'}))});expect(await gradient()).toContain('#d8d5e2');
 });

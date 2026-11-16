@@ -17,7 +17,7 @@
     'Gray / rain': ['#d6dadd','linear-gradient(165deg,#cbd3da 0%,#d7dcdf 55%,#dededb 100%)'],
     'Sunset': ['#e2d8d8','linear-gradient(165deg,#d8d5e2 0%,#e4d6d7 50%,#ead6c5 100%)'],
     'Dusk': ['#d0d3df','linear-gradient(165deg,#c5cedd 0%,#d4d6e1 60%,#ded7de 100%)'],
-    'Night': ['#151d2b','linear-gradient(165deg,#101725 0%,#192436 58%,#2b3547 100%)']
+    'Night': ['#0e1727','linear-gradient(165deg,#0b111f 0%,#0e1727 58%,#141c2c 100%)']
   };
   function applyTextTreatment(){
     html.dataset.textTreatment='solid';
@@ -129,8 +129,9 @@
     appearance=state;
     html.classList.toggle('cm-night',state.dark);
     const selected=palettes[state.sky]||palettes['Sunny midday'];
-    // Keep the sky dark too when an automatic dawn/dusk palette crosses night.
-    const colors=state.dark?palettes.Night:selected;
+    // Solar surround is independent of card appearance: dawn/dusk can light a dark card.
+    const solarColors=globalThis.CMSolarPalette?.resolve(state);
+    const colors=solarColors ? [solarColors.ground,solarColors.gradient] : state.dark?palettes.Night:selected;
     const introColors=globalThis.CMTextPalette.colors(state);
     const textColors=state.dark?['#d6dfec','#848f9b']:['#26313b',introColors[1]];
     html.style.setProperty('--cm-intro-name',introColors[0]);
