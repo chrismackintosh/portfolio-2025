@@ -10,7 +10,7 @@
     'Dusk':['#3a3f53','#756f8a'],
     'Night':['#d6dfec','#848f9b']
   };
-  const colors = state => state.dark ? palettes.Night : (palettes[state.sky] || palettes['Sunny midday']);
+  const colors = state => globalThis.CMSolarPalette?.resolve(state).text || (state.dark ? palettes.Night : (palettes[state.sky] || palettes['Sunny midday']));
   globalThis.CMTextPalette = {colors};
   globalThis.CMTheme?.subscribe(state => {
     document.documentElement.style.setProperty('--cm-weather-secondary', colors(state)[1]);

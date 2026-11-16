@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 const endpoint='https://api.weather.gov/stations/KDEN/observations/latest';
-const palettes:Record<string,string>={Sunrise:'#d8e0e8','Sunny midday':'#d0deea',Cloudy:'#d6dfe5','Gray / rain':'#cbd3da',Sunset:'#d8d5e2',Dusk:'#c5cedd',Night:'#101725'};
+const palettes:Record<string,string>={Sunrise:'#d8e0e8','Sunny midday':'#d0deea',Cloudy:'#d6dfe5','Gray / rain':'#cbd3da',Sunset:'#d8d5e2',Dusk:'#c5cedd',Night:'#0b111f'};
 const cases=[
  {sky:'Sunrise',time:'2026-10-14T13:15:00Z',description:'Clear',dark:false},
  {sky:'Sunny midday',time:'2026-10-14T18:00:00Z',description:'Clear',dark:false},
@@ -24,8 +24,11 @@ for(const scenario of cases) for(const mode of ['auto','light','dark'])test(`${s
  await expect.poll(async()=> (await state()).source).toBe('NWS observation');
  expect(await state()).toMatchObject({sky:expectedSky,dark});
  await expect(page.locator('[data-theme-toggle]')).toHaveAttribute('aria-pressed',String(dark));
- const renderedSky=dark?'Night':expectedSky;
- await expect.poll(()=>page.locator('html').evaluate(e=>(e as HTMLElement).style.getPropertyValue('--cm-weather-gradient'))).toContain(palettes[renderedSky]);
+ // Semantic weather remains accurate; the renderer now combines it with solar light.
+ const rendered=await page.evaluate(()=>{let s:any;(window as any).CMTheme.subscribe((v:any)=>s=v);return (window as any).CMSolarPalette.resolve(s);});
+ await expect.poll(()=>page.locator('html').evaluate(e=>(e as HTMLElement).style.getPropertyValue('--cm-weather-gradient'))).toBe(rendered.gradient);
+ if(mode==='dark'||scenario.sky==='Night'&&mode==='auto')expect(rendered.gradient).toContain(palettes.Night);
+ if(mode==='auto'&&scenario.sky==='Dusk')expect(rendered.gradient).not.toContain(palettes.Night);
  await expect(page.locator(dark?'.theme-icon-moon':'.theme-icon-sun')).not.toHaveCSS('display','none');
 });
 for(const failure of ['offline','http error','stale','missing'])test(`weather ${failure} falls back without breaking the sky`,async({page})=>{

@@ -4,7 +4,10 @@ test('icon-only breeze control preserves keyboard, label, hit target and contras
  await expect(button).toHaveAccessibleName('Pause breeze');await expect(button).toHaveText('');
  await expect(button).toHaveCSS('right','24px');await expect(button).toHaveCSS('bottom','24px');
  await expect(button.locator('.cm-breeze-pause-icon')).toBeVisible();await expect(button.locator('.cm-breeze-play-icon')).toBeHidden();
- const box=await button.boundingBox();expect(box!.width).toBeGreaterThanOrEqual(44);expect(box!.height).toBeGreaterThanOrEqual(44);
+ // The parent's entrance translateY can yield 43.999969px from DOMRect subtraction.
+ // Keep the exact CSS hit target; tolerate only sub-millipixel rendered precision.
+ await expect(button).toHaveCSS('width','44px');await expect(button).toHaveCSS('height','44px');
+ const box=await button.boundingBox();expect(box!.width).toBeCloseTo(44,3);expect(box!.height).toBeCloseTo(44,3);
  await button.focus();await expect(button).toHaveCSS('outline-style','solid');await page.keyboard.press('Enter');
  await expect(button).toHaveAccessibleName('Resume breeze');await expect(button.locator('.cm-breeze-play-icon')).toBeVisible();await expect(button.locator('.cm-breeze-pause-icon')).toBeHidden();
  await page.keyboard.press('Space');await expect(button).toHaveAccessibleName('Pause breeze');
@@ -25,7 +28,8 @@ for(const width of [1440,1024,768])test(`breeze control is inset 24px inside car
   const b=el.getBoundingClientRect(),card=el.closest('.cm-sheet')!.getBoundingClientRect();
   return {width:b.width,height:b.height,right:card.right-b.right,bottom:card.bottom-b.bottom};
  });
- expect(box.width).toBe(44);expect(box.height).toBe(44);
+ await expect(button).toHaveCSS('width','44px');await expect(button).toHaveCSS('height','44px');
+ expect(box.width).toBeCloseTo(44,3);expect(box.height).toBeCloseTo(44,3);
  expect(box.right).toBeCloseTo(24,1);expect(box.bottom).toBeCloseTo(24,1);
 });
 for(const width of [760,390])test(`mobile breeze behavior remains unchanged at ${width}`,async({page})=>{

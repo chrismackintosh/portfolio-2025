@@ -34,7 +34,7 @@
   function effective() {
     if (!preference) return solar;
     const dark = preference.mode === 'dark';
-    return {...solar, dark, sky: dark ? 'Night' : ['Night', 'Dusk'].includes(solar.sky) ? (solar.source === 'NWS observation' ? 'Sunny midday' : 'Sunset') : solar.sky};
+    return {...solar, dark, appearance: preference.mode, sky: dark ? 'Night' : ['Night', 'Dusk'].includes(solar.sky) ? (solar.source === 'NWS observation' ? 'Sunny midday' : 'Sunset') : solar.sky};
   }
   function apply() {
     if (!memoryOnly) preference = read(preference);
