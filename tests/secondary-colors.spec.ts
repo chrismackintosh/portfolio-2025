@@ -9,7 +9,7 @@ const scenarios=[
  {sky:'Sunset',time:'2026-10-15T00:20:00Z',description:'Clear',color:'rgb(138, 106, 120)'},
  {sky:'Night',time:'2026-10-15T04:00:00Z',description:'Clear',color:'rgb(170, 180, 192)'},
 ];
-for(const scenario of scenarios) test(`${scenario.sky}: shared secondary text follows title palette`,async({page},testInfo)=>{
+for(const scenario of scenarios) test(`${scenario.sky}: masthead follows title palette; other secondary text stays neutral`,async({page},testInfo)=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  const time=Date.parse(scenario.time); await page.clock.setFixedTime(time);
  await page.route('https://api.weather.gov/**',route=>route.fulfill({json:{properties:{station:'https://api.weather.gov/stations/KDEN',timestamp:new Date(time-60000).toISOString(),textDescription:scenario.description,cloudLayers:[],presentWeather:[]}}}));
@@ -17,12 +17,14 @@ for(const scenario of scenarios) test(`${scenario.sky}: shared secondary text fo
   await page.goto(path);await page.evaluate(()=>document.fonts.ready);
   await expect.poll(()=>page.evaluate(()=>(window as any).CMWeather.current().source)).toBe('NWS observation');
   // Palette math is covered independently in unit/solar-palette.test.mjs. Here
-  // verify every rendered surface follows it and retain real contrast audits.
+  // verify the masthead follows it, the rest of the secondary text stays
+  // neutral, and retain real contrast audits.
   const expectedColor=scenario.sky==='Night'?scenario.color:await page.evaluate(()=>{
    let state:any;(window as any).CMTheme.subscribe((value:any)=>state=value);
    const hex=(window as any).CMSolarPalette.resolve(state).text[1];
    return 'rgb('+[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)).join(', ')+')';
   });
+  const neutralColor=scenario.sky==='Night'?scenario.color:'rgb(100, 113, 122)';
   await expect(page.locator('.masthead-role')).toHaveCSS('color',expectedColor);
   const accessibility=await new AxeBuilder({page}).withRules(['color-contrast']).analyze();
   expect(accessibility.violations).toEqual([]);
@@ -34,7 +36,10 @@ for(const scenario of scenarios) test(`${scenario.sky}: shared secondary text fo
   if(path==='/' && scenario.sky==='Sunny midday') { await page.goto('/'); await page.waitForTimeout(1000); await page.screenshot({path:testInfo.outputPath('light-text-desktop.png')}); }
   if(path==='/'){
    await expect(page.locator('.cm-intro-role')).toHaveCSS('color',scenario.sky==='Night'?'rgb(132, 143, 155)':expectedColor);
-   await expect(page.locator('.cm-stop-meta').first()).toHaveCSS('color',expectedColor);
+   await expect(page.locator('.masthead-location')).toHaveCSS('color',expectedColor);
+   await expect(page.locator('.cm-stop-meta').first()).toHaveCSS('color',neutralColor);
+   await expect(page.locator('.cm-timeline-heading')).toHaveCSS('color',neutralColor);
+   await expect(page.locator('.cm-shipped dd').first()).toHaveCSS('color',neutralColor);
    await expect(page.locator('.cm-stop-copy p').first()).toHaveCSS('color',scenario.sky==='Night'?'rgb(230, 233, 237)':'rgb(38, 49, 59)');
   }
  }
