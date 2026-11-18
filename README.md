@@ -116,7 +116,7 @@ and keyboard-focus restoration, and reduced motion skips the curtain.
 
 The myColorado scanner repeats on a14-second cycle while visible, with a shared pause/play control for it and the airplane, with offscreen/background pausing and a static reduced-motion state. Its decorative QR encodes the portfolio homepage. Mastheads use a solid theme-matched paper background without backdrop blur, and an icon-only44px theme control with keyboard focus retained.
 
-## Optional analytics
+## Analytics
 
 Google Analytics requires a reviewed `GA4_MEASUREMENT_ID` build environment value, both production build flags and the exact production hostname. The reviewed production-build steps select the new property `G-KXMH5F1QQJ`. Default local builds omit the ID and never collect analytics. Normal local previews never send analytics, even after Allow. A nonmodal floating-footer notice follows the actual homepage masthead reveal and opacity after the intro; interior pages show it immediately. Desktop actions sit right of the text, mobile actions stack below, and a44px corner X closes it. It offers a filled Allow action, an outlined No thanks action and Privacy details; both choices retain equally usable44px targets; Privacy and Analytics choices sit immediately before copyright in every footer. The notice does not trap focus or block browsing, and dismisses when keyboard focus moves elsewhere. Choices last180 days. Withdrawal disables collection, clears accessible first-party GA cookies, and reloads to unload the third-party library. Expiry, cross-tab changes, resume and BFCache restoration recheck consent. Pageviews exclude query strings, fragments and referrer; advertising signals/personalization are disabled in tag configuration. No custom events.
 

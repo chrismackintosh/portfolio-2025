@@ -7,8 +7,8 @@ import '../styles/privacy.css';
 ---
 <section class="cm-privacy" aria-label="Privacy choices" data-analytics-enabled={indexable && measurementId ? 'true' : 'false'} data-measurement-id={measurementId}>
   <div id="cm-analytics-choice" role="region" aria-labelledby="cm-analytics-heading" hidden>
-    <div class="cm-privacy-message"><h2 id="cm-analytics-heading">Optional analytics</h2>
-    <p>Allow Google Analytics cookies to measure page visits? Usage data goes to Google. Declining won’t change the site.</p></div>
+    <div class="cm-privacy-message"><h2 id="cm-analytics-heading">Analytics</h2>
+    <p>Help me see what’s resonating? I use Google Analytics cookies to track basic traffic—no ads, and everything works the same if you opt out.</p></div>
     <div class="cm-privacy-actions"><a href="/privacy/">Privacy details</a><div class="cm-privacy-buttons"><button type="button" data-consent="rejected">No thanks</button><button type="button" data-consent="accepted">Allow analytics</button></div></div><button type="button" class="cm-privacy-close" data-privacy-close aria-label="Close analytics notice" title="Close analytics notice"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="m4 4 8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
   </div>
   <p data-privacy-status role="status" aria-live="polite"></p>
