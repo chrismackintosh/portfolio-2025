@@ -134,7 +134,7 @@ html[data-typeface] .cm-timeline .cm-stop-copy a{font-weight:400;color:inherit;t
 @media(max-width:599px){:root{--cm-inset:20px}}
 
 /* Separate intro reading rhythm from the supporting copy and link weights. */
-.cm-intro-prose .cm-intro-main{font-weight:500;line-height:1.65}
+.cm-intro-prose .cm-intro-main{font-weight:500;line-height:1.45}
 html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:700}
 
 /* One compact rhythm for the stacked identity; more air throughout mobile body copy. */
@@ -142,7 +142,7 @@ html[data-typeface] .cm-intro .cm-intro-contact>a{font-weight:700}
   .cm-intro{--cm-intro-heading-gap:0px}
   html[data-typeface] .cm-intro h1,.cm-intro-role{line-height:1.3}
   .cm-intro-ai{margin-top:0;line-height:inherit}
-  .cm-intro-prose .cm-intro-main,.cm-intro-prose .cm-intro-studio{line-height:1.85}
+  .cm-intro-prose .cm-intro-studio{line-height:1.85}
 }
 
 /* Figma 56:461 daytime text assignments; preserve the existing Night treatment. */

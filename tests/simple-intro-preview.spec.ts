@@ -7,14 +7,16 @@ for (const mobile of [false,true]) {
   await page.waitForTimeout(1000);
   await expect(page.locator('#stop-3')).toContainText('one of the first ways');
   await expect(page.locator('#stop-6')).toContainText('Currently building with');
-  await expect(page.locator('#stop-6')).toContainText('Evenings and weekends, I run');
+  await expect(page.locator('#stop-6')).toContainText('Evenings and weekends');
+  await expect(page.locator('#stop-6 .cm-stop-copy > p').first()).toContainText('I run Rendered Intent');
   const next=page.locator('.cm-intro-next');
   if(mobile)await expect(next).toBeHidden();else await expect(next).toBeVisible();
   await expect(page.locator('.cm-intro-contact>a')).toHaveCSS('font-weight','600');
   if(!mobile) expect(await page.locator('.cm-sheet').evaluate(e=>Math.round(e.getBoundingClientRect().top))).toBe(184);
   expect(await page.locator('.cm-intro-role').evaluate(e=>getComputedStyle(e).color)).not.toBe('');
   await expect(page.locator('.cm-sheet')).toHaveCSS('box-shadow','none');
-  expect(await page.locator('.cm-intro-prose').count()).toBe(0);
+  await expect(page.locator('.cm-intro-prose > p')).toHaveCount(1);
+  await expect(page.locator('.cm-intro-prose > p')).toHaveText('Currently leading design on myColorado and building Rendered Intent.');
   if(!mobile)expect(await next.evaluate(e=>{const r=e.getBoundingClientRect();return r.width>=44&&r.height>=44})).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:`../${testInfo.project.name}-${mobile?'mobile':'desktop'}-light.png`});
