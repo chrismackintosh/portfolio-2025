@@ -35,9 +35,22 @@
   let breadcrumbAnimation;
 
   const homePosition = () => home ? validOrigin(arrival?.kind === 'return' ? arrival.origin : restoringHistory ? state().cmWorkPosition : null) : null;
+  // While this script owns an entry's return position, the browser must not restore it first:
+  // Chromium resolves its saved scroll anchor on this layout to a different offset and paints
+  // that until the font-settled restore below corrects it.
+  const ownScrollRestoration = owned => { try { history.scrollRestoration = owned ? 'manual' : 'auto'; } catch {} };
+  if (home && homePosition()) {
+    // Provisional position as soon as the page is laid out; restoreHomePosition settles it after fonts.
+    document.addEventListener('DOMContentLoaded', () => {
+      const position = !restored && homePosition();
+      if (position) scrollTo({top: position.y, left: 0, behavior: 'instant'});
+    }, {once: true});
+  }
   function restoreHomePosition() {
     const position = homePosition();
     if (!position) return false;
+    // Later reloads and unrelated history traversals of this entry use native restoration again.
+    ownScrollRestoration(false);
     scrollTo({top: position.y, left: 0, behavior: 'instant'});
     // Return keyboard users to their trigger without forcing a focus ring after pointer navigation.
     if (position.keyboard) document.querySelector('#mycolorado-work .cm-project-entry')?.focus({preventScroll: true});
@@ -94,6 +107,7 @@
     if (home) {
       origin = {url: location.pathname + location.search + location.hash, y: scrollY, keyboard: event.detail === 0};
       replace({cmWorkPosition: origin});
+      ownScrollRestoration(true);
     }
     if (isReturn && origin) destination = new URL(origin.url, location.href);
     const pending = {destination: route(destination), origin, fromHome: home, kind: isReturn ? 'return' : 'forward', created: Date.now()};
