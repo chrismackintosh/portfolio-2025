@@ -28,7 +28,7 @@
 .cm-privacy-buttons{display:flex;gap:12px;flex-wrap:nowrap}
 @media(max-width:450px){.cm-privacy-actions>a{flex-basis:100%}}
 
-.cm-privacy [data-consent="rejected"]{border:0;box-shadow:inset 0 0 0 .5px currentColor}
+.cm-privacy [data-consent="rejected"]{border:0;box-shadow:inset 0 0 0 1px currentColor}
 .cm-privacy [data-consent="accepted"]{background:var(--cm-ink);color:var(--cm-paper);border-color:var(--cm-ink)}
 @media(forced-colors:active){.cm-privacy [data-consent="accepted"]{background:ButtonFace;color:ButtonText;border-color:ButtonText}}
 
