@@ -38,10 +38,14 @@
   function restoreHomePosition() {
     const position = homePosition();
     if (!position) return false;
-    scrollTo({top: position.y, left: 0, behavior: 'instant'});
-    // Return keyboard users to their trigger without forcing a focus ring after pointer navigation.
-    if (position.keyboard) document.querySelector('#mycolorado-work .cm-project-entry')?.focus({preventScroll: true});
     restored = true;
+    // WebKit can apply the entry's native hash scroll after load or pageshow.
+    // Let traversal and the initial timeline layout settle before restoring.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      scrollTo({top: position.y, left: 0, behavior: 'instant'});
+      // Return keyboard users to their trigger without scrolling to it again.
+      if (position.keyboard) document.querySelector('#mycolorado-work .cm-project-entry')?.focus({preventScroll: true});
+    }));
     return true;
   }
 
