@@ -34,7 +34,11 @@ for(const width of [375,1440])for(const reducedMotion of ['no-preference','reduc
    }else await link.hover();
    await expect(words).toHaveCSS(property==='border-bottom-color'?'border-bottom-width':'text-decoration-line',property==='border-bottom-color'?'2px':'underline');
    await expect.poll(()=>words.evaluate((e,property)=>getComputedStyle(e).getPropertyValue(property)===getComputedStyle(e).color,property)).toBe(true);
-   await page.mouse.move(0,0);await page.keyboard.press('Tab');await link.focus();
+   await page.mouse.move(0,0);await page.keyboard.press('Tab');
+   // Tab's destination varies by platform; it can land on the timeline and scroll the intro away, making it inert.
+   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
+   await expect(page.locator('.cm-sheet-content')).not.toHaveAttribute('inert','');
+   await link.focus();
    await expect(link).toBeFocused();await expect(link).toHaveCSS('outline-style','solid');await expect(link).toHaveCSS('outline-width','2px');
    await expect(words).toHaveCSS(property==='border-bottom-color'?'border-bottom-width':'text-decoration-line',property==='border-bottom-color'?'2px':'underline');
    await expect.poll(()=>words.evaluate((e,property)=>getComputedStyle(e).getPropertyValue(property)===getComputedStyle(e).color,property)).toBe(true);
